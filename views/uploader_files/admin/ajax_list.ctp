@@ -20,7 +20,7 @@
  * @license			http://basercms.net/license/index.html
  */
 ?>
-<?php echo $this->renderElement('paginations'.DS.'default'); ?>
+<?php $baser->pagination('default',array(),null,false) ?>
 <?php if ($files): ?>
     <?php foreach ($files as $file): ?>
         <span class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
