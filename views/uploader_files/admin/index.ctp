@@ -20,93 +20,12 @@
  * @license			http://basercms.net/license/index.html
  */
  ?>
+<?php $baser->css('/uploader/css/uploader',null,array(),false) ?>
 <?php /* Ajaxで呼び出される事が前提の為インラインで呼びだし */ ?>
-<?php $baser->css('/js/jquery.contextMenu-1.0/jquery.contextMenu',null,array()) ?>
+<?php $baser->css('/js/jquery.contextMenu-1.0/jquery.contextMenu') ?>
 <?php $baser->js('jquery.contextMenu-1.0/jquery.contextMenu') ?>
 <?php $baser->js('jquery.upload-1.0.0.min') ?>
 
-<style type="text/css">
-    .selectable-file{
-        padding:5px;
-        margin:3px!important;
-        background-color:#FFFFFF;
-        display:block;
-        float:left;
-        width:120px;
-        height:165px!important;
-        text-align:center;
-    }
-    .selectable-file span{
-        white-space:normal!important;
-        color:#333333!important;
-		font-size:10px!important;
-    }
-    .selectable-file img{
-        display:block;
-        margin:auto auto 3px;
-    }
-    .selectable-file,
-    .selectable-file img{
-        cursor:pointer;
-    }
-    .selectable-file .alt,
-    .selectable-file .modified,
-    .selectable-file .small,
-    .selectable-file .midium,
-    .selectable-file .large{
-        display:none;
-    }
-    #fileList{
-        width:100%;
-        height:100%;
-        white-space: normal;
-        overflow:auto;
-        padding:5px;
-        background-color:#ebebeb;
-        text-align:center;
-    }
-    .selected{
-        background-color:#99CCFF!important;
-    }
-	#UploaderFileFile{
-		border:1px solid #999999;
-		background-color:#FFFFFF;
-	}
-    #UploaderFileImage{
-        text-align:center;
-    }
-    #UploaderFileId,
-    #UploaderFileName{
-        background-color:#e2e2e2;
-    }
-    .page-numbers a{
-        text-decoration:underline!important;
-        cursor:pointer!important;
-
-    }
-    #dialog,#fileMenu{
-        display:none;
-    }
-    #waiting{
-        background-color:#CCCCCC;
-        z-index:20000;
-        opacity:0.3;
-        left:300px;
-        position:absolute;
-        top:60px;
-        width:100px;
-        margin:80px auto auto auto;
-        padding:10px 20px 5px;
-        border:1px solid #999999;
-        font-size:x-small;
-        text-align:center;
-        display:none;
-    }
-    #waiting img{
-        display:block;
-        margin:auto;
-    }
-</style>
 <script type="text/javascript">
 var baseUrl = '<?php echo $baser->root() ?>';
 $(function(){
