@@ -20,7 +20,7 @@
  * @license			http://basercms.net/license/index.html
  */
  ?>
-<?php $baser->css('/uploader/css/uploader',null,array(),false) ?>
+<?php $baser->css('/uploader/css/uploader') ?>
 <?php /* Ajaxで呼び出される事が前提の為インラインで呼びだし */ ?>
 <?php $baser->css('/js/jquery.contextMenu-1.0/jquery.contextMenu') ?>
 <?php $baser->js('jquery.contextMenu-1.0/jquery.contextMenu') ?>
