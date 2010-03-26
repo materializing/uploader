@@ -243,6 +243,8 @@ function updateTips(t) {
     </li>
 </ul>
 
+<h2><?php $baser->contentsTitle() ?></h2>
+
 <?php if(!$installMessage): ?>
 <p><label for="UploaderFileFile">アップロード</label><br />
 <span id="SpanUploadFile"><?php echo $form->file('UploaderFile.file') ?></span></p>
