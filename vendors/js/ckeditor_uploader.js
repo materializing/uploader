@@ -278,7 +278,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) )
                                 $.ajax({
                                     type: "GET",
 									dataType: "html",
-                                    url: baseUrl+"admin/uploader/uploader_files/index/image?rand="+Math.floor(Math.random()*99999999+1),
+                                    url: baseUrl+"admin/uploader/uploader_files/ajax_index/image?rand="+Math.floor(Math.random()*99999999+1),
                                     success: function(res){
 										imageList.html(res);
                                         $("#fileList").bind('filelistload',function(){

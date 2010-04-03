@@ -1,7 +1,7 @@
 <?php
 /* SVN FILE: $Id$ */
 /**
- * ファイル一覧
+ * AJAX ファイル一覧
  *
  * PHP versions 4 and 5
  *
@@ -19,14 +19,5 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
-$baser->css('/uploader/css/uploader',null,null,false);
 ?>
-<style type="text/css">
-#fileList{
-	padding:5px;
-}
-</style>
-
-<h2><?php $baser->contentsTitle() ?></h2>
-
 <?php $baser->element('index') ?>

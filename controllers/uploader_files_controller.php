@@ -42,16 +42,32 @@ App::import('Controller', 'Plugins');
     var $uses = array('Plugin','Uploader.UploaderFile');
 /**
  * ファイル一覧
- *
- * @return void
+ * 
+ * @param string $filter
  * @access public
  */
     function admin_index($filter=''){
-		
+		$this->set('filter',$filter);
+		$this->set('installMessage', $this->checkInstall());
+        $this->pageTitle = 'ファイル一覧';
+    }
+/**
+ * [AJAX] ファイル一覧
+ * @param string $filter
+ */
+	function admin_ajax_index($filter=''){
+		$this->set('filter',$filter);
+		$this->set('installMessage', $this->checkInstall());
+	}
+/**
+ * インストール状態の確認
+ * @return string	インストールメッセージ
+ */
+	function checkInstall(){
 		// インストール確認
 		$installMessage = '';
-		$viewFilesPath = str_replace(ROOT,'',WWW_ROOT).'files';	
-		$viewSavePath = $viewFilesPath.DS.$this->UploaderFile->actsAs['Upload']['saveDir'];	
+		$viewFilesPath = str_replace(ROOT,'',WWW_ROOT).'files';
+		$viewSavePath = $viewFilesPath.DS.$this->UploaderFile->actsAs['Upload']['saveDir'];
 		$filesPath = WWW_ROOT.'files';
 		$savePath = $filesPath.DS.$this->UploaderFile->actsAs['Upload']['saveDir'];
 		if(!is_dir($savePath)){
@@ -71,15 +87,11 @@ App::import('Controller', 'Plugins');
 			if(!is_writable($savePath)){
 				$installMessage = $viewSavePath.' に書き込み権限を与えてください';
 			}else{
-				
+
 			}
 		}
-
-        $this->set('filter',$filter);
-		$this->set('installMessage',$installMessage);
-        $this->pageTitle = 'ファイル一覧';
-
-    }
+		return $installMessage;
+	}
 /**
  * ファイル一覧を表示
  * ファイルアップロード時にリダイレクトされた場合、

@@ -33,7 +33,7 @@ class UploaderHookHelper extends AppHelper{
                     $script = '<link rel="stylesheet" type="text/css" href="'.$this->webroot('/uploader/css/uploader.css').'" />';
                     $script .= "<script type=\"text/javascript\">var baseUrl ='".$this->base.'/'."';</script>";
                     $script .= '<script type="text/javascript" src="'.$this->webroot('/uploader/js/ckeditor_uploader.js').'"></script>';
-                    $view->output = str_replace('</head>',$script.'</head>',$view->output);
+                    $view->output = str_replace('</body>',$script.'</body>',$view->output);
                     foreach($matches[1] as $key => $match){
                         $script = str_replace('EDITOR_NAME',$match,$this->getCkeditorUploaderScript());
                         $pattern = "/(<script type=\"text\/javascript\">.*?var\s*?".$match."\s*?=\s*?CKEDITOR.replace.*?)\/\/\]\]>\n*?<\/script>/s";
