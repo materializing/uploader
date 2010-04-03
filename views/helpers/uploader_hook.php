@@ -91,6 +91,9 @@ class UploaderHookHelper extends AppHelper{
         if(!isset($pathinfo['extension'])){
             return $matches[0];
         }
+        $url = str_replace('__small','',$url);
+        $url = str_replace('__midium','',$url);
+        $url = str_replace('__large','',$url);
         $basename = basename($url,'.'.$pathinfo['extension']);
         $_url = 'files'.DS.'uploads'.DS.$basename.'__mobile_large.'.$pathinfo['extension'];
         // TODO uploads固定となってしまっているのでmodelから取得するようにする
