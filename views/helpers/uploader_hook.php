@@ -72,7 +72,7 @@ class UploaderHookHelper extends AppHelper {
 
 			} elseif (!empty($view->params['prefix']) && $view->params['prefix'] == 'mobile') {
 
-				// モバイル画像に差し替える
+				/* モバイル画像に差し替える */
 				$aMatch = "/<a([^>]*?)href=\"([^>]*?)\"([^>]*?)><img([^>]*?)\/><\/a>/is";
 				$imgMatch = "/<img([^>]*?)src=\"([^>]*?)\"([^>]*?)\/>/is";
 				$view->output = preg_replace_callback($aMatch,array($this,"__mobileImageAnchorReplace"),$view->output);
