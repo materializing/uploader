@@ -21,6 +21,17 @@
  */
 class UploaderHookHelper extends AppHelper {
 /**
+ * コンストラクタ
+ * @access public
+ */
+	function __construct(){
+
+		// TODO プラグインフックの仕組みとしてヘルパが自動初期化されないので明示的に初期化
+		$this->Javascript = new JavascriptHelper();
+		$this->HtmlEx = new HtmlExHelper();
+		
+	}
+/**
  * afterLayout
  * 
  * @return void
@@ -29,25 +40,31 @@ class UploaderHookHelper extends AppHelper {
 	function afterLayout() {
 
 		$view =& ClassRegistry::getObject('view');
-
+		
 		if($view) {
 
 			if(isset($view->loaded['ckeditor'])) {
 
 				if(preg_match_all("/var\s*?(editor_[a-z0-9]*?)\s*?=\s*?CKEDITOR.replace/s",$view->output,$matches)) {
 
-					$script = '<link rel="stylesheet" type="text/css" href="'.$this->webroot('/uploader/css/uploader.css').'" />';
-					$script .= "<script type=\"text/javascript\">var baseUrl ='".$this->base.'/'."';</script>";
-					$script .= '<script type="text/javascript" src="'.$this->webroot('/uploader/js/ckeditor_uploader.js').'"></script>';
-					$view->output = str_replace('</body>',$script.'</body>',$view->output);
+					/* ckeditor_uploader.js を読み込む */
+					$jscode = $this->Javascript->codeBlock("var baseUrl ='".$this->base."/';");
+					$jscode .= $this->Javascript->link('/uploader/js/ckeditor_uploader');
+					$view->output = str_replace('</head>',$jscode.'</head>',$view->output);
 
+					/* CSSを読み込む */
+					// 適用の優先順位の問題があるので、bodyタグの直後に読み込む
+					$css = $this->HtmlEx->css('/uploader/css/uploader');
+					$view->output = str_replace('</body>',$css.'</body>',$view->output);
+					
+					/* VIEWのCKEDITOR読込部分のコードを書き換える */
 					foreach($matches[1] as $key => $match) {
-						$script = str_replace('EDITOR_NAME',$match,$this->__getCkeditorUploaderScript());
-						$pattern = "/(<script type=\"text\/javascript\">.*?var\s*?".$match."\s*?=\s*?CKEDITOR.replace.*?)\/\/\]\]>\n*?<\/script>/s";
-						$view->output = preg_replace($pattern,"$1".$script,$view->output);
+						$jscode = $this->__getCkeditorUploaderScript($match);
+						$pattern = "/<script type=\"text\/javascript\">(.*?var\s*?".$match."\s*?=\s*?CKEDITOR.replace.*?)\/\/\]\]>\n*?<\/script>/s";
+						$view->output = preg_replace($pattern,$this->Javascript->codeBlock("$1".$jscode),$view->output);
 					}
 
-					//$view->output = str_replace('</body>',$script.'</body>',$view->output);
+					/* 通常の画像貼り付けダイアログを画像アップローダーダイアログに変換する */
 					$pattern = "/(CKEDITOR\.replace.*?\"toolbar\".*?)\"Image\"(.*?);/is";
 					$view->output = preg_replace($pattern,"$1".'"BaserImage"'."$2;",$view->output);
 
@@ -64,6 +81,27 @@ class UploaderHookHelper extends AppHelper {
 			}
 
 		}
+
+	}
+/**
+ * CKEditorのアップローダーを組み込む為のJavascriptを返す
+ *
+ * 「BaserImage」というコマンドを登録し、そのコマンドが割り当てられてボタンをツールバーに追加する
+ * {EDITOR_NAME}.addCommand	// コマンドを追加
+ * {EDITOR_NAME}.addButton	// ツールバーにボタンを追加
+ * ※ {EDITOR_NAME} は、コントロールのIDに変換する前提
+ *
+ * @return string
+ * @access private
+ */
+	function __getCkeditorUploaderScript($id) {
+
+		return <<< DOC_END
+{$id}.on( 'pluginsLoaded', function( ev ) {
+    {$id}.addCommand( 'baserImage', new CKEDITOR.dialogCommand( 'baserImageDialog' ));
+    {$id}.ui.addButton( 'BaserImage', { label : 'イメージ', command : 'baserImage' });
+});
+DOC_END;
 
 	}
 /**
@@ -126,26 +164,6 @@ class UploaderHookHelper extends AppHelper {
 		}else {
 			return $matches[0];
 		}
-
-	}
-/**
- * CKEditorのアップローダーを組み込む為のJavascriptを返す
- * 
- * @return string
- * @access private
- */
-	function __getCkeditorUploaderScript() {
-
-		return <<< DOC_END
-EDITOR_NAME.on( 'pluginsLoaded', function( ev ) {
-    // baserImageを開くコマンドを追加
-    EDITOR_NAME.addCommand( 'baserImage', new CKEDITOR.dialogCommand( 'baserImageDialog' ) );
-    // ツールバーにボタンを追加
-    EDITOR_NAME.ui.addButton( 'BaserImage', { label : 'イメージ', command : 'baserImage' });
-});
-//]]>
-</script>
-DOC_END;
 
 	}
 
