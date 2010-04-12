@@ -33,6 +33,7 @@
         <span class="small"><?php echo $file['UploaderFile']['small'] ?></span>
         <span class="midium"><?php echo $file['UploaderFile']['midium'] ?></span>
         <span class="large"><?php echo $file['UploaderFile']['large'] ?></span>
+		<span class="url"><?php echo $uploader->getFileUrl($file['UploaderFile']['name']) ?></span>
         </span>
     <?php endforeach ?>
 <?php else: ?>

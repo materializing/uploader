@@ -65,7 +65,8 @@
 .selectable-file .modified,
 .selectable-file .small,
 .selectable-file .midium,
-.selectable-file .large{
+.selectable-file .large,
+.selectable-file .url{
 	display:none;
 }
 

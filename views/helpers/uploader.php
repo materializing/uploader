@@ -61,8 +61,8 @@ class UploaderHelper extends AppHelper{
         if(isset($uploaderFile['UploaderFile'])){
             $uploaderFile = $uploaderFile['UploaderFile'];
         }
-		$saveUrl = $this->savedUrl;
-        $imgUrl = $saveUrl.$uploaderFile['name'];
+
+        $imgUrl = $this->getFileUrl($uploaderFile['name']);
 
         $pathInfo = pathinfo($uploaderFile['name']);
         $ext = $pathInfo['extension'];
@@ -75,7 +75,7 @@ class UploaderHelper extends AppHelper{
                 $resizeName = $basename . '__' . $options['size'] . '.' . $ext;
 
                 if(file_exists($this->savePath.$resizeName)){
-                    $imgUrl = $saveUrl.$resizeName;
+                    $imgUrl = $this->getFileUrl($resizeName);
                     unset($options['size']);
                 }
             }
@@ -85,6 +85,18 @@ class UploaderHelper extends AppHelper{
             return $this->Html->image($imgUrl,$options);
         }
     }
+/**
+ * ファイルが保存されているURLを取得する
+ * @param string $fileName
+ * @return string
+ */
+	function getFileUrl($fileName){
+		if($fileName){
+			return $this->savedUrl.$fileName;
+		}else{
+			return '';
+		}
+	}
 /**
  * ダウンロードリンクを表示
  * @param array $uploaderFile
