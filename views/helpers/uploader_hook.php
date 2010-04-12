@@ -66,7 +66,7 @@ class UploaderHookHelper extends AppHelper {
 
 					/* 通常の画像貼り付けダイアログを画像アップローダーダイアログに変換する */
 					$pattern = "/(CKEDITOR\.replace.*?\"toolbar\".*?)\"Image\"(.*?);/is";
-					$view->output = preg_replace($pattern,"$1".'"BaserImage"'."$2;",$view->output);
+					$view->output = preg_replace($pattern,"$1".'"BaserUploader"'."$2;",$view->output);
 
 				}
 
@@ -86,7 +86,7 @@ class UploaderHookHelper extends AppHelper {
 /**
  * CKEditorのアップローダーを組み込む為のJavascriptを返す
  *
- * 「BaserImage」というコマンドを登録し、そのコマンドが割り当てられてボタンをツールバーに追加する
+ * 「baserUploader」というコマンドを登録し、そのコマンドが割り当てられてボタンをツールバーに追加する
  * {EDITOR_NAME}.addCommand	// コマンドを追加
  * {EDITOR_NAME}.addButton	// ツールバーにボタンを追加
  * ※ {EDITOR_NAME} は、コントロールのIDに変換する前提
@@ -98,8 +98,8 @@ class UploaderHookHelper extends AppHelper {
 
 		return <<< DOC_END
 {$id}.on( 'pluginsLoaded', function( ev ) {
-    {$id}.addCommand( 'baserImage', new CKEDITOR.dialogCommand( 'baserImageDialog' ));
-    {$id}.ui.addButton( 'BaserImage', { label : 'イメージ', command : 'baserImage' });
+    {$id}.addCommand( 'baserUploader', new CKEDITOR.dialogCommand( 'baserUploaderDialog' ));
+    {$id}.ui.addButton( 'BaserUploader', { label : 'イメージ', command : 'baserUploader' });
 });
 DOC_END;
 

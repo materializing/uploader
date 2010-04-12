@@ -21,7 +21,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) )
 {
 
     // ダイアログを登録する
-    CKEDITOR.dialog.add( 'baserImageDialog', function( editor )
+    CKEDITOR.dialog.add( 'baserUploaderDialog', function( editor )
     {
         return {
             title : 'イメージプロパティ',
