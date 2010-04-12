@@ -99,7 +99,7 @@ class UploaderHookHelper extends AppHelper {
 		return <<< DOC_END
 {$id}.on( 'pluginsLoaded', function( ev ) {
     {$id}.addCommand( 'baserUploader', new CKEDITOR.dialogCommand( 'baserUploaderDialog' ));
-    {$id}.ui.addButton( 'BaserUploader', { label : 'イメージ', command : 'baserUploader' });
+    {$id}.ui.addButton( 'BaserUploader', { label : 'アップローダー', command : 'baserUploader' });
 });
 DOC_END;
 
