@@ -82,7 +82,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 				this.commitContent( element,imgFlg );
 
 				if(imgFlg){
-					var rdoSize = $("#"+this.domId);
+					var rdoSize = $("#"+this.getContentElement('info', 'rdoSize').domId);
 					if(!this.editMode){
 						// リンク先用に最大サイズを取得
 						var size = '';
