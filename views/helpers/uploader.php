@@ -92,7 +92,7 @@ class UploaderHelper extends AppHelper{
  */
 	function getFileUrl($fileName){
 		if($fileName){
-			return $this->savedUrl.$fileName;
+			return $this->url($this->savedUrl.$fileName);
 		}else{
 			return '';
 		}
