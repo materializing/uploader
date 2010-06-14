@@ -62,20 +62,20 @@ class UploaderHelper extends AppHelper{
             $uploaderFile = $uploaderFile['UploaderFile'];
         }
 
-        $imgUrl = $this->getFileUrl($uploaderFile['name']);
+        $imgUrl = $this->_getFileUrl($uploaderFile['name']);
 
         $pathInfo = pathinfo($uploaderFile['name']);
         $ext = $pathInfo['extension'];
         $_options = array('alt'=>$uploaderFile['alt']);
         $options = Set::merge($_options,$options);
-        
+
         if(in_array(strtolower($ext), array('gif','jpg','png'))){
             if (isset($options['size'])) {
                 $basename = basename($uploaderFile['name'],'.'.$ext);
                 $resizeName = $basename . '__' . $options['size'] . '.' . $ext;
 
                 if(file_exists($this->savePath.$resizeName)){
-                    $imgUrl = $this->getFileUrl($resizeName);
+                    $imgUrl = $this->_getFileUrl($resizeName);
                     unset($options['size']);
                 }
             }
@@ -87,12 +87,32 @@ class UploaderHelper extends AppHelper{
     }
 /**
  * ファイルが保存されているURLを取得する
+ * webrootメソッドによる変換なし
  * @param string $fileName
  * @return string
+ * @access protected
+ */
+	function _getFileUrl($fileName){
+		if($fileName){
+			return $this->savedUrl.$fileName;
+		}else{
+			return '';
+		}
+	}
+/**
+ * ファイルが保存されているURLを取得する
+ * webrootメソッドによる変換あり
+ * @param string $fileName
+ * @return string
+ * @access public
  */
 	function getFileUrl($fileName){
 		if($fileName){
-			return $this->url($this->savedUrl.$fileName);
+			if(Configure::read('App.baseUrl')){
+				return $this->webroot($this->savedUrl.$fileName);
+			}else{
+				return $this->url($this->savedUrl.$fileName);
+			}
 		}else{
 			return '';
 		}

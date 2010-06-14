@@ -20,7 +20,7 @@
  * @license			http://basercms.net/license/index.html
  */
 ?>
-<?php echo $uploader->savedUrl.$file['UploaderFile']['name'] ?><br />
+<?php echo $uploader->getFileUrl($file['UploaderFile']['name']) ?><br />
 <?php echo $uploader->file($file,array('size'=>$size,'alt'=>$file['UploaderFile']['name'])) ?>
 <br />
 <?php echo $uploader->download($file) ?><br /><br />
