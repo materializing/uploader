@@ -311,10 +311,6 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 							],
 							setup : function( element, imgFlg ) {
 
-								if(!imgFlg){
-									return;
-								}
-
 								var dialog = this.getDialog();
 								var rdoSize = $("#"+this.domId);
 								rdoSize.find('input[type=radio]').attr('disabled',true);
@@ -326,7 +322,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 									}
 								});
 
-								if(element){
+								if(element && imgFlg){
 									// 画像のサイズを取得する
 									$.get(baseUrl+'admin/uploader/uploader_files/ajax_exists_images/'+getFileName(element.getAttribute( 'src' ),''),null,function(res){
 										if(res){
@@ -436,9 +432,9 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
  * 画像ファイルかどうかを判断する
  */
 function isImage(url){
-	ret = url.match(/([a-zA-Z0-9%_\-\(\)]*?)\.([a-zA-Z0-9]*?)$/);
+	ret = url.match(/.*?\.([a-zA-Z0-9]*?)$/);
 	if(ret){
-		ext = ret[2];
+		ext = ret[1];
 		if(ext == 'png' || ext == 'gif' || ext == 'jpg'){
 			return true;
 		}else{
@@ -454,7 +450,7 @@ function isImage(url){
 function getFileName(url,size){
 
 	var ret,file,ext,fileName;
-	ret = url.match(/([a-zA-Z0-9%_\-\(\)]*?)\.([a-zA-Z0-9]*?)$/);
+	ret = url.match(/\/([^\/]*?)\.([a-zA-Z0-9]*?)$/);
 	if(ret){
 		file = decodeURI(ret[1].replace(/__[a-z]*?$/, ''));
 		ext = ret[2];
@@ -476,7 +472,7 @@ function getFilePath(url,size){
 	
 	var ret,fileName;
 	fileName = getFileName(url,size);
-	ret = url.match(/^(.*\/)([a-zA-Z0-9%_\-\(\)]*?)\.([a-zA-Z0-9]*?)$/);
+	ret = url.match(/^(.*\/)([^\/]*?)\.([a-zA-Z0-9]*?)$/);
 	if(ret){
 		return ret[1]+fileName;
 	}else{
