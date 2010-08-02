@@ -1,7 +1,7 @@
 <?php
 /* SVN FILE: $Id$ */
 /**
- * ƒtƒ@ƒCƒ‹ƒAƒbƒvƒ[ƒ_[ƒCƒ“ƒXƒg[ƒ‰[
+ * ãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ€ãƒ¼ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ©ãƒ¼
  *
  * PHP versions 4 and 5
  *
@@ -19,7 +19,13 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
+/**
+ * ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹åˆæœŸåŒ–
+ */
 	$this->Plugin->initDatabase('plugin','uploader');
+/**
+ * å¿…è¦ãƒ•ã‚©ãƒ«ãƒ€åˆæœŸåŒ–
+ */
 	$filesPath = WWW_ROOT.'files';
 	$savePath = $filesPath.DS.'uploads';
 	if(is_writable($filesPath) && !is_dir($savePath)){

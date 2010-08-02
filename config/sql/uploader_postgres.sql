@@ -1,4 +1,4 @@
--- SVN FILE: $Id: uploader_mysql.sql 1320 2009-11-20 07:08:18Z ryuring $
+-- SVN FILE: $Id$
 --
 -- BaserCMS アップローダープラグイン SQL（PostgreSQL）
 --
@@ -9,9 +9,9 @@
 --
 -- @copyright		Copyright 2008 - 2009, Catchup, Inc.
 -- @link			http://basercms.net BaserCMS Project
--- @version			$Revision: 1320 $
--- @modifiedby		$LastChangedBy: ryuring $
--- @lastmodified	$Date: 2009-11-20 16:08:18 +0900 (金, 20 11 2009) $
+-- @version			$Revision$
+-- @modifiedby		$LastChangedBy$
+-- @lastmodified	$Date$
 -- @license			http://basercms.net/license/index.html
 
 --
