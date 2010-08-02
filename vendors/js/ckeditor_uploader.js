@@ -131,62 +131,62 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 					padding : 0,
 					widths : [ '50%', '50%'],
 					children : [
-						{   /* URL */
-							id : 'txtUrl',
-							type : 'text',
-							label : 'URL',
-							style:'margin-right : 10px;',
-							setup : function(element, imgFlg) {
-								if(element){
-									if(imgFlg){
-										this.setValue( decodeURI(element.getAttribute( 'src' )) );
-									}else{
-										this.setValue( decodeURI(element.getAttribute( 'href' )) );
-									}
-								}
-								var txtUrl = $("#"+this.domId).find('input');
-								var dialog = this.getDialog();
-								// イベントを登録
-								txtUrl.bind('keyup',function(){
-									var formElements2 = $("#"+dialog.getContentElement('info', 'formElements2').domId);
-									if(isImage($(this).val())){
-										formElements2.show(200);
-									}else{
-										formElements2.hide(200);
-									}
-								});
-							},
-							commit : function( element, imgFlg ) {
+					{   /* URL */
+						id : 'txtUrl',
+						type : 'text',
+						label : 'URL',
+						style:'margin-right : 10px;',
+						setup : function(element, imgFlg) {
+							if(element){
 								if(imgFlg){
-									element.setAttribute('src', decodeURI(this.getValue()));
+									this.setValue( decodeURI(element.getAttribute( 'src' )) );
 								}else{
-									element.setAttribute('href', decodeURI(this.getValue()));
+									this.setValue( decodeURI(element.getAttribute( 'href' )) );
+								}
+							}
+							var txtUrl = $("#"+this.domId).find('input');
+							var dialog = this.getDialog();
+							// イベントを登録
+							txtUrl.bind('keyup',function(){
+								var formElements2 = $("#"+dialog.getContentElement('info', 'formElements2').domId);
+								if(isImage($(this).val())){
+									formElements2.show(200);
+								}else{
+									formElements2.hide(200);
+								}
+							});
+						},
+						commit : function( element, imgFlg ) {
+							if(imgFlg){
+								element.setAttribute('src', decodeURI(this.getValue()));
+							}else{
+								element.setAttribute('href', decodeURI(this.getValue()));
+							}
+						}
+					},
+					{   /* 説明文 */
+						id : 'txtAlt',
+						type : 'text',
+						label : '説明文',
+						style:'margin-right : 10px;',
+						setup : function(element, imgFlg) {
+							if(element){
+								if(imgFlg){
+									this.setValue( element.getAttribute( 'alt' ) );
+								} else {
+									this.setValue( element.getText() );
 								}
 							}
 						},
-						{   /* 説明文 */
-							id : 'txtAlt',
-							type : 'text',
-							label : '説明文',
-							style:'margin-right : 10px;',
-							setup : function(element, imgFlg) {
-								if(element){
-									if(imgFlg){
-										this.setValue( element.getAttribute( 'alt' ) );
-									} else {
-										this.setValue( element.getText() );
-									}
-								}
-							},
-							commit : function( element, imgFlg ) {
-								if(imgFlg){
-									element.setAttribute('alt', this.getValue());
-								}else{
-									element.setAttribute('title', this.getValue());
-									element.appendHtml(this.getValue());
-								}
+						commit : function( element, imgFlg ) {
+							if(imgFlg){
+								element.setAttribute('alt', this.getValue());
+							}else{
+								element.setAttribute('title', this.getValue());
+								element.appendHtml(this.getValue());
 							}
 						}
+					}
 					]
 				},
 				{	/* フォーム要素２列目 */
@@ -195,155 +195,155 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 					padding : 0,
 					widths : [ '25%', '25%', '25%', '25%'],
 					children : [
-						{   /* 横間隔 */
-							id : 'txtHspace',
-							type : 'text',
-							label : '横間隔',
-							style:'margin-right : 10px;',
-							setup : function(element, imgFlg) {
+					{   /* 横間隔 */
+						id : 'txtHspace',
+						type : 'text',
+						label : '横間隔',
+						style:'margin-right : 10px;',
+						setup : function(element, imgFlg) {
 
-								if(!imgFlg){
-									return;
-								}
-
-								if(element){
-									if(element.getAttribute( 'hspace' )){
-										this.setValue( element.getAttribute( 'hspace' ) );
-									}else{
-										this.setValue('10');
-									}
-								}
-							},
-							commit : function( element, imgFlg ) {
-
-								if(!imgFlg){
-									return;
-								}
-								
-								var value = '0';
-								if(this.getValue()){
-									value = this.getValue();
-								}
-								element.setStyle('margin-left', value+'px');
-								element.setStyle('margin-right', value+'px');
-								element.setAttribute('hspace', value);
+							if(!imgFlg){
+								return;
 							}
-						},
-						{   /* 縦間隔 */
-							id : 'txtVspace',
-							type : 'text',
-							label : '縦間隔',
-							style:'margin-right : 10px;',
-							setup : function(element, imgFlg) {
 
-								if(!imgFlg){
-									return;
-								}
-								
-								if(element && element.getAttribute( 'vspace' )) {
-									this.setValue( element.getAttribute( 'vspace' ) );
+							if(element){
+								if(element.getAttribute( 'hspace' )){
+									this.setValue( element.getAttribute( 'hspace' ) );
 								}else{
-									this.setValue('0');
+									this.setValue('10');
 								}
-							},
-							commit : function( element, imgFlg ) {
-
-								if(!imgFlg){
-									return;
-								}
-
-								var value = '0';
-								if(this.getValue()) {
-									value = this.getValue();
-								}
-								element.setStyle('margin-top', value+'px');
-								element.setStyle('margin-bottom', value+'px');
-								element.setAttribute('vspace', value);
-							}
-
-						},
-						{   /* 行揃え */
-							id : 'cmbAlign',
-							type : 'select',
-							/*style : 'width:90px',*/
-							label : editor.lang.image.align,
-							'default' : '',
-							items :	[
-								[ editor.lang.common.notSet , ''],
-								[ editor.lang.image.alignLeft , 'left'],
-								[ editor.lang.image.alignAbsBottom , 'absBottom'],
-								[ editor.lang.image.alignAbsMiddle , 'absMiddle'],
-								[ editor.lang.image.alignBaseline , 'baseline'],
-								[ editor.lang.image.alignBottom , 'bottom'],
-								[ editor.lang.image.alignMiddle , 'middle'],
-								[ editor.lang.image.alignRight , 'right'],
-								[ editor.lang.image.alignTextTop , 'textTop'],
-								[ editor.lang.image.alignTop , 'top']
-							],
-							setup : function( element, imgFlg ) {
-								if(!imgFlg){
-									return;
-								}
-								if(element){
-									this.setValue( element.getAttribute( 'align' ) );
-								}
-							},
-							commit : function( element, imgFlg ) {
-
-								if(!imgFlg){
-									return;
-								}
-
-								element.setAttribute( 'align', this.getValue());
 							}
 						},
-						{   /* サイズ */
-							id : 'rdoSize',
-							type : 'radio',
-							label : 'サイズ',
-							'default' : 'small',
-							items :
-							[
-								[ '元サイズ' , ''],
-								[ '小' , 'small'],
-								[ '中' , 'midium'],
-								[ '大' , 'large']
-							],
-							setup : function( element, imgFlg ) {
+						commit : function( element, imgFlg ) {
 
-								var dialog = this.getDialog();
-								var rdoSize = $("#"+this.domId);
-								rdoSize.find('input[type=radio]').attr('disabled',true);
-								rdoSize.find('input[type=radio]').eq(0).attr('disabled',false);
-
-								rdoSize.find('input[type=radio]').click(function(){
-									if($(this).attr('checked')){
-										dialog.setValueOf('info','txtUrl',getFilePath(dialog.getValueOf('info','txtUrl'),dialog.getValueOf('info','rdoSize')));
-									}
-								});
-
-								if(element && imgFlg){
-									// 画像のサイズを取得する
-									$.get(baseUrl+'admin/uploader/uploader_files/ajax_exists_images/'+getFileName(element.getAttribute( 'src' ),''),null,function(res){
-										if(res){
-											rdoSize.find('input[type=radio]').eq(1).attr('disabled',!res.small);
-											rdoSize.find('input[type=radio]').eq(2).attr('disabled',!res.midium);
-											rdoSize.find('input[type=radio]').eq(3).attr('disabled',!res.large);
-										}else{
-											rdoSize.find('input[type=radio]').attr('disabled',true);
-										}
-									},'json');
-									this.setValue(getSizeByFile(element.getAttribute( 'src' )));
-								}
-							},
-							commit : function( element, imgFlg) {
-
-								if(!imgFlg){
-									return;
-								}
-
+							if(!imgFlg){
+								return;
 							}
+								
+							var value = '0';
+							if(this.getValue()){
+								value = this.getValue();
+							}
+							element.setStyle('margin-left', value+'px');
+							element.setStyle('margin-right', value+'px');
+							element.setAttribute('hspace', value);
 						}
+					},
+					{   /* 縦間隔 */
+						id : 'txtVspace',
+						type : 'text',
+						label : '縦間隔',
+						style:'margin-right : 10px;',
+						setup : function(element, imgFlg) {
+
+							if(!imgFlg){
+								return;
+							}
+								
+							if(element && element.getAttribute( 'vspace' )) {
+								this.setValue( element.getAttribute( 'vspace' ) );
+							}else{
+								this.setValue('0');
+							}
+						},
+						commit : function( element, imgFlg ) {
+
+							if(!imgFlg){
+								return;
+							}
+
+							var value = '0';
+							if(this.getValue()) {
+								value = this.getValue();
+							}
+							element.setStyle('margin-top', value+'px');
+							element.setStyle('margin-bottom', value+'px');
+							element.setAttribute('vspace', value);
+						}
+
+					},
+					{   /* 行揃え */
+						id : 'cmbAlign',
+						type : 'select',
+						/*style : 'width:90px',*/
+						label : editor.lang.image.align,
+						'default' : '',
+						items :	[
+						[ editor.lang.common.notSet , ''],
+						[ editor.lang.image.alignLeft , 'left'],
+						[ editor.lang.image.alignAbsBottom , 'absBottom'],
+						[ editor.lang.image.alignAbsMiddle , 'absMiddle'],
+						[ editor.lang.image.alignBaseline , 'baseline'],
+						[ editor.lang.image.alignBottom , 'bottom'],
+						[ editor.lang.image.alignMiddle , 'middle'],
+						[ editor.lang.image.alignRight , 'right'],
+						[ editor.lang.image.alignTextTop , 'textTop'],
+						[ editor.lang.image.alignTop , 'top']
+						],
+						setup : function( element, imgFlg ) {
+							if(!imgFlg){
+								return;
+							}
+							if(element){
+								this.setValue( element.getAttribute( 'align' ) );
+							}
+						},
+						commit : function( element, imgFlg ) {
+
+							if(!imgFlg){
+								return;
+							}
+
+							element.setAttribute( 'align', this.getValue());
+						}
+					},
+					{   /* サイズ */
+						id : 'rdoSize',
+						type : 'radio',
+						label : 'サイズ',
+						'default' : 'small',
+						items :
+						[
+						[ '元サイズ' , ''],
+						[ '小' , 'small'],
+						[ '中' , 'midium'],
+						[ '大' , 'large']
+						],
+						setup : function( element, imgFlg ) {
+
+							var dialog = this.getDialog();
+							var rdoSize = $("#"+this.domId);
+							rdoSize.find('input[type=radio]').attr('disabled',true);
+							rdoSize.find('input[type=radio]').eq(0).attr('disabled',false);
+
+							rdoSize.find('input[type=radio]').click(function(){
+								if($(this).attr('checked')){
+									dialog.setValueOf('info','txtUrl',getFilePath(dialog.getValueOf('info','txtUrl'),dialog.getValueOf('info','rdoSize')));
+								}
+							});
+
+							if(element && imgFlg){
+								// 画像のサイズを取得する
+								$.get(baseUrl+'admin/uploader/uploader_files/ajax_exists_images/'+getFileName(element.getAttribute( 'src' ),''),null,function(res){
+									if(res){
+										rdoSize.find('input[type=radio]').eq(1).attr('disabled',!res.small);
+										rdoSize.find('input[type=radio]').eq(2).attr('disabled',!res.midium);
+										rdoSize.find('input[type=radio]').eq(3).attr('disabled',!res.large);
+									}else{
+										rdoSize.find('input[type=radio]').attr('disabled',true);
+									}
+								},'json');
+								this.setValue(getSizeByFile(element.getAttribute( 'src' )));
+							}
+						},
+						commit : function( element, imgFlg) {
+
+							if(!imgFlg){
+								return;
+							}
+
+						}
+					}
 					]
 				},
 				{   /* fileManager */
@@ -448,7 +448,6 @@ function isImage(url){
  * ファイル名を取得する
  */
 function getFileName(url,size){
-
 	var ret,file,ext,fileName;
 	ret = url.match(/\/([^\/]*?)\.([a-zA-Z0-9]*?)$/);
 	if(ret){
@@ -463,13 +462,11 @@ function getFileName(url,size){
 	}else{
 		return url;
 	}
-
 }
 /**
  * ファイルパスを取得する
  */
 function getFilePath(url,size){
-	
 	var ret,fileName;
 	fileName = getFileName(url,size);
 	ret = url.match(/^(.*\/)([^\/]*?)\.([a-zA-Z0-9]*?)$/);
@@ -478,18 +475,15 @@ function getFilePath(url,size){
 	}else{
 		return url;
 	}
-	
 }
 /**
  * ファイル名からファイルのサイズを取得
  */
 function getSizeByFile(url){
-	
 	var ret = url.match(/__([a-z]*?)\.[a-zA-Z0-9]*?$/);
 	if(ret){
 		return ret[1];
 	}else{
 		return '';
 	}
-	
 }

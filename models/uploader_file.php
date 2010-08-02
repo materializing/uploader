@@ -33,7 +33,7 @@ class UploaderFile extends AppModel {
  * @var     string
  * @access  public
  */
-    var $name = 'UploaderFile';
+	var $name = 'UploaderFile';
 /**
  * データソース
  *
@@ -54,39 +54,48 @@ class UploaderFile extends AppModel {
  * @var 	array
  * @access 	public
  */
-var $actsAs= array('Upload'=>
-                array('saveDir'=>"uploads",
-					  'fields'=> array(
-                          'name'=>array('type'=>'all',
-                                        /*'imageresize'=>array('width'=>'0', 'height'=>'0'),*/
-                                        'imagecopy'=>array(
-                                                        'large'=>array('suffix'=>'__large', 'width'=>'500', 'height'=>'500'),
-                                                        'midium'=>array('suffix'=>'__midium','width'=>'300', 'height'=>'300'),
-                                                        'small'=>array('suffix'=>'__small','width'=>'150', 'height'=>'150', 'thumb'=>true),
-                                                        'mobile_large'=>array('suffix'=>'__mobile_large','width'=>'240', 'height'=>'240'),
-                                                        'mobile_small'=>array('suffix'=>'__mobile_small','width'=>'100', 'height'=>'100', 'thumb'=>true))))));
+	var $actsAs= array('Upload'=>
+			array('saveDir'=>"uploads",
+					'fields'=> array(
+						'name'=>array('type'=>'all',
+							/*'imageresize'=>array('width'=>'0', 'height'=>'0'),*/
+							'imagecopy'=>array(
+								'large'=>array('suffix'=>'__large', 'width'=>'500', 'height'=>'500'),
+								'midium'=>array('suffix'=>'__midium','width'=>'300', 'height'=>'300'),
+								'small'=>array('suffix'=>'__small','width'=>'150', 'height'=>'150', 'thumb'=>true),
+								'mobile_large'=>array('suffix'=>'__mobile_large','width'=>'240', 'height'=>'240'),
+								'mobile_small'=>array('suffix'=>'__mobile_small','width'=>'100', 'height'=>'100', 'thumb'=>true))))));
 /**
  * ファイルの存在チェックを行う
- * @param string $fileName
+ *
+ * @param	string	$fileName
+ * @return	void
+ * @access	boolean
  */
-    function fileExists($fileName){
-        $savePath = WWW_ROOT . 'files' . DS . $this->actsAs['Upload']['saveDir'] . DS . $fileName;
-        return file_exists($savePath);
-    }
+	function fileExists($fileName) {
+
+		$savePath = WWW_ROOT . 'files' . DS . $this->actsAs['Upload']['saveDir'] . DS . $fileName;
+		return file_exists($savePath);
+
+	}
 /**
  * 複数のファイルの存在チェックを行う
- * @param string $basename
- * @return array
+ * 
+ * @param	string	$basename
+ * @return	array
+ * @access	void
  */
-    function filesExists($fileName){
-        $pathinfo = pathinfo($fileName);
-        $ext = $pathinfo['extension'];
-        $basename = basename($fileName,'.'.$ext);
-        $files['small'] = $this->fileExists($basename.'__small'.'.'.$ext);
-        $files['midium'] = $this->fileExists($basename.'__midium'.'.'.$ext);
-        $files['large'] = $this->fileExists($basename.'__large'.'.'.$ext);
-        return $files;
-    }
+	function filesExists($fileName) {
+
+		$pathinfo = pathinfo($fileName);
+		$ext = $pathinfo['extension'];
+		$basename = basename($fileName,'.'.$ext);
+		$files['small'] = $this->fileExists($basename.'__small'.'.'.$ext);
+		$files['midium'] = $this->fileExists($basename.'__midium'.'.'.$ext);
+		$files['large'] = $this->fileExists($basename.'__large'.'.'.$ext);
+		return $files;
+
+	}
 
 }
 ?>

@@ -24,23 +24,23 @@ class UploaderHookHelper extends AppHelper {
  * コンストラクタ
  * @access public
  */
-	function __construct(){
+	function __construct() {
 
 		// TODO プラグインフックの仕組みとしてヘルパが自動初期化されないので明示的に初期化
 		$this->Javascript = new JavascriptHelper();
 		$this->HtmlEx = new HtmlExHelper();
-		
+
 	}
 /**
  * afterLayout
- * 
+ *
  * @return void
  * @access pubic
  */
 	function afterLayout() {
 
 		$view =& ClassRegistry::getObject('view');
-		
+
 		if($view) {
 
 			if(isset($view->loaded['ckeditor'])) {
@@ -56,7 +56,7 @@ class UploaderHookHelper extends AppHelper {
 					// 適用の優先順位の問題があるので、bodyタグの直後に読み込む
 					$css = $this->HtmlEx->css('/uploader/css/uploader');
 					$view->output = str_replace('</body>',$css.'</body>',$view->output);
-					
+
 					/* VIEWのCKEDITOR読込部分のコードを書き換える */
 					foreach($matches[1] as $key => $match) {
 						$jscode = $this->__getCkeditorUploaderScript($match);
@@ -97,22 +97,22 @@ class UploaderHookHelper extends AppHelper {
 	function __getCkeditorUploaderScript($id) {
 
 		return <<< DOC_END
-{$id}.on( 'pluginsLoaded', function( ev ) {
-    {$id}.addCommand( 'baserUploader', new CKEDITOR.dialogCommand( 'baserUploaderDialog' ));
-    {$id}.ui.addButton( 'BaserUploader', { label : 'アップローダー', command : 'baserUploader' });
+				{$id}.on( 'pluginsLoaded', function( ev ) {
+				{$id}.addCommand( 'baserUploader', new CKEDITOR.dialogCommand( 'baserUploaderDialog' ));
+				{$id}.ui.addButton( 'BaserUploader', { label : 'アップローダー', command : 'baserUploader' });
 });
 DOC_END;
 
 	}
 /**
  * 画像タグをモバイル用に置き換える
- * 
+ *
  * @param array $matches
  * @return string
  * @access private
  */
 	function __mobileImageReplace($matches) {
-		
+
 		$url = $matches[2];
 		$pathinfo = pathinfo($url);
 
@@ -158,7 +158,7 @@ DOC_END;
 		$_url = 'files'.DS.'uploads'.DS.$basename.'__mobile_large.'.$pathinfo['extension'];
 		// TODO uploads固定となってしまっているのでmodelから取得するようにする
 		$path = WWW_ROOT.$_url;
-		
+
 		if(file_exists($path)) {
 			return '<a'.$matches[1].'href="'.$this->webroot($_url).'"'.$matches[3].'><img'.$matches[4].'/></a>';
 		}else {

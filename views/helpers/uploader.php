@@ -24,67 +24,69 @@
  *
  * @package			baser.plugins.uploader.views.helpers
  */
-class UploaderHelper extends AppHelper{
+class UploaderHelper extends AppHelper {
 /**
  * アップロードファイルの保存URL
  * @var string
  * @access public
  */
-    var $savedUrl = '';
+	var $savedUrl = '';
 /**
  * アップロードファイルの保存パス
  * @var string
  */
-    var $savePath = '';
+	var $savePath = '';
 /**
  * ヘルパー
  * @var array
  * @access public
  */
-    var $helpers = array('Html');
+	var $helpers = array('Html');
 /**
  * Before render
  */
 	function beforeRender() {
-        parent::beforeRender();
-        $this->savedUrl = '/files/uploads/';
-        $this->savePath = WWW_ROOT . 'files' . DS . 'uploads' . DS;
-    }
+
+		parent::beforeRender();
+		$this->savedUrl = '/files/uploads/';
+		$this->savePath = WWW_ROOT . 'files' . DS . 'uploads' . DS;
+
+	}
 /**
  * リスト用のimgタグを出力する
  * @param UploaderFile $uploaderFile
  * @param array $options
  * @return string imgタグ
  */
-    function file ($uploaderFile,$options = array()) {
+	function file ($uploaderFile,$options = array()) {
 
-        if(isset($uploaderFile['UploaderFile'])){
-            $uploaderFile = $uploaderFile['UploaderFile'];
-        }
+		if(isset($uploaderFile['UploaderFile'])) {
+			$uploaderFile = $uploaderFile['UploaderFile'];
+		}
 
-        $imgUrl = $this->_getFileUrl($uploaderFile['name']);
+		$imgUrl = $this->_getFileUrl($uploaderFile['name']);
 
-        $pathInfo = pathinfo($uploaderFile['name']);
-        $ext = $pathInfo['extension'];
-        $_options = array('alt'=>$uploaderFile['alt']);
-        $options = Set::merge($_options,$options);
+		$pathInfo = pathinfo($uploaderFile['name']);
+		$ext = $pathInfo['extension'];
+		$_options = array('alt'=>$uploaderFile['alt']);
+		$options = Set::merge($_options,$options);
 
-        if(in_array(strtolower($ext), array('gif','jpg','png'))){
-            if (isset($options['size'])) {
-                $basename = basename($uploaderFile['name'],'.'.$ext);
-                $resizeName = $basename . '__' . $options['size'] . '.' . $ext;
+		if(in_array(strtolower($ext), array('gif','jpg','png'))) {
+			if (isset($options['size'])) {
+				$basename = basename($uploaderFile['name'],'.'.$ext);
+				$resizeName = $basename . '__' . $options['size'] . '.' . $ext;
 
-                if(file_exists($this->savePath.$resizeName)){
-                    $imgUrl = $this->_getFileUrl($resizeName);
-                    unset($options['size']);
-                }
-            }
-            return $this->Html->image($imgUrl,$options);
-        }else{
-            $imgUrl = '/uploader/img/icon_upload_file.png';
-            return $this->Html->image($imgUrl,$options);
-        }
-    }
+				if(file_exists($this->savePath.$resizeName)) {
+					$imgUrl = $this->_getFileUrl($resizeName);
+					unset($options['size']);
+				}
+			}
+			return $this->Html->image($imgUrl,$options);
+		}else {
+			$imgUrl = '/uploader/img/icon_upload_file.png';
+			return $this->Html->image($imgUrl,$options);
+		}
+	}
 /**
  * ファイルが保存されているURLを取得する
  * webrootメソッドによる変換なし
@@ -92,10 +94,10 @@ class UploaderHelper extends AppHelper{
  * @return string
  * @access protected
  */
-	function _getFileUrl($fileName){
-		if($fileName){
+	function _getFileUrl($fileName) {
+		if($fileName) {
 			return $this->savedUrl.$fileName;
-		}else{
+		}else {
 			return '';
 		}
 	}
@@ -106,14 +108,14 @@ class UploaderHelper extends AppHelper{
  * @return string
  * @access public
  */
-	function getFileUrl($fileName){
-		if($fileName){
-			if(Configure::read('App.baseUrl')){
+	function getFileUrl($fileName) {
+		if($fileName) {
+			if(Configure::read('App.baseUrl')) {
 				return $this->webroot($this->savedUrl.$fileName);
-			}else{
+			}else {
 				return $this->url($this->savedUrl.$fileName);
 			}
-		}else{
+		}else {
 			return '';
 		}
 	}
@@ -123,13 +125,13 @@ class UploaderHelper extends AppHelper{
  * @param string $linkText
  * @return string
  */
-    function download($uploaderFile,$linkText='≫ ダウンロード'){
-        if(isset($uploaderFile['UploaderFile'])){
-            $uploaderFile = $uploaderFile['UploaderFile'];
-        }
+	function download($uploaderFile,$linkText='≫ ダウンロード') {
+		if(isset($uploaderFile['UploaderFile'])) {
+			$uploaderFile = $uploaderFile['UploaderFile'];
+		}
 		$saveUrl = $this->savedUrl;
-        $fileUrl = $saveUrl.$uploaderFile['name'];
-        return $this->Html->link($linkText,$fileUrl);
-    }
+		$fileUrl = $saveUrl.$uploaderFile['name'];
+		return $this->Html->link($linkText,$fileUrl);
+	}
 }
 ?>
