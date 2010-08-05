@@ -129,9 +129,9 @@ class UploaderHelper extends AppHelper {
 		if(isset($uploaderFile['UploaderFile'])) {
 			$uploaderFile = $uploaderFile['UploaderFile'];
 		}
-		$saveUrl = $this->savedUrl;
-		$fileUrl = $saveUrl.$uploaderFile['name'];
-		return $this->Html->link($linkText,$fileUrl);
+		$fileUrl = $this->getFileUrl($uploaderFile['name']);
+		// HtmlヘルパではスマートURLオフの場合に正常なURLが取得できないので、直接記述
+		return '<a href="'.$fileUrl.'" target="_blank">'.$linkText.'</a>';
 	}
 }
 ?>
