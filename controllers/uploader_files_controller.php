@@ -40,6 +40,7 @@ class UploaderFilesController extends PluginsController {
 	var $helpers = array('TimeEx','Uploader.Uploader');
 	var $pageTitle = 'アップローダープラグイン';
 	var $uses = array('Plugin','Uploader.UploaderFile');
+	var $navis = array('アップロードファイル管理'=>'/admin/uploader/uploader_files/index');
 /**
  * ファイル一覧
  *
@@ -51,7 +52,7 @@ class UploaderFilesController extends PluginsController {
 
 		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
-		$this->pageTitle = 'ファイル一覧';
+		$this->pageTitle = 'アップロードファイル一覧';
 
 	}
 /**
