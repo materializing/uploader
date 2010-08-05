@@ -453,7 +453,7 @@ function getFileName(url,size){
 	if(ret){
 		file = decodeURI(ret[1].replace(/__[a-z]*?$/, ''));
 		ext = ret[2];
-		if(size){
+		if(size && isImage(url)){
 			fileName = file + '__' + size + '.' + ext;
 		}else{
 			fileName = file + '.' + ext;
