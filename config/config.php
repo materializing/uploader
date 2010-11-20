@@ -19,19 +19,13 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
-/**
- * 管理画面初期ページリンク
- */
-	$adminLink = '/admin/uploader/uploader_files/index';
-/**
- * プラグイン名
- */
-	$title = 'アップローダー';
-/**
- * 必要フォルダチェック
- */
-	if(!is_writable(WWW_ROOT.'files')){
-		$viewFilesPath = str_replace(ROOT,'',WWW_ROOT).'files';
-		$installMessage = '登録ボタンをクリックする前に、サーバー上の '.$viewFilesPath.' に書き込み権限を与えてください。';
-	}
+$title = 'アップローダー';
+$description = 'Webページやブログ記事で、画像等のファイルを貼り付ける事ができます。';
+$author = 'ryuring';
+$url = 'http://www.e-catchup.jp';
+$adminLink = '/admin/uploader/uploader_files/index';
+if(!is_writable(WWW_ROOT.'files')){
+	$viewFilesPath = str_replace(ROOT,'',WWW_ROOT).'files';
+	$installMessage = '登録ボタンをクリックする前に、サーバー上の '.$viewFilesPath.' に書き込み権限を与えてください。';
+}
 ?>
