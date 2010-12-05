@@ -45,7 +45,7 @@ class UploaderHookHelper extends AppHelper {
 
 			if(isset($view->loaded['ckeditor'])) {
 
-				if(preg_match_all("/var\s*?(editor_[a-z0-9]*?)\s*?=\s*?CKEDITOR.replace/s",$view->output,$matches)) {
+				if(preg_match_all("/var\s*?(editor_[a-z0-9_]*?)\s*?=\s*?CKEDITOR\.replace/s",$view->output,$matches)) {
 
 					/* ckeditor_uploader.js を読み込む */
 					$jscode = $this->Javascript->codeBlock("var baseUrl ='".$this->base."/';");
