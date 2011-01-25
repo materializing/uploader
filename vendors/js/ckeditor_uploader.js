@@ -266,19 +266,19 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						id : 'cmbAlign',
 						type : 'select',
 						/*style : 'width:90px',*/
-						label : editor.lang.image.align,
+						label : '行揃え',
 						'default' : '',
 						items :	[
 						[ editor.lang.common.notSet , ''],
-						[ editor.lang.image.alignLeft , 'left'],
-						[ editor.lang.image.alignAbsBottom , 'absBottom'],
-						[ editor.lang.image.alignAbsMiddle , 'absMiddle'],
-						[ editor.lang.image.alignBaseline , 'baseline'],
-						[ editor.lang.image.alignBottom , 'bottom'],
-						[ editor.lang.image.alignMiddle , 'middle'],
-						[ editor.lang.image.alignRight , 'right'],
-						[ editor.lang.image.alignTextTop , 'textTop'],
-						[ editor.lang.image.alignTop , 'top']
+						[ '左' , 'left'],
+						[ '下部(絶対的)' , 'absBottom'],
+						[ '中央(絶対的)' , 'absMiddle'],
+						[ 'ベースライン' , 'baseline'],
+						[ '下' , 'bottom'],
+						[ '中央' , 'middle'],
+						[ '右' , 'right'],
+						[ 'テキスト上部' , 'textTop'],
+						[ '上' , 'top']
 						],
 						setup : function( element, imgFlg ) {
 							if(!imgFlg){
