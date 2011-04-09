@@ -106,7 +106,7 @@
 
 /* waiting
 ----------------------------------------------- */
-#waiting{
+.waiting{
 	background-color:#CCCCCC;
 	z-index:20000;
 	opacity:0.3;
@@ -121,7 +121,7 @@
 	text-align:center;
 	display:none;
 }
-#waiting img{
+.waiting img{
 	display:block;
 	margin:auto;
 }
