@@ -61,7 +61,10 @@ class UploaderHookHelper extends AppHelper {
 					foreach($matches[1] as $key => $match) {
 						$jscode = $this->__getCkeditorUploaderScript($match);
 						$pattern = "/<script type=\"text\/javascript\">(.*?var\s*?".$match."\s*?=\s*?CKEDITOR.replace.*?)\/\/\]\]>\n*?<\/script>/s";
-						$view->output = preg_replace($pattern,$this->Javascript->codeBlock("$1".$jscode),$view->output);
+						$output = preg_replace($pattern,$this->Javascript->codeBlock("$1".$jscode),$view->output);
+						if(!is_null($output)) {
+							$view->output = $output;
+						}
 					}
 
 					/* 通常の画像貼り付けダイアログを画像アップローダーダイアログに変換する */
