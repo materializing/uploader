@@ -70,7 +70,8 @@ class UploaderHookHelper extends AppHelper {
 
 				}
 
-			} elseif (!empty($view->params['prefix']) && $view->params['prefix'] == 'mobile') {
+			}
+			if (!empty($view->params['prefix']) && $view->params['prefix'] == 'mobile') {
 
 				/* モバイル画像に差し替える */
 				$aMatch = "/<a([^>]*?)href=\"([^>]*?)\"([^>]*?)><img([^>]*?)\/><\/a>/is";
