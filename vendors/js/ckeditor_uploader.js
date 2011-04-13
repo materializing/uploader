@@ -360,7 +360,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						$.ajax({
 							type: "GET",
 							dataType: "html",
-							url: baseUrl+"admin/uploader/uploader_files/ajax_index?rand="+Math.floor(Math.random()*99999999+1),
+							url: baseUrl+"admin/uploader/uploader_files/ajax_index/"+Math.floor(Math.random()*99999999+1),
 							success: function(res){
 
 								// リストをセット

@@ -48,8 +48,9 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_index($filter='') {
+	function admin_index($id='',$filter='') {
 
+		$this->set('listId', $id);
 		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
 		$this->pageTitle = 'アップロードファイル一覧';
@@ -61,8 +62,9 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_ajax_index($filter='') {
+	function admin_ajax_index($id='', $filter='') {
 
+		$this->set('listId', $id);
 		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
 
@@ -108,12 +110,12 @@ class UploaderFilesController extends PluginsController {
  * ファイルアップロード時にリダイレクトされた場合、
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
- * 
+ *
  * @param	string	$filter
  * @return	void
  * @access	public
  */
-	function admin_ajax_list($filter='') {
+	function admin_ajax_list($id='', $filter='') {
 
 		$this->layout = 'ajax';
 		Configure::write('debug',0);
@@ -136,6 +138,7 @@ class UploaderFilesController extends PluginsController {
 			$dbData = Set::merge($dbData,array('UploaderFile'=>$files));
 			$dbDatas[$key] = $dbData;
 		}
+		$this->set('listId', $id);
 		$this->set('files',$dbDatas);
 
 	}
@@ -144,7 +147,7 @@ class UploaderFilesController extends PluginsController {
  * jQueryのAjaxによるファイルアップロードの際、
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
- * 
+ *
  * @return 成功時：admin_ajax_list にリダイレクト　／　失敗時：false
  * @access public
  */
