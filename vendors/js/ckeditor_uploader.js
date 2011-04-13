@@ -86,12 +86,14 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 					if(!this.editMode){
 						// リンク先用に最大サイズを取得
 						var size = '';
-						if(!rdoSize.find('input[type=radio]').eq(3).attr('disabled')){
-							size = 'large';
-						}else if(!rdoSize.find('input[type=radio]').eq(2).attr('disabled')){
-							size = 'midium';
-						}else if(!rdoSize.find('input[type=radio]').eq(1).attr('disabled')){
-							size = 'small';
+						if(this.getValueOf('info','rdoSize')){
+							if(!rdoSize.find('input[type=radio]').eq(3).attr('disabled')){
+								size = 'large';
+							}else if(!rdoSize.find('input[type=radio]').eq(2).attr('disabled')){
+								size = 'midium';
+							}else if(!rdoSize.find('input[type=radio]').eq(1).attr('disabled')){
+								size = 'small';
+							}
 						}
 						var src = getFilePath(element.getAttribute( 'src' ),size);
 						var linkElement = editor.document.createElement( 'a' );
@@ -233,7 +235,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						id : 'txtVspace',
 						type : 'text',
 						label : '縦間隔',
-						style:'margin-right : 10px;',
+						style : 'margin-right : 10px;',
 						setup : function(element, imgFlg) {
 
 							if(!imgFlg){
@@ -357,17 +359,18 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						fileList.css('height', 280);
 						fileList.html('<div style="text-align:center"><img src="'+baseUrl+'img/ajax-loader.gif" /></div>');
 						var dialog = this.getDialog();
+						var listId = Math.floor(Math.random()*99999999+1);
 						$.ajax({
 							type: "GET",
 							dataType: "html",
-							url: baseUrl+"admin/uploader/uploader_files/ajax_index/"+Math.floor(Math.random()*99999999+1),
+							url: baseUrl+"admin/uploader/uploader_files/ajax_index/"+listId,
 							success: function(res){
 
 								// リストをセット
 								fileList.html(res);
 
 								// リストのロード完了イベント
-								$("#fileList").bind('filelistload',function() {
+								$("#fileList"+listId).bind('filelistload',function() {
 
 									// ファイル選択イベント
 									$('.selectable-file').click(function() {
@@ -410,7 +413,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 
 								});
 								
-								$("#fileList").bind('deletecomplete',function(){
+								$("#fileList"+listId).bind('deletecomplete',function(){
 									dialog.setValueOf( 'info', 'txtUrl', '');
 									dialog.setValueOf( 'info', 'txtAlt', '');
 								});
