@@ -271,7 +271,7 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 			<th class="col-head"><!--<span class="required">*</span>&nbsp;--><?php echo $form->label('UploaderFile.name', 'ファイル名') ?></th>
 			<td class="col-input">
 				<?php echo $form->text('UploaderFile.name', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly')) ?>
-				<?php echo $form->error('UploaderFile.name', '>> ファイル名を入力して下さい') ?>&nbsp;
+				<?php echo $form->error('UploaderFile.name', 'ファイル名を入力して下さい') ?>&nbsp;
 			</td>
 		</tr>
 		<tr>
