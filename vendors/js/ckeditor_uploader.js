@@ -23,7 +23,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 		return {
 			title : 'ファイルプロパティ',
 			minWidth : 720,
-			minHeight : 420,
+			minHeight : 464,
 			whiteSpace : 'normal',
 		/**
          * ダイアログ 起動イベント
@@ -355,8 +355,6 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 					children : [],
 					setup : function() {
 						var fileList = $("#"+this.domId);
-						fileList.css('width', 720);
-						fileList.css('height', 280);
 						fileList.html('<div style="text-align:center"><img src="'+baseUrl+'img/ajax-loader.gif" /></div>');
 						var dialog = this.getDialog();
 						var listId = Math.floor(Math.random()*99999999+1);

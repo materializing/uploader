@@ -19,8 +19,10 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
+header('Content-type: text/html; charset=utf-8');
 ?>
 <?php $baser->pagination('default',array(),null,false) ?>
+<div class="file-list-body">
 <?php if ($files): ?>
 	<?php foreach ($files as $file): ?>
 <span class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
@@ -39,3 +41,4 @@
 <?php else: ?>
 <p class="no-data">ファイルが存在しません</p>
 <?php endif ?>
+</div>

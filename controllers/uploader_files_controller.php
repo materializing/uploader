@@ -50,6 +50,9 @@ class UploaderFilesController extends PluginsController {
  */
 	function admin_index($id='',$filter='') {
 
+		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
+		$this->setViewConditions('UploadFile', array('default' => $default));
+
 		$this->set('listId', $id);
 		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
@@ -127,10 +130,12 @@ class UploaderFilesController extends PluginsController {
 		}else {
 			$conditions = array();
 		}
+		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
+		$this->setViewConditions('UploadFile', array('default' => $default));
 		$this->paginate = array('conditions'=>$conditions,
 				'fields'=>array(),
 				'order'=>'created DESC',
-				'limit'=>10
+				'limit'=>$this->passedArgs['num']
 		);
 		$dbDatas = $this->paginate('UploaderFile');
 		foreach($dbDatas as $key => $dbData) {
@@ -167,7 +172,7 @@ class UploaderFilesController extends PluginsController {
 		$this->UploaderFile->create($this->data);
 
 		if($this->UploaderFile->save()) {
-			$this->redirect(array('action'=>'ajax_list'));
+			$this->setAction('admin_ajax_list');
 		}else {
 			$this->set('result',null);
 			$this->render('ajax_result');

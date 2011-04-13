@@ -70,6 +70,9 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 <?php else: ?>
 		var url = baseUrl+'admin/uploader/uploader_files/ajax_list/'+rand;
 <?php endif ?>
+<?php if(isset($this->passedArgs['num'])): ?>
+		url += '/num:<?php echo $this->passedArgs['num'] ?>';
+<?php endif ?>
 		$.get(url,function(res){
 			$("#fileList<?php echo $listId ?>").html(res);
 			initFileList();
@@ -252,13 +255,13 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
         <tr>
             <th class="col-head"><?php echo $form->label('UploaderFile.id', 'NO') ?></th>
             <td class="col-input">
-				<?php echo $form->text('UploaderFile.id', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileId'.$listId)) ?>&nbsp;
+				<?php echo $form->text('UploaderFile.id', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileId'.$listId, 'class' => 'uploader-file-id')) ?>&nbsp;
             </td>
         </tr>
 		<tr>
 			<th class="col-head"><!--<span class="required">*</span>&nbsp;--><?php echo $form->label('UploaderFile.name', 'ファイル名') ?></th>
 			<td class="col-input">
-				<?php echo $form->text('UploaderFile.name', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileName'.$listId)) ?>
+				<?php echo $form->text('UploaderFile.name', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileName'.$listId, 'class' => 'uploader-file-name')) ?>
 				<?php echo $form->error('UploaderFile.name', 'ファイル名を入力して下さい') ?>&nbsp;
 			</td>
 		</tr>
@@ -268,18 +271,23 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 				<?php echo $form->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
 			</td>
 		</tr>
-		<tr><td colspan="2" id="UploaderFileImage<?php echo $listId ?>"><?php echo $html->image('ajax-loader.gif') ?></td></tr>
+		<tr><td colspan="2" id="UploaderFileImage<?php echo $listId ?>" class="uploader-file-image"><?php echo $html->image('ajax-loader.gif') ?></td></tr>
     </table>
 	<?php echo $form->end() ?>
 </div>
 
 <?php if(!$installMessage): ?>
 <p><label for="UploaderFileFile<?php echo $listId ?>">アップロード</label><br />
-	<span id="SpanUploadFile<?php echo $listId ?>"><?php echo $form->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId)) ?></span></p>
+	<span id="SpanUploadFile<?php echo $listId ?>"><?php echo $form->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId, 'class' => 'uploader-file-file')) ?></span></p>
 <?php else: ?>
 <p style="color:#C00;font-weight:bold"><?php echo $installMessage ?></p>
 <?php endif ?>
 
+<!-- list-num -->
+<?php if(empty($this->params['isAjax'])): ?>
+<?php $baser->element('list_num') ?>
+<?php endif ?>
+
 <!-- ファイルリスト -->
-<div id="fileList<?php echo $listId ?>" class="corner5">
+<div id="fileList<?php echo $listId ?>" class="corner5 file-list">
 </div>
