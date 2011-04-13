@@ -22,7 +22,7 @@
 /**
  * データベース初期化
  */
-	$this->Plugin->initDatabase('plugin','uploader');
+	$this->Plugin->initDb('uploader');
 /**
  * 必要フォルダ初期化
  */
