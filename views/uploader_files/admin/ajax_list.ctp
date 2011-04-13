@@ -28,8 +28,8 @@
 	<span class="id"><?php echo $file['UploaderFile']['id'] ?></span>.&nbsp;
 	<span class="name"><?php echo $file['UploaderFile']['name'] ?></span><br />
 	<span class="alt"><?php echo $file['UploaderFile']['alt'] ?></span>
-	<span class="created"><?php echo $timeEx->format('y.m.d',$file['UploaderFile']['created']) ?></span>
-	<span class="modified"><?php echo $timeEx->format('y.m.d',$file['UploaderFile']['modified']) ?></span>
+	<span class="created"><?php echo $timeEx->format('Y.m.d',$file['UploaderFile']['created']) ?></span>
+	<span class="modified"><?php echo $timeEx->format('Y.m.d',$file['UploaderFile']['modified']) ?></span>
 	<span class="small"><?php echo $file['UploaderFile']['small'] ?></span>
 	<span class="midium"><?php echo $file['UploaderFile']['midium'] ?></span>
 	<span class="large"><?php echo $file['UploaderFile']['large'] ?></span>

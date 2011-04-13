@@ -19,9 +19,7 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
+$url = FULL_BASE_URL.$uploader->getFileUrl($file['UploaderFile']['name']);
 ?>
-<?php echo $uploader->getFileUrl($file['UploaderFile']['name']) ?><br />
-<?php echo $uploader->file($file,array('size'=>$size,'alt'=>$file['UploaderFile']['name'])) ?>
-<br />
-<?php echo $uploader->download($file) ?><br /><br />
-<small>※ ブラウザで開いてしまう場合は右クリックメニューより保存します。</small>
+<p class="url"><?php echo $baser->link($url, $url, array('target' => '_blank')) ?></p>
+<p class="image"><?php echo $baser->link($uploader->file($file, array('size' => $size,'alt' => $file['UploaderFile']['name'])), $url, array('target' => '_blank')) ?></p>

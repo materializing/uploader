@@ -85,6 +85,13 @@
 #UploaderFileImage{
 	text-align:center;
 }
+#UploaderFileImage p{
+	margin-bottom:10px;
+}
+#UploaderFileImage .url{
+	text-align: left;
+	font-weight: bold;
+}
 #UploaderFileId,
 #UploaderFileName{
 	background-color:#e2e2e2;
@@ -100,7 +107,7 @@
 
 /* dialog / fileMenu
 ----------------------------------------------- */
-#dialog,#fileMenu{
+#dialog, #fileMenu{
 	display:none;
 }
 
@@ -124,4 +131,18 @@
 .waiting img{
 	display:block;
 	margin:auto;
+}
+
+/* table
+----------------------------------------------- */
+.ui-dialog table {
+	width: 100%;
+}
+.ui-dialog th {
+	text-align: right;
+	padding:5px;
+}
+.ui-dialog td {
+	text-align: left;
+	padding:5px;
 }

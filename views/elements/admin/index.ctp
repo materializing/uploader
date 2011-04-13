@@ -28,70 +28,9 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 ?>
 <script type="text/javascript">
 	var baseUrl = '<?php echo $baser->root() ?>';
-	$(function(){
-
-		var allFields = $([]).add($("#name")).add($("#alt"));
-
-		// 右クリックメニューをbodyに移動
-		$("body").append($("#fileMenu"));
-
-		// 一覧を更新する
-		updateFileList();
-
-		// ファイルアップロードイベントを登録
-		$('#UploaderFileFile<?php echo $listId ?>').change(uploaderFileFileChangeHandler);
-
-		/* ダイアログを初期化 */
-		$("#dialog").dialog({
-			bgiframe: true,
-			autoOpen: false,
-			height: 500,
-			width:400,
-			modal: true,
-			open: function(){
-				var id = $("#fileList<?php echo $listId ?> .selected .id").html();
-				var name = $("#fileList<?php echo $listId ?> .selected .name").html();
-				var imgUrl = baseUrl+'admin/uploader/uploader_files/ajax_image/'+name+'/midium';
-				$("#UploaderFileId<?php echo $listId ?>").val($("#fileList<?php echo $listId ?> .selected .id").html());
-				$("#UploaderFileName<?php echo $listId ?>").val(name);
-				$("#UploaderFileAlt<?php echo $listId ?>").val($("#fileList<?php echo $listId ?> .selected .alt").html());
-				$.get(imgUrl,function(res){
-					$("#UploaderFileImage<?php echo $listId ?>").html(res);
-				});
-			},
-			buttons: {
-				'キャンセル': function() {
-					$(this).dialog('close');
-					$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
-				},
-				'保存': function() {
-					// 保存処理
-					var saveButton = $(this);
-					// IEでform.serializeを利用した場合、Formタグの中にTableタグがあるとデータが取得できなかった
-					var data = {"data[UploaderFile][id]":$("#UploaderFileId<?php echo $listId ?>").val(),
-						"data[UploaderFile][name]":$("#UploaderFileName<?php echo $listId ?>").val(),
-						"data[UploaderFile][alt]":$("#UploaderFileAlt<?php echo $listId ?>").val()};
-					$.post($("#UploaderFileEditForm<?php echo $listId ?>").attr('action'), data, function(res){
-						if (res) {
-							updateFileList();
-							allFields.removeClass('ui-state-error');
-							saveButton.dialog('close');
-							$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
-						} else {
-							alert('更新に失敗しました');
-						}
-					});
-				}
-			},
-			close: function() {
-				allFields.val('').removeClass('ui-state-error');
-				$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
-			}
-		});
-	});
-	/**
-	 * アップロードファイル選択時イベント
-	 */
+/**
+ * アップロードファイル選択時イベント
+ */
 	function uploaderFileFileChangeHandler(){
 		$("#waiting<?php echo $listId ?>").show();
 		if($('#UploaderFileFile<?php echo $listId ?>').val()){
@@ -99,9 +38,9 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 			$(this).upload(baseUrl+'admin/uploader/uploader_files/ajax_upload?rand='+rand, uploadSuccessHandler, 'html');
 		}
 	}
-	/**
-	 * アップロード完了後イベント
-	 */
+/**
+ * アップロード完了後イベント
+ */
 	function uploadSuccessHandler(res){
 		if(res){
 			//$(res).prependTo($("#fileList<?php echo $listId ?>"));
@@ -119,9 +58,9 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 		$('#UploaderFileFile<?php echo $listId ?>').change(uploaderFileFileChangeHandler);
 		$("#waiting<?php echo $listId ?>").hide();
 	}
-	/**
-	 * 一覧を更新する
-	 */
+/**
+ * 一覧を更新する
+ */
 	function updateFileList(){
 		$("#waiting<?php echo $listId ?>").show();
 		// リストを取得
@@ -137,9 +76,9 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 			$("#waiting<?php echo $listId ?>").hide();
 		});
 	}
-	/**
-	 * 選択イベントを初期化する
-	 */
+/**
+ * 選択イベントを初期化する
+ */
 	function initFileList(){
 
 		/* 一旦イベントを全て解除 */
@@ -224,6 +163,70 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 		$("#fileList<?php echo $listId ?>").effect("highlight",{},1500);
 
 	}
+/**
+ * 起動時処理
+ */
+	$(function(){
+
+		var allFields = $([]).add($("#name")).add($("#alt"));
+
+		// 右クリックメニューをbodyに移動
+		$("body").append($("#fileMenu"));
+
+		// 一覧を更新する
+		updateFileList();
+
+		// ファイルアップロードイベントを登録
+		$('#UploaderFileFile<?php echo $listId ?>').change(uploaderFileFileChangeHandler);
+
+		/* ダイアログを初期化 */
+		$("#dialog").dialog({
+			bgiframe: true,
+			autoOpen: false,
+			position: ['center', 20],
+			width:420,
+			modal: true,
+			open: function(){
+				var id = $("#fileList<?php echo $listId ?> .selected .id").html();
+				var name = $("#fileList<?php echo $listId ?> .selected .name").html();
+				var imgUrl = baseUrl+'admin/uploader/uploader_files/ajax_image/'+name+'/midium';
+				$("#UploaderFileId<?php echo $listId ?>").val($("#fileList<?php echo $listId ?> .selected .id").html());
+				$("#UploaderFileName<?php echo $listId ?>").val(name);
+				$("#UploaderFileAlt<?php echo $listId ?>").val($("#fileList<?php echo $listId ?> .selected .alt").html());
+				$.get(imgUrl,function(res){
+					$("#UploaderFileImage<?php echo $listId ?>").html(res);
+				});
+			},
+			buttons: {
+				'キャンセル': function() {
+					$(this).dialog('close');
+					$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
+				},
+				'保存': function() {
+					// 保存処理
+					var saveButton = $(this);
+					// IEでform.serializeを利用した場合、Formタグの中にTableタグがあるとデータが取得できなかった
+					var data = {"data[UploaderFile][id]":$("#UploaderFileId<?php echo $listId ?>").val(),
+						"data[UploaderFile][name]":$("#UploaderFileName<?php echo $listId ?>").val(),
+						"data[UploaderFile][alt]":$("#UploaderFileAlt<?php echo $listId ?>").val()};
+					$.post($("#UploaderFileEditForm<?php echo $listId ?>").attr('action'), data, function(res){
+						if (res) {
+							updateFileList();
+							allFields.removeClass('ui-state-error');
+							saveButton.dialog('close');
+							$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
+						} else {
+							alert('更新に失敗しました');
+						}
+					});
+				}
+			},
+			close: function() {
+				allFields.val('').removeClass('ui-state-error');
+				$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
+			}
+		});
+	});
 </script>
 
 <!-- コンテキストメニュー -->
@@ -236,26 +239,16 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
     </li>
 </ul>
 
-<?php if(!$installMessage): ?>
-<p><label for="UploaderFileFile<?php echo $listId ?>">アップロード</label><br />
-	<span id="SpanUploadFile<?php echo $listId ?>"><?php echo $form->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId)) ?></span></p>
-<?php else: ?>
-<p style="color:#C00;font-weight:bold"><?php echo $installMessage ?></p>
-<?php endif ?>
-
-<!-- ファイルリスト -->
-<div id="fileList<?php echo $listId ?>" class="corner5">
-</div>
+<!-- loader -->
 <div id="waiting<?php echo $listId ?>" class="waiting corner5">
 	<?php echo $html->image('ajax-loader.gif') ?>
     Waiting...
 </div>
 
-
 <!-- 編集ダイアログ -->
 <div id="dialog" title="ファイル情報編集">
 	<?php echo $form->create('UploaderFile',array('action' => 'edit', 'id' => 'UploaderFileEditForm'.$listId)) ?>
-    <table cellpadding="0" cellspacing="0" class="frmTbl01">
+    <table cellpadding="0" cellspacing="0">
         <tr>
             <th class="col-head"><?php echo $form->label('UploaderFile.id', 'NO') ?></th>
             <td class="col-input">
@@ -278,4 +271,15 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu','jquery.upload-1.0.
 		<tr><td colspan="2" id="UploaderFileImage<?php echo $listId ?>"><?php echo $html->image('ajax-loader.gif') ?></td></tr>
     </table>
 	<?php echo $form->end() ?>
+</div>
+
+<?php if(!$installMessage): ?>
+<p><label for="UploaderFileFile<?php echo $listId ?>">アップロード</label><br />
+	<span id="SpanUploadFile<?php echo $listId ?>"><?php echo $form->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId)) ?></span></p>
+<?php else: ?>
+<p style="color:#C00;font-weight:bold"><?php echo $installMessage ?></p>
+<?php endif ?>
+
+<!-- ファイルリスト -->
+<div id="fileList<?php echo $listId ?>" class="corner5">
 </div>
