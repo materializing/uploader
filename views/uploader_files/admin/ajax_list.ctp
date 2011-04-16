@@ -21,6 +21,7 @@
  */
 // IE文字化け対策
 header('Content-type: text/html; charset=utf-8');
+$users = $formEx->getControlSource("UploaderFile.user_id");
 ?>
 <?php $baser->pagination('default',array(),null,false) ?>
 <div class="file-list-body">
@@ -37,6 +38,8 @@ header('Content-type: text/html; charset=utf-8');
 	<span class="midium"><?php echo $file['UploaderFile']['midium'] ?></span>
 	<span class="large"><?php echo $file['UploaderFile']['large'] ?></span>
 	<span class="url"><?php echo $uploader->getFileUrl($file['UploaderFile']['name']) ?></span>
+	<span class="user-id"><?php echo $file['UploaderFile']['user_id'] ?></span>
+	<span class="user-name"><?php echo $textEx->arrayValue($file['UploaderFile']['user_id'], $users) ?></span>
 </span>
 	<?php endforeach ?>
 <?php else: ?>

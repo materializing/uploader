@@ -66,6 +66,8 @@
 .selectable-file .small,
 .selectable-file .midium,
 .selectable-file .large,
+.selectable-file .user-name,
+.selectable-file .user-id,
 .selectable-file .url{
 	display:none;
 }
@@ -154,8 +156,16 @@
 .ui-dialog .uploader-file-image .url{
 	text-align: left;
 	font-weight: bold;
+	word-wrap: break-word;
+	width:382px;
 }
 .ui-dialog .uploader-file-id,
 .ui-dialog .uploader-file-name{
 	background-color:#e2e2e2;
+}
+
+/* contextMenu
+----------------------------------------------- */
+.contextMenu .disabled a{
+	color:#eee;
 }

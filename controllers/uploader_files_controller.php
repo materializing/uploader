@@ -49,7 +49,7 @@ class UploaderFilesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $helpers = array('TimeEx','Uploader.Uploader');
+	var $helpers = array('TextEx', 'TimeEx','Uploader.Uploader');
 /**
  * ページタイトル
  *
@@ -63,7 +63,7 @@ class UploaderFilesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $uses = array('Plugin','Uploader.UploaderFile');
+	var $uses = array('Plugin','Uploader.UploaderFile', 'Uploader.UploaderConfig');
 /**
  * ナビ
  *
@@ -90,7 +90,7 @@ class UploaderFilesController extends PluginsController {
 
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
 		$this->setViewConditions('UploadFile', array('default' => $default));
-
+		$this->set('uploaderConfigs', $this->UploaderConfig->findExpanded());
 		$this->set('listId', $id);
 		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
@@ -210,7 +210,10 @@ class UploaderFilesController extends PluginsController {
 			$this->render('ajax_result');
 			return;
 		}
-
+		$user = $this->Auth->user();
+		if(!empty($user['User']['id'])) {
+			$this->data['UploaderFile']['user_id'] = $user['User']['id'];
+		}
 		$this->data['UploaderFile']['name'] = $this->data['UploaderFile']['file'];
 		$this->data['UploaderFile']['alt'] = $this->data['UploaderFile']['name']['name'];
 		$this->UploaderFile->create($this->data);
@@ -266,6 +269,15 @@ class UploaderFilesController extends PluginsController {
 			$this->notFound();
 		}
 
+		$user = $this->Auth->user();
+		$uploaderConfig = $this->UploaderConfig->findExpanded();
+
+		if($uploaderConfig['use_permission']) {
+			if($user['User']['user_group_id'] != 1 && $this->data['UploaderFile']['user_id'] != $user['User']['id']) {
+				$this->notFound();
+			}
+		}
+		
 		$this->UploaderFile->set($this->data);
 		$this->set('result',$this->UploaderFile->save());
 		if ($this->RequestHandler->isAjax()) {
@@ -283,6 +295,20 @@ class UploaderFilesController extends PluginsController {
 
 		if(!$this->data) {
 			$this->notFound();
+		}
+
+		$user = $this->Auth->user();
+		$uploaderConfig = $this->UploaderConfig->findExpanded();
+		$uploaderFile = $this->UploaderFile->read(null, $this->data['UploaderFile']['id']);
+
+		if(!$uploaderFile) {
+			$this->notFound();
+		}
+
+		if($uploaderConfig['use_permission']) {
+			if($user['User']['user_group_id'] != 1 && $uploaderFile['UploaderFile']['user_id'] != $user['User']['id']) {
+				$this->notFound();
+			}
 		}
 
 		$this->set('result',$this->UploaderFile->del($this->data['UploaderFile']['id']));

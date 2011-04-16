@@ -83,6 +83,26 @@
 	</tr>
 </table>
 
+<?php if($user['user_group_id'] == 1): ?>
+<h3><a href="javascript:void(0)" id="FormOption" class="slide-trigger">オプション</a></h3>
+
+<div id ="FormOptionBody" class="slide-body">
+	<table cellpadding="0" cellspacing="0" class="admin-row-table-01">
+		<tr>
+			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $formEx->label('UploaderConfig.use_permission', '制限設定') ?></th>
+			<td class="col-input">
+				<?php echo $formEx->input('UploaderConfig.use_permission', array('type' => 'checkbox', 'label' => '編集/削除を制限する', 'between' => '&nbsp;')) ?>
+				<?php echo $html->image('img_icon_help_admin.gif',array('id' => 'helpUsePermission', 'class' => 'help', 'alt' => 'ヘルプ')) ?>
+				<?php echo $formEx->error('UploaderConfig.use_permission') ?>
+				<div id="helptextUsePermission" class="helptext">
+					管理者以外のユーザーは、自分がアップロードしたファイル以外、編集・削除をできないようにします。
+				</div>
+			</td>
+		</tr>
+	</table>
+</div>
+<?php endif ?>
+
 <!-- button -->
 <div class="align-center">
 	<?php echo $formEx->submit('更　新', array('div' => false, 'class' => 'btn-orange button', 'id' => 'btnSubmit')) ?>

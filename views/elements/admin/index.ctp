@@ -39,7 +39,8 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 		var baseUrl = $("#BaseUrl").html();
 		
 		// 右クリックメニューをbodyに移動
-		$("body").append($("#fileMenu"));
+		$("body").append($("#FileMenu1"));
+		$("body").append($("#FileMenu2"));
 
 		// 一覧を更新する
 		updateFileList();
@@ -60,6 +61,8 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 				$("#UploaderFileId"+listId).val($("#fileList<?php echo $listId ?> .selected .id").html());
 				$("#UploaderFileName"+listId).val(name);
 				$("#UploaderFileAlt"+listId).val($("#fileList"+listId+" .selected .alt").html());
+				$("#UploaderFileUserId"+listId).val($("#fileList"+listId+" .selected .user-id").html());
+				$("#UploaderFileUserName"+listId).html($("#fileList"+listId+" .selected .user-name").html());
 				$.get(imgUrl,function(res){
 					$("#UploaderFileImage"+listId).html(res);
 				});
@@ -75,7 +78,9 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 					// IEでform.serializeを利用した場合、Formタグの中にTableタグがあるとデータが取得できなかった
 					var data = {"data[UploaderFile][id]":$("#UploaderFileId"+listId).val(),
 						"data[UploaderFile][name]":$("#UploaderFileName"+listId).val(),
-						"data[UploaderFile][alt]":$("#UploaderFileAlt"+listId).val()};
+						"data[UploaderFile][alt]":$("#UploaderFileAlt"+listId).val(),
+						"data[UploaderFile][user_id]":$("#UploaderFileUserId"+listId).val()
+					};
 					$.post($("#UploaderFileEditForm"+listId).attr('action'), data, function(res){
 						if (res) {
 							updateFileList();
@@ -160,7 +165,7 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 	function initFileList(){
 
 		var listId = $("#ListId").html();
-		var delUrl = $("#BaseUrl").html()+'admin/uploader/uploader_files/delete';
+		var usePermission = $("#UsePermission").html();
 		
 		/* 一旦イベントを全て解除 */
 		$(".selectable-file").unbind('click.selectEvent');
@@ -169,55 +174,35 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 		$(".page-numbers a").unbind('click.paginationEvent');
 		$(".selectable-file").unbind('dblclick.dblclickEvent');
 
-		/* 右クリックメニューを追加 */
-		if($(".selectable-file").contextMenu){
-			
-			$(".selectable-file").contextMenu({menu: 'fileMenu'}, function(action, el, pos) {
-				
-				// IEの場合、action値が正常に取得できないので整形する
-				var pos = action.indexOf("#");
-				
-				if(pos != -1){
-					action = action.substring(pos+1,action.length);
-				}
-				
-				switch (action){
-					
-					case 'edit':
+		$(".selectable-file").each(function(){
+			if($(this).contextMenu) {
+				/* 右クリックメニューを追加 */
+				if($(this).find('.user-id').html() == $("#LoginUserId").html() || $("#LoginUserGroupId").html() == 1 || !Number(usePermission)) {
+					$(this).contextMenu({menu: 'FileMenu1'}, contextMenuHander);
+					$(this).bind('dblclick.dblclickEvent', function(){
 						$('#dialog').dialog('open');
-						break;
-						
-					case 'delete':
-						if(confirm('本当に削除してもよろしいですか？')){
-							$.post(delUrl, {"data[UploaderFile][id]": $("#fileList"+listId+" .selected .id").html()}, function(res){
-								if(!res){
-									alert("サーバーでの処理に失敗しました。");
-								}else{
-									$("#fileList"+listId).trigger("deletecomplete");
-									updateFileList();
-								}
-							});
-						}
-						break;
+					});
+				} else {
+					$(this).contextMenu({menu: 'FileMenu2'}, contextMenuHander);
+					$(this).bind('dblclick.dblclickEvent', function(){
+						alert('このファイルの編集・削除はできません。');
+					});
 				}
-				
-			});
-			
-		}
+			}
 
-		// IEの場合contextmenuを検出できなかったので、mousedownに変更した
-		$(".selectable-file").bind('mousedown', function(){
-			$(".selectable-file").removeClass('selected');
-			$(this).addClass('selected');
+			// IEの場合contextmenuを検出できなかったので、mousedownに変更した
+			$(this).bind('mousedown', function(){
+				$(".selectable-file").removeClass('selected');
+				$(this).addClass('selected');
+			});
+
 		});
+
 		$(".selectable-file").bind('mouseenter.selectEvent', function(){
 			$(this).css('background-color','#FFCC00');
 		});
 		$(".selectable-file").bind('mouseleave.selectEvent', function(){
 			$(this).css('background-color','#FFFFFF');
-		});
-		$(".selectable-file").bind('dblclick.dblclickEvent', function(){
-			$('#dialog').dialog('open');
 		});
 
 		/* ページネーションイベントを追加 */
@@ -237,10 +222,54 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 		$("#fileList"+listId).effect("highlight",{},1500);
 
 	}
+/**
+ * コンテキストメニューハンドラ
+ */
+	function contextMenuHander(action, el, pos) {
+
+		var listId = $("#ListId").html();
+		var delUrl = $("#BaseUrl").html()+'admin/uploader/uploader_files/delete';
+		
+		// IEの場合、action値が正常に取得できないので整形する
+		var pos = action.indexOf("#");
+
+		if(pos != -1){
+			action = action.substring(pos+1,action.length);
+		}
+
+		switch (action){
+
+			case 'edit':
+				$('#dialog').dialog('open');
+				break;
+
+			case 'delete':
+				if(confirm('本当に削除してもよろしいですか？')){
+					$.post(delUrl, {"data[UploaderFile][id]": $("#fileList"+listId+" .selected .id").html()}, function(res){
+						if(!res){
+							alert("サーバーでの処理に失敗しました。");
+						}else{
+							$("#fileList"+listId).trigger("deletecomplete");
+							updateFileList();
+						}
+					});
+				}
+				break;
+		}
+	}
 </script>
+
+<!-- LoginUserId -->
+<div id="LoginUserId" style="display: none"><?php echo $user['id'] ?></div>
+
+<!-- LoginUserGroupId -->
+<div id="LoginUserGroupId" style="display: none"><?php echo $user['user_group_id'] ?></div>
 
 <!-- BaseUrl -->
 <div id="BaseUrl" style="display: none"><?php echo $baser->root() ?></div>
+
+<!-- UsePermission -->
+<div id="UsePermission" style="display: none"><?php echo $uploaderConfigs['use_permission'] ?></div>
 
 <!-- ListId -->
 <div id="ListId" style="display: none"><?php echo $listId ?></div>
@@ -252,13 +281,13 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 <div id="Num" style="display: none"><?php echo $this->passedArgs['num'] ?></div>
 
 <!-- コンテキストメニュー -->
-<ul id="fileMenu" class="contextMenu">
-    <li class="edit">
-        <a href="#edit">編集</a>
-    </li>
-    <li class="delete">
-        <a href="#delete">削除</a>
-    </li>
+<ul id="FileMenu1" class="contextMenu">
+    <li class="edit"><a href="#edit">編集</a></li>
+    <li class="delete"><a href="#delete">削除</a></li>
+</ul>
+<ul id="FileMenu2" class="contextMenu">
+    <li class="edit disabled"><a href="#">編集</a></li>
+    <li class="delete disabled"><a href="#">削除</a></li>
 </ul>
 
 <!-- loader -->
@@ -288,6 +317,13 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 			<th class="col-head"><?php echo $form->label('UploaderFile.real_name_1', '説明文') ?></th>
 			<td class="col-input">
 				<?php echo $form->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th class="col-head">保存者</th>
+			<td class="col-input">
+				<span id="UploaderFileUserName<?php echo $listId ?>">&nbsp;</span>
+				<?php echo $form->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
 			</td>
 		</tr>
 		<tr><td colspan="2" id="UploaderFileImage<?php echo $listId ?>" class="uploader-file-image"><?php echo $html->image('ajax-loader.gif') ?></td></tr>

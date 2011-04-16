@@ -123,6 +123,25 @@ class UploaderFile extends AppModel {
 		return $files;
 
 	}
+/**
+ * コントロールソースを取得する
+ *
+ * @param	string	$field			フィールド名
+ * @param	array	$options
+ * @return	mixed	$controlSource	コントロールソース
+ * @access	public
+ */
+	function getControlSource($field = null, $options = array()) {
+
+		$User = ClassRegistry::getObject('User');
+		$controlSources['user_id'] = $User->getUserList($options);
+		if(isset($controlSources[$field])) {
+			return $controlSources[$field];
+		}else {
+			return false;
+		}
+
+	}
 
 }
 ?>
