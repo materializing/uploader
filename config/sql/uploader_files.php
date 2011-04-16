@@ -4,8 +4,6 @@
 class UploaderFilesSchema extends CakeSchema {
 	var $name = 'UploaderFiles';
 
-	var $path = '/Users/ryuring/Documents/Projects/basercms/app/tmp/schemas/';
-
 	var $file = 'uploader_files.php';
 
 	var $connection = 'baser';

@@ -109,6 +109,8 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 				
 				$("#dialog").remove();
 				$("#fileMenu").remove();
+
+				return true;
 				
 			},
 		/**

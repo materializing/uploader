@@ -1,7 +1,7 @@
 <?php
 /* SVN FILE: $Id$ */
 /**
- * ファイルリスト
+ * [ADMIN] ファイルリスト
  *
  * PHP versions 4 and 5
  *
@@ -19,6 +19,7 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
+// IE文字化け対策
 header('Content-type: text/html; charset=utf-8');
 ?>
 <?php $baser->pagination('default',array(),null,false) ?>

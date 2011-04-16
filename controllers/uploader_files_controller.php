@@ -36,14 +36,52 @@ class UploaderFilesController extends PluginsController {
  * @access 	public
  */
 	var $name = 'UploaderFiles';
+/**
+ * コンポーネント
+ *
+ * @var		array
+ * @access	public
+ */
 	var $components = array('Auth','Cookie','AuthConfigure','RequestHandler');
+/**
+ * ヘルパー
+ *
+ * @var		array
+ * @access	public
+ */
 	var $helpers = array('TimeEx','Uploader.Uploader');
+/**
+ * ページタイトル
+ *
+ * @var		string
+ * @access	public
+ */
 	var $pageTitle = 'アップローダープラグイン';
+/**
+ * モデル
+ *
+ * @var		array
+ * @access	public
+ */
 	var $uses = array('Plugin','Uploader.UploaderFile');
+/**
+ * ナビ
+ *
+ * @var		array
+ * @access	public
+ */
 	var $navis = array('アップロードファイル管理'=>'/admin/uploader/uploader_files/index');
 /**
- * ファイル一覧
+ * サブメニューエレメント
  *
+ * @var 	array
+ * @access 	public
+ */
+	var $subMenuElements = array('uploader');
+/**
+ * [ADMIN] ファイル一覧
+ *
+ * @param	int		$id		呼び出し元 識別ID
  * @param	string	$filter
  * @return	void
  * @access	public
@@ -60,7 +98,9 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * [AJAX] ファイル一覧
+ * [ADMIN] ファイル一覧
+ *
+ * @param	int		$id		呼び出し元 識別ID
  * @param	string	$filter
  * @return	void
  * @access	public
@@ -74,6 +114,7 @@ class UploaderFilesController extends PluginsController {
 	}
 /**
  * インストール状態の確認
+ *
  * @return	string	インストールメッセージ
  * @access	public
  */
@@ -109,11 +150,13 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * ファイル一覧を表示
+ * [ADMIN] ファイル一覧を表示
+ * 
  * ファイルアップロード時にリダイレクトされた場合、
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
  *
+ * @param	int		$id		呼び出し元 識別ID
  * @param	string	$filter
  * @return	void
  * @access	public
@@ -148,12 +191,13 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * Ajaxファイルアップロード
+ * [ADMIN] Ajaxファイルアップロード
+ * 
  * jQueryのAjaxによるファイルアップロードの際、
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
  *
- * @return 成功時：admin_ajax_list にリダイレクト　／　失敗時：false
+ * @return 成功時：admin_ajax_list を呼び出し　／　失敗時：false
  * @access public
  */
 	function admin_ajax_upload() {
@@ -180,7 +224,7 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * サイズを指定して画像タグを取得する
+ * [ADMIN] サイズを指定して画像タグを取得する
  *
  * @param	string	$name
  * @param	string	$size
@@ -195,7 +239,7 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * 各サイズごとの画像の存在チェックを行う
+ * [ADMIN] 各サイズごとの画像の存在チェックを行う
  *
  * @param	string	$name
  * @return	void
@@ -211,7 +255,7 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * 編集処理
+ * [ADMIN] 編集処理
  *
  * @return	void
  * @access	public
@@ -230,7 +274,7 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * 削除処理
+ * [ADMIN] 削除処理
  *
  * @return	void
  * @access	public
@@ -247,5 +291,6 @@ class UploaderFilesController extends PluginsController {
 		}
 
 	}
+	
 }
 ?>
