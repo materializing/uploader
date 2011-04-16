@@ -21,6 +21,12 @@
  */
 class UploaderHookHelper extends AppHelper {
 /**
+ * フック登録
+ * @var		array
+ * @access	public
+ */
+	var $registerHooks = array('afterLayout');
+/**
  * コンストラクタ
  * @access public
  */
