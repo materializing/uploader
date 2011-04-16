@@ -22,6 +22,7 @@
 // IE文字化け対策
 header('Content-type: text/html; charset=utf-8');
 $users = $formEx->getControlSource("UploaderFile.user_id");
+$this->passedArgs['action'] = 'ajax_list';
 ?>
 <?php $baser->pagination('default',array(),null,false) ?>
 <div class="file-list-body">
