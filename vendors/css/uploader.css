@@ -61,7 +61,7 @@
 .selectable-file img{
 	cursor:pointer;
 }
-.selectable-file .alt,
+.selectable-file .name,
 .selectable-file .modified,
 .selectable-file .small,
 .selectable-file .midium,
@@ -168,4 +168,16 @@
 ----------------------------------------------- */
 .contextMenu .disabled a{
 	color:#eee;
+}
+
+.cke_dialog_ui_vbox select,
+.cke_dialog_ui_vbox input{
+	background-color: #fff!important;
+	border:1px solid #CCC;
+}
+.cke_dialog_ui_vbox input {
+	margin-right: 5px;
+}
+.cke_dialog_ui_vbox .pagination {
+	margin:5px;
 }

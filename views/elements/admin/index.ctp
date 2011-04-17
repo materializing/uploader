@@ -22,6 +22,7 @@
 if(!isset($listId)) {
 	$listId = '';
 }
+$uploaderCategories = $formEx->getControlSource('UploaderFile.uploader_category_id');
 //==============================================================================
 // Ajaxで呼び出される事が前提の為インラインで呼びだし
 //==============================================================================
@@ -29,13 +30,13 @@ $baser->css('/js/jquery.contextMenu-1.0/jquery.contextMenu');
 $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0.0.min'));
 ?>
 <script type="text/javascript">
+var listId = '<?php echo $listId ?>';
 /**
  * 起動時処理
  */
 	$(function(){
 
 		var allFields = $([]).add($("#name")).add($("#alt"));
-		var listId = $("#ListId").html();
 		var baseUrl = $("#BaseUrl").html();
 		
 		// 右クリックメニューをbodyに移動
@@ -63,6 +64,10 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 				$("#UploaderFileAlt"+listId).val($("#fileList"+listId+" .selected .alt").html());
 				$("#UploaderFileUserId"+listId).val($("#fileList"+listId+" .selected .user-id").html());
 				$("#UploaderFileUserName"+listId).html($("#fileList"+listId+" .selected .user-name").html());
+				if($("#_UploaderFileUploaderCategoryId"+listId).length) {
+					$("#_UploaderFileUploaderCategoryId"+listId).val($("#fileList"+listId+" .selected .uploader-category-id").html());
+				}
+
 				$.get(imgUrl,function(res){
 					$("#UploaderFileImage"+listId).html(res);
 				});
@@ -79,7 +84,8 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 					var data = {"data[UploaderFile][id]":$("#UploaderFileId"+listId).val(),
 						"data[UploaderFile][name]":$("#UploaderFileName"+listId).val(),
 						"data[UploaderFile][alt]":$("#UploaderFileAlt"+listId).val(),
-						"data[UploaderFile][user_id]":$("#UploaderFileUserId"+listId).val()
+						"data[UploaderFile][user_id]":$("#UploaderFileUserId"+listId).val(),
+						"data[UploaderFile][uploader_category_id]":$("#_UploaderFileUploaderCategoryId"+listId).val()
 					};
 					$.post($("#UploaderFileEditForm"+listId).attr('action'), data, function(res){
 						if (res) {
@@ -106,12 +112,15 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
  */
 	function uploaderFileFileChangeHandler(){
 	
-		var listId = $("#ListId").html();
-		var url = $("#BaseUrl").html()+'admin/uploader/uploader_files/ajax_upload?rand='+rand;
+		var url = $("#BaseUrl").html()+'admin/uploader/uploader_files/ajax_upload';
 		$("#waiting"+listId).show();
 		if($('#UploaderFileFile'+listId).val()){
-			var rand = Math.floor(Math.random()*99999999+1);
-			$(this).upload(url, uploadSuccessHandler, 'html');
+			var data = [];
+			if($("#UploaderFileUploaderCategoryId"+listId).length) {
+				alert('test');
+				data = {'data[UploaderFile][uploader_category_id]':$("#UploaderFileUploaderCategoryId"+listId).val()};
+			}
+			$(this).upload(url, data, uploadSuccessHandler, 'html');
 		}
 		
 	}
@@ -120,13 +129,15 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
  */
 	function uploadSuccessHandler(res){
 		
-		var listId = $("#ListId").html();
 		if(res){
-			$("#fileList"+listId).html(res);
-			initFileList();
+			if($('#UploaderFileUploaderCategoryId'+listId).length) {
+				$('#FilterUploaderCategoryId'+listId).val($('#UploaderFileUploaderCategoryId'+listId).val());
+			}
+			updateFileList();
 		}else{
 			$('#ErrorMessage').remove();
 			$('#fileList'+listId).prepend('<p id="ErrorMessage" class="message">アップロードに失敗しました。ファイルサイズを確認してください。</p>');
+			$("#waiting"+listId).hide();
 		}
 		// フォームを初期化
 		// セキュリティ上の関係でvalue値を直接消去する事はできないので、一旦エレメントごと削除し、
@@ -134,29 +145,15 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 		$("#UploaderFileFile"+listId).remove();
 		$("#SpanUploadFile"+listId).append('<input id="UploaderFileFile'+listId+'" type="file" value="" name="data[UploaderFile][file]"/>');
 		$('#UploaderFileFile'+listId).change(uploaderFileFileChangeHandler);
-		$("#waiting"+listId).hide();
+		
 	}
 /**
  * 一覧を更新する
  */
 	function updateFileList(){
 
-		var listId = $("#ListId").html();
-		var url = $("#BaseUrl").html()+'admin/uploader/uploader_files/ajax_list/'+Math.floor(Math.random()*99999999+1);
-
-		if($("#Filter").html() == 'image') {
-			url += '/image';
-		}
-		if($("#Num").html()) {
-			url += '/num:'+$("#Num").html();
-		}
-
 		$("#waiting"+listId).show();
-		$.get(url,function(res){
-			$("#fileList"+listId).html(res);
-			initFileList();
-			$("#waiting"+listId).hide();
-		});
+		$.get(getListUrl(),updateFileListCompleteHander);
 
 	}
 /**
@@ -164,16 +161,16 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
  */
 	function initFileList(){
 
-		var listId = $("#ListId").html();
 		var usePermission = $("#UsePermission").html();
-		
+
 		/* 一旦イベントを全て解除 */
 		$(".selectable-file").unbind('click.selectEvent');
 		$(".selectable-file").unbind('mouseenter.selectEvent');
 		$(".selectable-file").unbind('mouseleave.selectEvent');
 		$(".page-numbers a").unbind('click.paginationEvent');
 		$(".selectable-file").unbind('dblclick.dblclickEvent');
-
+		$(".filter-control").unbind('change.filterEvent');
+		
 		$(".selectable-file").each(function(){
 			if($(this).contextMenu) {
 				/* 右クリックメニューを追加 */
@@ -208,12 +205,17 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 		/* ページネーションイベントを追加 */
 		$('.page-numbers a').bind('click.paginationEvent', function(){
 			$("#waiting"+listId).show();
-			$.get($(this).attr('href'),function(res){
-				$("#fileList"+listId).html(res);
-				initFileList();
-				$("#waiting"+listId).hide();
-			});
+			$.get($(this).attr('href'),updateFileListCompleteHander);
 			return false;
+		});
+
+		$('#FilterUploaderCategoryId'+listId).bind('change.filterEvent', function() {
+			$("#waiting"+listId).show();
+			$.get(getListUrl(),updateFileListCompleteHander);
+		});
+		$('input[name="data[Filter][uploader_type]"]').bind('click.filterEvent', function() {
+			$("#waiting"+listId).show();
+			$.get(getListUrl(),updateFileListCompleteHander);
 		});
 
 		$('.selectable-file').corner("5px");
@@ -223,11 +225,31 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 
 	}
 /**
+ * ファイルリスト取得完了イベント
+ */
+	function updateFileListCompleteHander(result) {
+		$("#fileList"+listId).html(result);
+		initFileList();
+		$("#waiting"+listId).hide();
+	}
+/**
+ * Ajax List 取得用のURLを取得する
+ */
+	function getListUrl() {
+		var listUrl = $("#ListUrl").attr('href');
+		if($('#FilterUploaderCategoryId'+listId).length) {
+			listUrl += '/uploader_category_id:'+$('#FilterUploaderCategoryId'+listId).val();
+		}
+		if($('input[name="data[Filter][uploader_type]"]:checked').length) {
+			listUrl += '/uploader_type:'+$('input[name="data[Filter][uploader_type]"]:checked').val();
+		}
+		return listUrl;
+	}
+/**
  * コンテキストメニューハンドラ
  */
 	function contextMenuHander(action, el, pos) {
 
-		var listId = $("#ListId").html();
 		var delUrl = $("#BaseUrl").html()+'admin/uploader/uploader_files/delete';
 		
 		// IEの場合、action値が正常に取得できないので整形する
@@ -245,8 +267,10 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 
 			case 'delete':
 				if(confirm('本当に削除してもよろしいですか？')){
+					$("#waiting"+listId).show();
 					$.post(delUrl, {"data[UploaderFile][id]": $("#fileList"+listId+" .selected .id").html()}, function(res){
 						if(!res){
+							$("#waiting"+listId).hide();
 							alert("サーバーでの処理に失敗しました。");
 						}else{
 							$("#fileList"+listId).trigger("deletecomplete");
@@ -262,6 +286,9 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 <!-- LoginUserId -->
 <div id="LoginUserId" style="display: none"><?php echo $user['id'] ?></div>
 
+<!-- ListUrl -->
+<?php $baser->link('ListUrl', array('action' => 'ajax_list', $listId, 'num' => $this->passedArgs['num']), array('id' => 'ListUrl', 'style' => 'display:none')) ?>
+
 <!-- LoginUserGroupId -->
 <div id="LoginUserGroupId" style="display: none"><?php echo $user['user_group_id'] ?></div>
 
@@ -273,12 +300,6 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 
 <!-- ListId -->
 <div id="ListId" style="display: none"><?php echo $listId ?></div>
-
-<!-- Filter -->
-<div id="Filter" style="display: none"><?php echo $filter ?></div>
-
-<!-- Num -->
-<div id="Num" style="display: none"><?php echo $this->passedArgs['num'] ?></div>
 
 <!-- コンテキストメニュー -->
 <ul id="FileMenu1" class="contextMenu">
@@ -298,43 +319,57 @@ $baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0
 
 <!-- 編集ダイアログ -->
 <div id="dialog" title="ファイル情報編集">
-	<?php echo $form->create('UploaderFile',array('action' => 'edit', 'id' => 'UploaderFileEditForm'.$listId)) ?>
+	<?php echo $formEx->create('UploaderFile',array('action' => 'edit', 'id' => 'UploaderFileEditForm'.$listId)) ?>
     <table cellpadding="0" cellspacing="0">
         <tr>
-            <th class="col-head"><?php echo $form->label('UploaderFile.id', 'NO') ?></th>
+            <th class="col-head"><?php echo $formEx->label('UploaderFile.id', 'NO') ?></th>
             <td class="col-input">
-				<?php echo $form->text('UploaderFile.id', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileId'.$listId, 'class' => 'uploader-file-id')) ?>&nbsp;
+				<?php echo $formEx->text('UploaderFile.id', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileId'.$listId, 'class' => 'uploader-file-id')) ?>&nbsp;
             </td>
         </tr>
 		<tr>
-			<th class="col-head"><!--<span class="required">*</span>&nbsp;--><?php echo $form->label('UploaderFile.name', 'ファイル名') ?></th>
+			<th class="col-head"><!--<span class="required">*</span>&nbsp;--><?php echo $formEx->label('UploaderFile.name', 'ファイル名') ?></th>
 			<td class="col-input">
-				<?php echo $form->text('UploaderFile.name', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileName'.$listId, 'class' => 'uploader-file-name')) ?>
-				<?php echo $form->error('UploaderFile.name', 'ファイル名を入力して下さい') ?>&nbsp;
+				<?php echo $formEx->text('UploaderFile.name', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileName'.$listId, 'class' => 'uploader-file-name')) ?>
+				<?php echo $formEx->error('UploaderFile.name', 'ファイル名を入力して下さい') ?>&nbsp;
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><?php echo $form->label('UploaderFile.real_name_1', '説明文') ?></th>
+			<th class="col-head"><?php echo $formEx->label('UploaderFile.real_name_1', '説明文') ?></th>
 			<td class="col-input">
-				<?php echo $form->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
+				<?php echo $formEx->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
 			</td>
 		</tr>
+<?php if($uploaderCategories): ?>
+		<tr>
+			<th class="col-head"><?php echo $formEx->label('UploaderFile.real_name_1', 'カテゴリ') ?></th>
+			<td class="col-input">
+				<?php echo $formEx->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => '指定なし', 'id' => '_UploaderFileUploaderCategoryId'.$listId)) ?>
+			</td>
+		</tr>
+<?php endif ?>
 		<tr>
 			<th class="col-head">保存者</th>
 			<td class="col-input">
 				<span id="UploaderFileUserName<?php echo $listId ?>">&nbsp;</span>
-				<?php echo $form->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
+				<?php echo $formEx->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
 			</td>
 		</tr>
 		<tr><td colspan="2" id="UploaderFileImage<?php echo $listId ?>" class="uploader-file-image"><?php echo $html->image('ajax-loader.gif') ?></td></tr>
     </table>
-	<?php echo $form->end() ?>
+	<?php echo $formEx->end() ?>
 </div>
 
 <!-- form -->
 <?php if(!$installMessage): ?>
-<p><label for="UploaderFileFile<?php echo $listId ?>">アップロード</label><br />
-	<span id="SpanUploadFile<?php echo $listId ?>"><?php echo $form->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId, 'class' => 'uploader-file-file')) ?></span></p>
+<p>アップロード&nbsp;
+	<?php if($uploaderCategories): ?>
+		<?php echo $formEx->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => 'カテゴリ指定なし', 'id' => 'UploaderFileUploaderCategoryId'.$listId)) ?>&nbsp;
+	<?php endif ?>
+	<span id="SpanUploadFile<?php echo $listId ?>">
+		<?php echo $formEx->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId, 'class' => 'uploader-file-file')) ?>
+	</span>
+</p>
 <?php else: ?>
 <p style="color:#C00;font-weight:bold"><?php echo $installMessage ?></p>
 <?php endif ?>

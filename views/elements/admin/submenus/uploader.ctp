@@ -24,7 +24,8 @@
 <div class="side-navi">
 	<h2>アップローダーメニュー</h2>
 	<ul>
-		<li><?php $baser->link('ファイル一覧', array('plugin' => 'uploader', 'controller' => 'uploader_files', 'action' => 'index')) ?></li>
-		<li><?php $baser->link('アップローダー設定', array('plugin' => 'uploader', 'controller' => 'uploader_configs', 'action' => 'index')) ?></li>
+		<li><?php $baser->link('アップロードファイル一覧', array('plugin' => 'uploader', 'controller' => 'uploader_files', 'action' => 'index')) ?></li>
+		<li><?php $baser->link('カテゴリ一覧', array('plugin' => 'uploader', 'controller' => 'uploader_categories', 'action' => 'index')) ?></li>
+		<li><?php $baser->link('プラグイン基本設定', array('plugin' => 'uploader', 'controller' => 'uploader_configs', 'action' => 'index')) ?></li>
 	</ul>
 </div>

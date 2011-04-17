@@ -48,6 +48,12 @@ class UploaderConfig extends AppModel {
  * @access 	public
  */
 	var $plugin = 'Uploader';
+/**
+ * バリデート
+ *
+ * @var		array
+ * @access	public
+ */
 	var $validate = array(
 		'large_width' => array(array(	'rule'		=> array('notEmpty'),
 										'message'	=> 'PCサイズ（大）[幅] を入力してください。')),

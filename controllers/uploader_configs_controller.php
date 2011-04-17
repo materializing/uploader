@@ -44,6 +44,13 @@ class UploaderConfigsController extends PluginsController {
  */
 	var $uses = array('Plugin', 'Uploader.UploaderConfig');
 /**
+ * コンポーネント
+ *
+ * @var		array
+ * @access	public
+ */
+	var $components = array('Auth','Cookie','AuthConfigure');
+/**
  * サブメニューエレメント
  *
  * @var 	array

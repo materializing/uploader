@@ -133,13 +133,15 @@ class UploaderFile extends AppModel {
  */
 	function getControlSource($field = null, $options = array()) {
 
-		$User = ClassRegistry::getObject('User');
-		$controlSources['user_id'] = $User->getUserList($options);
-		if(isset($controlSources[$field])) {
-			return $controlSources[$field];
-		}else {
-			return false;
+		switch ($field) {
+			case 'user_id':
+				$User = ClassRegistry::getObject('User');
+				return $User->getUserList($options);
+			case 'uploader_category_id':
+				$UploaderCategory = ClassRegistry::init('Uploader.UploaderCategory');
+				return $UploaderCategory->find('list', array('order' => 'UploaderCategory.id'));
 		}
+		return false;
 
 	}
 

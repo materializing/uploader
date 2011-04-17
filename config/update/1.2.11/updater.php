@@ -35,10 +35,15 @@
 /**
  * スキーマの読み込み
  */
-	if($this->loadSchema('1.2.11', 'uploader')){
+	if($this->loadSchema('1.2.11', 'uploader', 'uploader_configs')){
 		$this->setMessage('uploader_configs テーブルの作成に成功しました。');
 	} else {
 		$this->setMessage('uploader_configs テーブルの作成に失敗しました。', true);
+	}
+	if($this->loadSchema('1.2.11', 'uploader', 'uploader_categories')){
+		$this->setMessage('uploader_categories テーブルの作成に成功しました。');
+	} else {
+		$this->setMessage('uploader_categories テーブルの作成に失敗しました。', true);
 	}
 /**
  * 初期データ読み込み

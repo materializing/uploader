@@ -49,7 +49,7 @@ class UploaderFilesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $helpers = array('TextEx', 'TimeEx','Uploader.Uploader');
+	var $helpers = array('TextEx', 'TimeEx', 'FormEx', 'Uploader.Uploader');
 /**
  * ページタイトル
  *
@@ -86,13 +86,11 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_index($id='',$filter='') {
+	function admin_index() {
 
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
 		$this->setViewConditions('UploadFile', array('default' => $default));
 		$this->set('uploaderConfigs', $this->UploaderConfig->findExpanded());
-		$this->set('listId', $id);
-		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
 		$this->pageTitle = 'アップロードファイル一覧';
 
@@ -105,10 +103,9 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_ajax_index($id='', $filter='') {
+	function admin_ajax_index($id='') {
 
 		$this->set('listId', $id);
-		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
 
 	}
@@ -161,24 +158,53 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_ajax_list($id='', $filter='') {
+	function admin_ajax_list($id='') {
 
 		$this->layout = 'ajax';
 		Configure::write('debug',0);
 
-		if($filter=='image') {
-			$conditions['or'][] = array('UploaderFile.name LIKE' => '%.png');
-			$conditions['or'][] = array('UploaderFile.name LIKE' => '%.jpg');
-			$conditions['or'][] = array('UploaderFile.name LIKE' => '%.gif');
-		}else {
-			$conditions = array();
-		}
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
-		$this->setViewConditions('UploadFile', array('default' => $default));
+		$this->setViewConditions('UploadFile', array('default' => $default, 'type' => 'get'));
+		$conditions = array();
+		if(!empty($this->passedArgs['uploader_category_id'])) {
+			$conditions = array('UploaderFile.uploader_category_id' => $this->passedArgs['uploader_category_id']);
+			$this->data['Filter']['uploader_category_id'] = $this->passedArgs['uploader_category_id'];
+		}
+		if(!empty($this->passedArgs['uploader_type'])) {
+			switch ($this->passedArgs['uploader_type']) {
+				case 'img':
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.png');
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.jpg');
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.gif');
+					break;
+				case 'etc':
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.png');
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.jpg');
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.gif');
+					break;
+			}
+			$this->data['Filter']['uploader_type'] = $this->passedArgs['uploader_type'];
+		} else {
+			$this->data['Filter']['uploader_type'] = 'all';
+		}
+		// =====================================================================
+		// setViewConditions で type を get に指定した場合、
+		// 自動的に $this->passedArgs['num'] 設定されないので明示的に取得
+		// TODO setViewConditions の仕様を見直す
+		// =====================================================================
+		if($this->params['named']['num']) {
+			$this->Session->write('UploaderFilesAdminAjaxList.named.num', $this->params['named']['num']);
+		}
+		if($this->Session->read('UploaderFilesAdminAjaxList.named.num')) {
+			$num = $this->Session->read('UploaderFilesAdminAjaxList.named.num');
+		} else {
+			$num = $this->siteConfigs['admin_list_num'];
+		}
+
 		$this->paginate = array('conditions'=>$conditions,
 				'fields'=>array(),
 				'order'=>'created DESC',
-				'limit'=>$this->passedArgs['num']
+				'limit'=>$num
 		);
 		$dbDatas = $this->paginate('UploaderFile');
 		foreach($dbDatas as $key => $dbData) {
@@ -197,7 +223,7 @@ class UploaderFilesController extends PluginsController {
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
  *
- * @return 成功時：admin_ajax_list を呼び出し　／　失敗時：false
+ * @return 成功時：true　／　失敗時：null
  * @access public
  */
 	function admin_ajax_upload() {
@@ -219,7 +245,7 @@ class UploaderFilesController extends PluginsController {
 		$this->UploaderFile->create($this->data);
 
 		if($this->UploaderFile->save()) {
-			$this->setAction('admin_ajax_list');
+			$this->set('result',true);
 		}else {
 			$this->set('result',null);
 			$this->render('ajax_result');
