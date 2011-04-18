@@ -1,7 +1,7 @@
 <?php
 /* SVN FILE: $Id$ */
 /**
- * ファイルリスト
+ * [ADMIN] ファイルリスト
  *
  * PHP versions 4 and 5
  *

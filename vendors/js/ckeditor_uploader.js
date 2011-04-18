@@ -109,6 +109,8 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 				
 				$("#dialog").remove();
 				$("#fileMenu").remove();
+
+				return true;
 				
 			},
 		/**
@@ -226,9 +228,11 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 							if(this.getValue()){
 								value = this.getValue();
 							}
-							element.setStyle('margin-left', value+'px');
-							element.setStyle('margin-right', value+'px');
-							element.setAttribute('hspace', value);
+							if(value > 0) {
+								element.setStyle('margin-left', value+'px');
+								element.setStyle('margin-right', value+'px');
+								element.setAttribute('hspace', value);
+							}
 						}
 					},
 					{   /* 縦間隔 */
@@ -258,9 +262,11 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 							if(this.getValue()) {
 								value = this.getValue();
 							}
-							element.setStyle('margin-top', value+'px');
-							element.setStyle('margin-bottom', value+'px');
-							element.setAttribute('vspace', value);
+							if(value > 0) {
+								element.setStyle('margin-top', value+'px');
+								element.setStyle('margin-bottom', value+'px');
+								element.setAttribute('vspace', value);
+							}
 						}
 
 					},
