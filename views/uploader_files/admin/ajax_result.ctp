@@ -1,7 +1,7 @@
 ﻿<?php
 /* SVN FILE: $Id$ */
 /**
- * [ADMIN] Ajax結果表示用ビュー
+ * Ajax結果表示用ビュー
  *
  * PHP versions 4 and 5
  *

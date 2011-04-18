@@ -21,14 +21,8 @@
  */
 class UploaderHookHelper extends AppHelper {
 /**
- * フック登録
- * @var		array
- * @access	public
- */
-	var $registerHooks = array('afterLayout');
-/**
  * コンストラクタ
- * @access	public
+ * @access public
  */
 	function __construct() {
 
@@ -40,8 +34,8 @@ class UploaderHookHelper extends AppHelper {
 /**
  * afterLayout
  *
- * @return	void
- * @access	pubic
+ * @return void
+ * @access pubic
  */
 	function afterLayout() {
 
@@ -101,8 +95,8 @@ class UploaderHookHelper extends AppHelper {
  * {EDITOR_NAME}.addButton	// ツールバーにボタンを追加
  * ※ {EDITOR_NAME} は、コントロールのIDに変換する前提
  *
- * @return	string
- * @access	private
+ * @return string
+ * @access private
  */
 	function __getCkeditorUploaderScript($id) {
 
@@ -117,9 +111,9 @@ DOC_END;
 /**
  * 画像タグをモバイル用に置き換える
  *
- * @param	array	$matches
- * @return	string
- * @access	private
+ * @param array $matches
+ * @return string
+ * @access private
  */
 	function __mobileImageReplace($matches) {
 
@@ -148,9 +142,9 @@ DOC_END;
 /**
  * アンカータグのリンク先が画像のものをモバイル用に置き換える
  *
- * @param	array	$matches
- * @return	string
- * @access	private
+ * @param array $matches
+ * @return string
+ * @access private
  */
 	function __mobileImageAnchorReplace($matches) {
 

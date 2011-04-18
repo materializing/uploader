@@ -25,12 +25,11 @@
 /**
  * ファイルアップローダーモデル
  *
- * @package		uploader.models
+ * @package			baser.plugins.uploader.models
  */
 class UploaderFile extends AppModel {
 /**
  * モデル名
- * 
  * @var     string
  * @access  public
  */
@@ -55,43 +54,17 @@ class UploaderFile extends AppModel {
  * @var 	array
  * @access 	public
  */
-	var $actsAs = array('Upload' => array(
-		'saveDir'	=> "uploads",
-		'fields'	=> array(
-				'name'	=> array('type'	=> 'all')
-	)));
-/**
- * コンストラクタ
- *
- * @param	int		$id
- * @param	string	$table
- * @param	string	$ds
- */
-	function  __construct($id = false, $table = null, $ds = null) {
-		
-		parent::__construct($id, $table, $ds);
-		$sizes = array('large', 'midium', 'small', 'mobile_large', 'mobile_small');
-		$UploaderConfig = ClassRegistry::init('Uploader.UploaderConfig');
-		$uploaderConfigs = $UploaderConfig->findExpanded();
-		$imagecopy = array();
-		
-		foreach($sizes as $size) {
-			if(!isset($uploaderConfigs[$size.'_width']) || !isset($uploaderConfigs[$size.'_height'])) {
-				continue;
-			}
-			$imagecopy[$size] = array('suffix'	=> '__'.$size);
-			$imagecopy[$size]['width'] = $uploaderConfigs[$size.'_width'];
-			$imagecopy[$size]['height'] = $uploaderConfigs[$size.'_height'];
-			if(isset($uploaderConfigs[$size.'_thumb'])) {
-				$imagecopy[$size]['thumb'] = $uploaderConfigs[$size.'_thumb'];
-			}
-		}
-		
-		$settings = $this->actsAs['Upload'];
-		$settings['fields']['name']['imagecopy'] = $imagecopy;
-		$this->Behaviors->attach('Upload', $settings);
-
-	}
+	var $actsAs= array('Upload'=>
+			array('saveDir'=>"uploads",
+					'fields'=> array(
+						'name'=>array('type'=>'all',
+							/*'imageresize'=>array('width'=>'0', 'height'=>'0'),*/
+							'imagecopy'=>array(
+								'large'=>array('suffix'=>'__large', 'width'=>'500', 'height'=>'500'),
+								'midium'=>array('suffix'=>'__midium','width'=>'300', 'height'=>'300'),
+								'small'=>array('suffix'=>'__small','width'=>'150', 'height'=>'150', 'thumb'=>true),
+								'mobile_large'=>array('suffix'=>'__mobile_large','width'=>'240', 'height'=>'240'),
+								'mobile_small'=>array('suffix'=>'__mobile_small','width'=>'100', 'height'=>'100', 'thumb'=>true))))));
 /**
  * ファイルの存在チェックを行う
  *
@@ -108,7 +81,7 @@ class UploaderFile extends AppModel {
 /**
  * 複数のファイルの存在チェックを行う
  * 
- * @param	string	$fileName
+ * @param	string	$basename
  * @return	array
  * @access	void
  */
@@ -121,27 +94,6 @@ class UploaderFile extends AppModel {
 		$files['midium'] = $this->fileExists($basename.'__midium'.'.'.$ext);
 		$files['large'] = $this->fileExists($basename.'__large'.'.'.$ext);
 		return $files;
-
-	}
-/**
- * コントロールソースを取得する
- *
- * @param	string	$field			フィールド名
- * @param	array	$options
- * @return	mixed	$controlSource	コントロールソース
- * @access	public
- */
-	function getControlSource($field = null, $options = array()) {
-
-		switch ($field) {
-			case 'user_id':
-				$User = ClassRegistry::getObject('User');
-				return $User->getUserList($options);
-			case 'uploader_category_id':
-				$UploaderCategory = ClassRegistry::init('Uploader.UploaderCategory');
-				return $UploaderCategory->find('list', array('order' => 'UploaderCategory.id'));
-		}
-		return false;
 
 	}
 

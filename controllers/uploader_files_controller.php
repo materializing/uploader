@@ -36,82 +36,44 @@ class UploaderFilesController extends PluginsController {
  * @access 	public
  */
 	var $name = 'UploaderFiles';
-/**
- * コンポーネント
- *
- * @var		array
- * @access	public
- */
 	var $components = array('Auth','Cookie','AuthConfigure','RequestHandler');
-/**
- * ヘルパー
- *
- * @var		array
- * @access	public
- */
-	var $helpers = array('TextEx', 'TimeEx', 'FormEx', 'Uploader.Uploader');
-/**
- * ページタイトル
- *
- * @var		string
- * @access	public
- */
+	var $helpers = array('TimeEx','Uploader.Uploader');
 	var $pageTitle = 'アップローダープラグイン';
-/**
- * モデル
- *
- * @var		array
- * @access	public
- */
-	var $uses = array('Plugin','Uploader.UploaderFile', 'Uploader.UploaderConfig');
-/**
- * ナビ
- *
- * @var		array
- * @access	public
- */
+	var $uses = array('Plugin','Uploader.UploaderFile');
 	var $navis = array('アップロードファイル管理'=>'/admin/uploader/uploader_files/index');
 /**
- * サブメニューエレメント
+ * ファイル一覧
  *
- * @var 	array
- * @access 	public
- */
-	var $subMenuElements = array('uploader');
-/**
- * [ADMIN] ファイル一覧
- *
- * @param	int		$id		呼び出し元 識別ID
  * @param	string	$filter
  * @return	void
  * @access	public
  */
-	function admin_index() {
+	function admin_index($id='',$filter='') {
 
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
 		$this->setViewConditions('UploadFile', array('default' => $default));
-		$this->set('uploaderConfigs', $this->UploaderConfig->findExpanded());
+
+		$this->set('listId', $id);
+		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
 		$this->pageTitle = 'アップロードファイル一覧';
 
 	}
 /**
- * [ADMIN] ファイル一覧
- *
- * @param	int		$id		呼び出し元 識別ID
+ * [AJAX] ファイル一覧
  * @param	string	$filter
  * @return	void
  * @access	public
  */
-	function admin_ajax_index($id='') {
+	function admin_ajax_index($id='', $filter='') {
 
 		$this->set('listId', $id);
+		$this->set('filter',$filter);
 		$this->set('installMessage', $this->checkInstall());
 
 	}
 /**
  * インストール状態の確認
- *
  * @return	string	インストールメッセージ
  * @access	public
  */
@@ -147,64 +109,33 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * [ADMIN] ファイル一覧を表示
- * 
+ * ファイル一覧を表示
  * ファイルアップロード時にリダイレクトされた場合、
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
  *
- * @param	int		$id		呼び出し元 識別ID
  * @param	string	$filter
  * @return	void
  * @access	public
  */
-	function admin_ajax_list($id='') {
+	function admin_ajax_list($id='', $filter='') {
 
 		$this->layout = 'ajax';
 		Configure::write('debug',0);
 
+		if($filter=='image') {
+			$conditions['or'][] = array('UploaderFile.name LIKE' => '%.png');
+			$conditions['or'][] = array('UploaderFile.name LIKE' => '%.jpg');
+			$conditions['or'][] = array('UploaderFile.name LIKE' => '%.gif');
+		}else {
+			$conditions = array();
+		}
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
-		$this->setViewConditions('UploadFile', array('default' => $default, 'type' => 'get'));
-		$conditions = array();
-		if(!empty($this->passedArgs['uploader_category_id'])) {
-			$conditions = array('UploaderFile.uploader_category_id' => $this->passedArgs['uploader_category_id']);
-			$this->data['Filter']['uploader_category_id'] = $this->passedArgs['uploader_category_id'];
-		}
-		if(!empty($this->passedArgs['uploader_type'])) {
-			switch ($this->passedArgs['uploader_type']) {
-				case 'img':
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.png');
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.jpg');
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.gif');
-					break;
-				case 'etc':
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.png');
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.jpg');
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.gif');
-					break;
-			}
-			$this->data['Filter']['uploader_type'] = $this->passedArgs['uploader_type'];
-		} else {
-			$this->data['Filter']['uploader_type'] = 'all';
-		}
-		// =====================================================================
-		// setViewConditions で type を get に指定した場合、
-		// 自動的に $this->passedArgs['num'] 設定されないので明示的に取得
-		// TODO setViewConditions の仕様を見直す
-		// =====================================================================
-		if($this->params['named']['num']) {
-			$this->Session->write('UploaderFilesAdminAjaxList.named.num', $this->params['named']['num']);
-		}
-		if($this->Session->read('UploaderFilesAdminAjaxList.named.num')) {
-			$num = $this->Session->read('UploaderFilesAdminAjaxList.named.num');
-		} else {
-			$num = $this->siteConfigs['admin_list_num'];
-		}
-
+		$this->setViewConditions('UploadFile', array('default' => $default));
 		$this->paginate = array('conditions'=>$conditions,
 				'fields'=>array(),
 				'order'=>'created DESC',
-				'limit'=>$num
+				'limit'=>$this->passedArgs['num']
 		);
 		$dbDatas = $this->paginate('UploaderFile');
 		foreach($dbDatas as $key => $dbData) {
@@ -217,13 +148,12 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * [ADMIN] Ajaxファイルアップロード
- * 
+ * Ajaxファイルアップロード
  * jQueryのAjaxによるファイルアップロードの際、
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
  *
- * @return 成功時：true　／　失敗時：null
+ * @return 成功時：admin_ajax_list にリダイレクト　／　失敗時：false
  * @access public
  */
 	function admin_ajax_upload() {
@@ -236,16 +166,13 @@ class UploaderFilesController extends PluginsController {
 			$this->render('ajax_result');
 			return;
 		}
-		$user = $this->Auth->user();
-		if(!empty($user['User']['id'])) {
-			$this->data['UploaderFile']['user_id'] = $user['User']['id'];
-		}
+
 		$this->data['UploaderFile']['name'] = $this->data['UploaderFile']['file'];
 		$this->data['UploaderFile']['alt'] = $this->data['UploaderFile']['name']['name'];
 		$this->UploaderFile->create($this->data);
 
 		if($this->UploaderFile->save()) {
-			$this->set('result',true);
+			$this->setAction('admin_ajax_list');
 		}else {
 			$this->set('result',null);
 			$this->render('ajax_result');
@@ -253,7 +180,7 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * [ADMIN] サイズを指定して画像タグを取得する
+ * サイズを指定して画像タグを取得する
  *
  * @param	string	$name
  * @param	string	$size
@@ -268,7 +195,7 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * [ADMIN] 各サイズごとの画像の存在チェックを行う
+ * 各サイズごとの画像の存在チェックを行う
  *
  * @param	string	$name
  * @return	void
@@ -284,7 +211,7 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * [ADMIN] 編集処理
+ * 編集処理
  *
  * @return	void
  * @access	public
@@ -295,15 +222,6 @@ class UploaderFilesController extends PluginsController {
 			$this->notFound();
 		}
 
-		$user = $this->Auth->user();
-		$uploaderConfig = $this->UploaderConfig->findExpanded();
-
-		if($uploaderConfig['use_permission']) {
-			if($user['User']['user_group_id'] != 1 && $this->data['UploaderFile']['user_id'] != $user['User']['id']) {
-				$this->notFound();
-			}
-		}
-		
 		$this->UploaderFile->set($this->data);
 		$this->set('result',$this->UploaderFile->save());
 		if ($this->RequestHandler->isAjax()) {
@@ -312,7 +230,7 @@ class UploaderFilesController extends PluginsController {
 
 	}
 /**
- * [ADMIN] 削除処理
+ * 削除処理
  *
  * @return	void
  * @access	public
@@ -323,26 +241,11 @@ class UploaderFilesController extends PluginsController {
 			$this->notFound();
 		}
 
-		$user = $this->Auth->user();
-		$uploaderConfig = $this->UploaderConfig->findExpanded();
-		$uploaderFile = $this->UploaderFile->read(null, $this->data['UploaderFile']['id']);
-
-		if(!$uploaderFile) {
-			$this->notFound();
-		}
-
-		if($uploaderConfig['use_permission']) {
-			if($user['User']['user_group_id'] != 1 && $uploaderFile['UploaderFile']['user_id'] != $user['User']['id']) {
-				$this->notFound();
-			}
-		}
-
 		$this->set('result',$this->UploaderFile->del($this->data['UploaderFile']['id']));
 		if ($this->RequestHandler->isAjax()) {
 			$this->render('ajax_result');
 		}
 
 	}
-	
 }
 ?>

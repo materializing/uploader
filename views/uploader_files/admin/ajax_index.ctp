@@ -1,7 +1,7 @@
 <?php
 /* SVN FILE: $Id$ */
 /**
- * [ADMIN] AJAX ファイル一覧
+ * AJAX ファイル一覧
  *
  * PHP versions 4 and 5
  *

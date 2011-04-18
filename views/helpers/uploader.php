@@ -27,30 +27,23 @@
 class UploaderHelper extends AppHelper {
 /**
  * アップロードファイルの保存URL
- * 
- * @var		string
- * @access	public
+ * @var string
+ * @access public
  */
 	var $savedUrl = '';
 /**
  * アップロードファイルの保存パス
- * 
- * @var		string
- * @access	public
+ * @var string
  */
 	var $savePath = '';
 /**
  * ヘルパー
- * 
- * @var		array
- * @access	public
+ * @var array
+ * @access public
  */
 	var $helpers = array('Html');
 /**
- * Before Render
- *
- * @return	void
- * @access	public
+ * Before render
  */
 	function beforeRender() {
 
@@ -61,10 +54,9 @@ class UploaderHelper extends AppHelper {
 	}
 /**
  * リスト用のimgタグを出力する
- *
- * @param	array	$uploaderFile
- * @param	array	$options
- * @return	string	imgタグ
+ * @param UploaderFile $uploaderFile
+ * @param array $options
+ * @return string imgタグ
  */
 	function file ($uploaderFile,$options = array()) {
 
@@ -97,33 +89,26 @@ class UploaderHelper extends AppHelper {
 	}
 /**
  * ファイルが保存されているURLを取得する
- *
  * webrootメソッドによる変換なし
- *
- * @param	string	$fileName
- * @return	string
- * @access	protected
+ * @param string $fileName
+ * @return string
+ * @access protected
  */
 	function _getFileUrl($fileName) {
-
 		if($fileName) {
 			return $this->savedUrl.$fileName;
 		}else {
 			return '';
 		}
-
 	}
 /**
  * ファイルが保存されているURLを取得する
- *
  * webrootメソッドによる変換あり
- *
- * @param	string	$fileName
- * @return	string
- * @access	public
+ * @param string $fileName
+ * @return string
+ * @access public
  */
 	function getFileUrl($fileName) {
-
 		if($fileName) {
 			if(Configure::read('App.baseUrl')) {
 				return $this->webroot($this->savedUrl.$fileName);
@@ -133,14 +118,12 @@ class UploaderHelper extends AppHelper {
 		}else {
 			return '';
 		}
-
 	}
 /**
  * ダウンロードリンクを表示
- *
- * @param	array	$uploaderFile
- * @param	string	$linkText
- * @return	string
+ * @param array $uploaderFile
+ * @param string $linkText
+ * @return string
  */
 	function download($uploaderFile,$linkText='≫ ダウンロード') {
 		if(isset($uploaderFile['UploaderFile'])) {

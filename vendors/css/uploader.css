@@ -47,35 +47,27 @@
 	width:120px;
 	height:165px!important;
 	text-align:center;
-	word-wrap: break-word;
 }
 .selectable-file span{
 	white-space:normal!important;
 	color:#333333!important;
 	font-size:10px!important;
-	line-height:12px;
 }
 .selectable-file img{
 	display:block;
-	margin:auto auto 1px;
+	margin:auto auto 3px;
 }
 .selectable-file,
 .selectable-file img{
 	cursor:pointer;
 }
-.selectable-file .name,
+.selectable-file .alt,
 .selectable-file .modified,
 .selectable-file .small,
 .selectable-file .midium,
 .selectable-file .large,
-.selectable-file .user-name,
-.selectable-file .user-id,
-.selectable-file .url,
-.selectable-file .uploader-category-id{
+.selectable-file .url{
 	display:none;
-}
-.selectable-file .created {
-	color:#999!important;
 }
 
 /* selected
@@ -145,19 +137,13 @@
 	overflow: auto;
 	height:280px;
 	margin-top: 5px;
-	width: 710px;
-	position: relative;
 }
 
 /* UploaderFile
 ----------------------------------------------- */
-.uploader-file-file {
-	border: 1px solid #999999;
-	background-color: #FFFFFF;
-}
-.ui-dialog .uploader-file-file {
-	border: 1px solid #999999;
-	background-color: #FFFFFF;
+.ui-dialog .uploader-file-file{
+	border:1px solid #999999;
+	background-color:#FFFFFF;
 }
 .ui-dialog .uploader-file-image{
 	text-align:center;
@@ -168,27 +154,8 @@
 .ui-dialog .uploader-file-image .url{
 	text-align: left;
 	font-weight: bold;
-	word-wrap: break-word;
-	width:382px;
 }
 .ui-dialog .uploader-file-id,
 .ui-dialog .uploader-file-name{
 	background-color:#e2e2e2;
-}
-
-/* contextMenu
------------------------------------------------ */
-.contextMenu .disabled a{
-	color:#eee;
-}
-
-.cke_dialog_ui_vbox select {
-	background-color: #fff!important;
-	border:1px solid #CCC;
-}
-.cke_dialog_ui_vbox input {
-	margin-right: 5px;
-}
-.cke_dialog_ui_vbox .pagination {
-	margin:5px;
 }
