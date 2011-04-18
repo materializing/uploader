@@ -235,7 +235,7 @@ var listId = '<?php echo $listId ?>';
  * Ajax List 取得用のURLを取得する
  */
 	function getListUrl() {
-		var listUrl = $("#ListUrl").attr('href');
+		var listUrl = $("#ListUrl"+listId).attr('href');
 		if($('#FilterUploaderCategoryId'+listId).length) {
 			listUrl += '/uploader_category_id:'+$('#FilterUploaderCategoryId'+listId).val();
 		}
@@ -286,7 +286,7 @@ var listId = '<?php echo $listId ?>';
 <div id="LoginUserId" style="display: none"><?php echo $user['id'] ?></div>
 
 <!-- ListUrl -->
-<?php $baser->link('ListUrl', array('action' => 'ajax_list', $listId, 'num' => $this->passedArgs['num']), array('id' => 'ListUrl', 'style' => 'display:none')) ?>
+<?php $baser->link('ListUrl', array('action' => 'ajax_list', $listId, 'num' => $this->passedArgs['num']), array('id' => 'ListUrl'.$listId, 'style' => 'display:none')) ?>
 
 <!-- LoginUserGroupId -->
 <div id="LoginUserGroupId" style="display: none"><?php echo $user['user_group_id'] ?></div>
@@ -296,9 +296,6 @@ var listId = '<?php echo $listId ?>';
 
 <!-- UsePermission -->
 <div id="UsePermission" style="display: none"><?php echo $uploaderConfigs['use_permission'] ?></div>
-
-<!-- ListId -->
-<div id="ListId" style="display: none"><?php echo $listId ?></div>
 
 <!-- コンテキストメニュー -->
 <ul id="FileMenu1" class="contextMenu">
