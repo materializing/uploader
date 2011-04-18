@@ -39,7 +39,7 @@ $this->passedArgs['action'] = 'ajax_list';
 <span class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
 	<?php echo $uploader->file($file,array('width'=>120,'height'=>120,'size'=>'small','alt'=>$file['UploaderFile']['alt'],'style'=>'width:120px;height:120px')) ?>
 	<div style="text-align:right">
-		<span class="id"><?php echo $file['UploaderFile']['id'] ?></span>.<span class="alt"><?php echo $textEx->mbTruncate($file['UploaderFile']['alt'], 22) ?></span>
+		<span class="id"><?php echo $file['UploaderFile']['id'] ?></span>.<span class="alt"><?php echo $textEx->mbTruncate($file['UploaderFile']['alt'], 14) ?></span>
 	</div>
 	<span class="name"><?php echo $file['UploaderFile']['name'] ?></span>
 	<div style="text-align:right;margin-top:2px">

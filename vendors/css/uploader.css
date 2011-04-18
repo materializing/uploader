@@ -70,7 +70,8 @@
 .selectable-file .large,
 .selectable-file .user-name,
 .selectable-file .user-id,
-.selectable-file .url{
+.selectable-file .url,
+.selectable-file .uploader-category-id{
 	display:none;
 }
 .selectable-file .created {
