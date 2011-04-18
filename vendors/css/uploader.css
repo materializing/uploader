@@ -47,15 +47,17 @@
 	width:120px;
 	height:165px!important;
 	text-align:center;
+	word-wrap: break-word;
 }
 .selectable-file span{
 	white-space:normal!important;
 	color:#333333!important;
 	font-size:10px!important;
+	line-height:12px;
 }
 .selectable-file img{
 	display:block;
-	margin:auto auto 3px;
+	margin:auto auto 1px;
 }
 .selectable-file,
 .selectable-file img{
@@ -70,6 +72,9 @@
 .selectable-file .user-id,
 .selectable-file .url{
 	display:none;
+}
+.selectable-file .created {
+	color:#999!important;
 }
 
 /* selected
