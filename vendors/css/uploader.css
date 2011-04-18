@@ -145,6 +145,8 @@
 	overflow: auto;
 	height:280px;
 	margin-top: 5px;
+	width: 710px;
+	position: relative;
 }
 
 /* UploaderFile
@@ -176,8 +178,7 @@
 	color:#eee;
 }
 
-.cke_dialog_ui_vbox select,
-.cke_dialog_ui_vbox input{
+.cke_dialog_ui_vbox select {
 	background-color: #fff!important;
 	border:1px solid #CCC;
 }

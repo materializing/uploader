@@ -33,7 +33,7 @@ $this->passedArgs['action'] = 'ajax_list';
 	<small style="font-weight:bold">タイプ</small>&nbsp;<?php echo $formEx->input('Filter.uploader_type', array('type' => 'radio', 'options' => array('all'=>'指定なし', 'img' => '画像', 'etc' => '画像以外'), 'id' => 'FilterUploaderType'.$listId, 'class' => 'filter-control')) ?>
 </div>
 <?php $baser->pagination('default',array(),null,false) ?>
-<div class="file-list-body">
+<div class="file-list-body clearfix">
 <?php if ($files): ?>
 	<?php foreach ($files as $file): ?>
 <span class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
