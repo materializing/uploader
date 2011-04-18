@@ -117,7 +117,6 @@ var listId = '<?php echo $listId ?>';
 		if($('#UploaderFileFile'+listId).val()){
 			var data = [];
 			if($("#UploaderFileUploaderCategoryId"+listId).length) {
-				alert('test');
 				data = {'data[UploaderFile][uploader_category_id]':$("#UploaderFileUploaderCategoryId"+listId).val()};
 			}
 			$(this).upload(url, data, uploadSuccessHandler, 'html');
