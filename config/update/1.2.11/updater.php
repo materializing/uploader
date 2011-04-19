@@ -61,7 +61,7 @@ if(verpoint($this->getBaserVersion()) >= 1006011000) {
 
 	$path = $this->_getUpdatePath('1.2.11', 'uploader');
 
-	if($this->Updater->loadCsv('uploader', $path)) {
+	if($this->Updater->loadCsv('plugin', $path)) {
 		$this->setMessage('uploader_configs テーブルの初期データ作成に成功しました。');
 	} else {
 		$this->setMessage('uploader_configs テーブルの初期データ作成に失敗しました。', true);
