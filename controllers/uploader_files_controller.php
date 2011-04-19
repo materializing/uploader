@@ -88,6 +88,9 @@ class UploaderFilesController extends PluginsController {
  */
 	function admin_index() {
 
+		if(!isset($this->siteConfigs['admin_list_num'])) {
+			$this->siteConfigs['admin_list_num'] = 10;
+		}
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
 		$this->setViewConditions('UploadFile', array('default' => $default));
 		$this->set('uploaderConfigs', $this->UploaderConfig->findExpanded());
@@ -148,7 +151,7 @@ class UploaderFilesController extends PluginsController {
 	}
 /**
  * [ADMIN] ファイル一覧を表示
- * 
+ *
  * ファイルアップロード時にリダイレクトされた場合、
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
@@ -162,7 +165,9 @@ class UploaderFilesController extends PluginsController {
 
 		$this->layout = 'ajax';
 		Configure::write('debug',0);
-
+		if(!isset($this->siteConfigs['admin_list_num'])) {
+			$this->siteConfigs['admin_list_num'] = 10;
+		}
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
 		$this->setViewConditions('UploadFile', array('default' => $default, 'type' => 'get'));
 		$conditions = array();
@@ -218,7 +223,7 @@ class UploaderFilesController extends PluginsController {
 	}
 /**
  * [ADMIN] Ajaxファイルアップロード
- * 
+ *
  * jQueryのAjaxによるファイルアップロードの際、
  * RequestHandlerコンポーネントが作動しないので明示的に
  * レイアウト、デバッグフラグの設定をする
@@ -303,7 +308,7 @@ class UploaderFilesController extends PluginsController {
 				$this->notFound();
 			}
 		}
-		
+
 		$this->UploaderFile->set($this->data);
 		$this->set('result',$this->UploaderFile->save());
 		if ($this->RequestHandler->isAjax()) {
@@ -343,6 +348,6 @@ class UploaderFilesController extends PluginsController {
 		}
 
 	}
-	
+
 }
 ?>
