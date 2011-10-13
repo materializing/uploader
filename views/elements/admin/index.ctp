@@ -330,7 +330,6 @@ var listId = '<?php echo $listId ?>';
 				<?php echo $formEx->error('UploaderFile.name', 'ファイル名を入力して下さい') ?>&nbsp;
 			</td>
 		</tr>
-<?php endif ?>
 		<tr>
 			<th class="col-head"><?php echo $formEx->label('UploaderFile.real_name_1', '説明文') ?></th>
 			<td class="col-input">
