@@ -191,6 +191,21 @@ var listId = '<?php echo $listId ?>';
 				$(".selectable-file").removeClass('selected');
 				$(this).addClass('selected');
 			});
+		}
+		/* クリック時イベントを追加 */
+		/*$(".selectable-file").bind('click.selectEvent', function(){
+			$(".selectable-file").removeClass('selected');
+			$(this).addClass('selected');
+		});
+		$('.selectable-file').bind('contextmenu.selectEvent',function(event){
+			$(".selectable-file").removeClass('selected');
+			$(this).addClass('selected');
+		});*/
+		// IEの場合contextmenuを検出できなかったので、mousedownに変更した
+		$(".selectable-file").bind('mousedown', function(){
+			$(".selectable-file").removeClass('selected');
+			$(this).addClass('selected');
+		});
 
 		});
 
