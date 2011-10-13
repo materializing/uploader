@@ -42,7 +42,7 @@ class UploaderFilesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $components = array('Auth','Cookie','AuthConfigure','RequestHandler');
+	var $components = array('AuthEx','Cookie','AuthConfigure','RequestHandler');
 /**
  * ヘルパー
  *
@@ -241,9 +241,10 @@ class UploaderFilesController extends PluginsController {
 			$this->render('ajax_result');
 			return;
 		}
-		$user = $this->Auth->user();
-		if(!empty($user['User']['id'])) {
-			$this->data['UploaderFile']['user_id'] = $user['User']['id'];
+		$user = $this->AuthEx->user();
+		$userModel = $this->getUserModel();
+		if(!empty($user[$userModel]['id'])) {
+			$this->data['UploaderFile']['user_id'] = $user[$userModel]['id'];
 		}
 		$this->data['UploaderFile']['name'] = $this->data['UploaderFile']['file'];
 		$this->data['UploaderFile']['alt'] = $this->data['UploaderFile']['name']['name'];
@@ -300,11 +301,12 @@ class UploaderFilesController extends PluginsController {
 			$this->notFound();
 		}
 
-		$user = $this->Auth->user();
+		$user = $this->AuthEx->user();
+		$userModel = $this->getUserModel();
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
 
 		if($uploaderConfig['use_permission']) {
-			if($user['User']['user_group_id'] != 1 && $this->data['UploaderFile']['user_id'] != $user['User']['id']) {
+			if($user[$userModel]['user_group_id'] != 1 && $this->data['UploaderFile']['user_id'] != $user[$userModel]['id']) {
 				$this->notFound();
 			}
 		}
@@ -328,7 +330,8 @@ class UploaderFilesController extends PluginsController {
 			$this->notFound();
 		}
 
-		$user = $this->Auth->user();
+		$user = $this->AuthEx->user();
+		$userModel = $this->getUserModel();
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
 		$uploaderFile = $this->UploaderFile->read(null, $this->data['UploaderFile']['id']);
 
@@ -337,7 +340,7 @@ class UploaderFilesController extends PluginsController {
 		}
 
 		if($uploaderConfig['use_permission']) {
-			if($user['User']['user_group_id'] != 1 && $uploaderFile['UploaderFile']['user_id'] != $user['User']['id']) {
+			if($user[$userModel]['user_group_id'] != 1 && $uploaderFile['UploaderFile']['user_id'] != $user[$userModel]['id']) {
 				$this->notFound();
 			}
 		}
