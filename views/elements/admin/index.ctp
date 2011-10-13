@@ -191,13 +191,7 @@ var listId = '<?php echo $listId ?>';
 				$(".selectable-file").removeClass('selected');
 				$(this).addClass('selected');
 			});
-			
-		}
 
-		// IEの場合contextmenuを検出できなかったので、mousedownに変更した
-		$(".selectable-file").bind('mousedown', function(){
-			$(".selectable-file").removeClass('selected');
-			$(this).addClass('selected');
 		});
 
 		});
@@ -290,8 +284,17 @@ var listId = '<?php echo $listId ?>';
 	}
 </script>
 
+<!-- LoginUserId -->
+<div id="LoginUserId" style="display: none"><?php echo $user['id'] ?></div>
+
+<!-- LoginUserGroupId -->
+<div id="LoginUserGroupId" style="display: none"><?php echo $user['user_group_id'] ?></div>
+
 <!-- BaseUrl -->
 <div id="BaseUrl" style="display: none"><?php echo $baser->root() ?></div>
+
+<!-- UsePermission -->
+<div id="UsePermission" style="display: none"><?php echo $uploaderConfigs['use_permission'] ?></div>
 
 <!-- ListId -->
 <div id="ListId" style="display: none"><?php echo $listId ?></div>
@@ -369,6 +372,13 @@ var listId = '<?php echo $listId ?>';
 			<td class="col-input">
 				<span id="UploaderFileUserName<?php echo $listId ?>">&nbsp;</span>
 				<?php echo $formEx->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
+			</td>
+		</tr>
+		<tr>
+			<th class="col-head">保存者</th>
+			<td class="col-input">
+				<span id="UploaderFileUserName<?php echo $listId ?>">&nbsp;</span>
+				<?php echo $form->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
 			</td>
 		</tr>
 		<tr><td colspan="2" id="UploaderFileImage<?php echo $listId ?>" class="uploader-file-image"><?php echo $html->image('ajax-loader.gif') ?></td></tr>
