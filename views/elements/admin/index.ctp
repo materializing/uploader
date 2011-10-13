@@ -287,6 +287,9 @@ var listId = '<?php echo $listId ?>';
 <!-- LoginUserId -->
 <div id="LoginUserId" style="display: none"><?php echo $user['id'] ?></div>
 
+<!-- ListUrl -->
+<?php $baser->link('ListUrl', array('action' => 'ajax_list', $listId, 'num' => $this->passedArgs['num']), array('id' => 'ListUrl', 'style' => 'display:none')) ?>
+
 <!-- LoginUserGroupId -->
 <div id="LoginUserGroupId" style="display: none"><?php echo $user['user_group_id'] ?></div>
 
@@ -374,11 +377,19 @@ var listId = '<?php echo $listId ?>';
 				<?php echo $formEx->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
 			</td>
 		</tr>
+<?php if($uploaderCategories): ?>
+		<tr>
+			<th class="col-head"><?php echo $formEx->label('UploaderFile.real_name_1', 'カテゴリ') ?></th>
+			<td class="col-input">
+				<?php echo $formEx->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => '指定なし', 'id' => '_UploaderFileUploaderCategoryId'.$listId)) ?>
+			</td>
+		</tr>
+<?php endif ?>
 		<tr>
 			<th class="col-head">保存者</th>
 			<td class="col-input">
 				<span id="UploaderFileUserName<?php echo $listId ?>">&nbsp;</span>
-				<?php echo $form->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
+				<?php echo $formEx->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
 			</td>
 		</tr>
 		<tr><td colspan="2" id="UploaderFileImage<?php echo $listId ?>" class="uploader-file-image"><?php echo $html->image('ajax-loader.gif') ?></td></tr>
