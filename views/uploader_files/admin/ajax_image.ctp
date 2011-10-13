@@ -7,8 +7,8 @@
  *
  * Baser :  Basic Creating Support Project <http://basercms.net>
  * Copyright 2008 - 2011, Catchup, Inc.
- *								18-1 nagao 1-chome, fukuoka-shi
- *								fukuoka, Japan 814-0123
+ *								1-19-4 ikinomatsubara, fukuoka-shi
+ *								fukuoka, Japan 819-0055
  *
  * @copyright		Copyright 2008 - 2011, Catchup, Inc.
  * @link			http://basercms.net BaserCMS Project
@@ -19,7 +19,11 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
-$url = FULL_BASE_URL.$uploader->getFileUrl($file['UploaderFile']['name']);
+$url = $uploader->getFileUrl($file['UploaderFile']['name']);
 ?>
-<p class="url"><?php echo $baser->link($url, $url, array('target' => '_blank')) ?></p>
-<p class="image"><?php echo $baser->link($uploader->file($file, array('size' => $size,'alt' => $file['UploaderFile']['name'])), $url, array('target' => '_blank')) ?></p>
+<p class="url">
+	<a href="<?php echo $url ?>" target="_blank"><?php echo FULL_BASE_URL.$url ?></a>
+</p>
+<p class="image">
+	<a href="<?php echo $url ?>" target="_blank"><?php echo $uploader->file($file, array('size' => $size,'alt' => $file['UploaderFile']['name'])) ?></a>
+</p>
