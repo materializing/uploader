@@ -288,7 +288,7 @@ var listId = '<?php echo $listId ?>';
 <div id="LoginUserId" style="display: none"><?php echo $user['id'] ?></div>
 
 <!-- ListUrl -->
-<?php $baser->link('ListUrl', array('action' => 'ajax_list', $listId, 'num' => $this->passedArgs['num']), array('id' => 'ListUrl', 'style' => 'display:none')) ?>
+<?php $baser->link('ListUrl', array('action' => 'ajax_list', $listId, 'num' => $this->passedArgs['num']), array('id' => 'ListUrl'.$listId, 'style' => 'display:none')) ?>
 
 <!-- LoginUserGroupId -->
 <div id="LoginUserGroupId" style="display: none"><?php echo $user['user_group_id'] ?></div>
