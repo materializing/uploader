@@ -295,6 +295,70 @@ var listId = '<?php echo $listId ?>';
 				break;
 		}
 	}
+/**
+ * 起動時処理
+ */
+	$(function(){
+
+		var allFields = $([]).add($("#name")).add($("#alt"));
+
+		// 右クリックメニューをbodyに移動
+		$("body").append($("#fileMenu"));
+
+		// 一覧を更新する
+		updateFileList();
+
+		// ファイルアップロードイベントを登録
+		$('#UploaderFileFile<?php echo $listId ?>').change(uploaderFileFileChangeHandler);
+
+		/* ダイアログを初期化 */
+		$("#dialog").dialog({
+			bgiframe: true,
+			autoOpen: false,
+			position: ['center', 20],
+			width:420,
+			modal: true,
+			open: function(){
+				var id = $("#fileList<?php echo $listId ?> .selected .id").html();
+				var name = $("#fileList<?php echo $listId ?> .selected .name").html();
+				var imgUrl = baseUrl+'admin/uploader/uploader_files/ajax_image/'+name+'/midium';
+				$("#UploaderFileId<?php echo $listId ?>").val($("#fileList<?php echo $listId ?> .selected .id").html());
+				$("#UploaderFileName<?php echo $listId ?>").val(name);
+				$("#UploaderFileAlt<?php echo $listId ?>").val($("#fileList<?php echo $listId ?> .selected .alt").html());
+				$.get(imgUrl,function(res){
+					$("#UploaderFileImage<?php echo $listId ?>").html(res);
+				});
+			},
+			buttons: {
+				'キャンセル': function() {
+					$(this).dialog('close');
+					$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
+				},
+				'保存': function() {
+					// 保存処理
+					var saveButton = $(this);
+					// IEでform.serializeを利用した場合、Formタグの中にTableタグがあるとデータが取得できなかった
+					var data = {"data[UploaderFile][id]":$("#UploaderFileId<?php echo $listId ?>").val(),
+						"data[UploaderFile][name]":$("#UploaderFileName<?php echo $listId ?>").val(),
+						"data[UploaderFile][alt]":$("#UploaderFileAlt<?php echo $listId ?>").val()};
+					$.post($("#UploaderFileEditForm<?php echo $listId ?>").attr('action'), data, function(res){
+						if (res) {
+							updateFileList();
+							allFields.removeClass('ui-state-error');
+							saveButton.dialog('close');
+							$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
+						} else {
+							alert('更新に失敗しました');
+						}
+					});
+				}
+			},
+			close: function() {
+				allFields.val('').removeClass('ui-state-error');
+				$("#UploaderFileImage<?php echo $listId ?>").html('<img src="'+baseUrl+'img/ajax-loader.gif" />');
+			}
+		});
+	});
 </script>
 
 <!-- LoginUserId -->
