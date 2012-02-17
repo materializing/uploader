@@ -21,16 +21,16 @@
  */
 ?>
 
-<h2><?php $baser->contentsTitle() ?></h2>
 
 <!-- list-num -->
 <?php $baser->element('list_num') ?>
 
 <!-- pagination -->
-<?php $baser->pagination('default',array(),null,false) ?>
+
+<?php $baser->element('pagination') ?>
 
 <!-- list -->
-<table cellpadding="0" cellspacing="0" class="admin-col-table-01" id="TableUploaderCategories">
+<table cellpadding="0" cellspacing="0" class="form-table" id="TableUploaderCategories">
 	<tr>
 		<th style="width:100px">操作</th>
 		<th><?php echo $paginator->sort(array('asc'=>'NO ▼','desc'=>'NO ▲'),'id'); ?></th>
@@ -65,8 +65,4 @@
 </table>
 
 <!-- pagination -->
-<?php $baser->pagination('default',array(),null,false) ?>
-
-<div class="align-center">
-	<?php $baser->link('新規登録',array('action'=>'add'),array('class'=>'btn-red button')) ?>
-</div>
+<?php $baser->element('pagination') ?>

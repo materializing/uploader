@@ -51,7 +51,7 @@ class UploaderHookHelper extends AppHelper {
 
 			if(isset($view->loaded['ckeditor'])) {
 
-				if(preg_match_all("/var\s*?(editor_[a-z0-9_]*?)\s*?=\s*?CKEDITOR\.replace/s",$view->output,$matches)) {
+				if(preg_match_all("/(editor_[a-z0-9_]*?)\s*?=\s*?CKEDITOR\.replace/s",$view->output,$matches)) {
 
 					/* ckeditor_uploader.js を読み込む */
 					$jscode = $this->Javascript->codeBlock("var baseUrl ='".$this->base."/';");
@@ -66,7 +66,7 @@ class UploaderHookHelper extends AppHelper {
 					/* VIEWのCKEDITOR読込部分のコードを書き換える */
 					foreach($matches[1] as $key => $match) {
 						$jscode = $this->__getCkeditorUploaderScript($match);
-						$pattern = "/<script type=\"text\/javascript\">(.*?var\s*?".$match."\s*?=\s*?CKEDITOR.replace.*?)\/\/\]\]>\n*?<\/script>/s";
+						$pattern = "/<script type=\"text\/javascript\">(.*?".$match."\s*?=\s*?CKEDITOR.replace.*?)\/\/\]\]>\n*?<\/script>/s";
 						$output = preg_replace($pattern,$this->Javascript->codeBlock("$1".$jscode),$view->output);
 						if(!is_null($output)) {
 							$view->output = $output;
@@ -107,10 +107,12 @@ class UploaderHookHelper extends AppHelper {
 	function __getCkeditorUploaderScript($id) {
 
 		return <<< DOC_END
+			$(function(){
 				{$id}.on( 'pluginsLoaded', function( ev ) {
-				{$id}.addCommand( 'baserUploader', new CKEDITOR.dialogCommand( 'baserUploaderDialog' ));
-				{$id}.ui.addButton( 'BaserUploader', { label : 'アップローダー', command : 'baserUploader' });
-});
+					{$id}.addCommand( 'baserUploader', new CKEDITOR.dialogCommand( 'baserUploaderDialog' ));
+					{$id}.ui.addButton( 'BaserUploader', { label : 'アップローダー', command : 'baserUploader' });
+				});
+			});
 DOC_END;
 
 	}

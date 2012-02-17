@@ -21,15 +21,12 @@
  */
 ?>
 
-<h2><?php $baser->contentsTitle() ?></h2>
-
-<p><small><span class="required">*</span> 印の項目は必須です。</small></p>
 
 <!-- form -->
 <?php echo $formEx->create('UploaderCategory') ?>
 <?php echo $formEx->input('UploaderCategory.id', array('type' => 'hidden')) ?>
 
-<table cellpadding="0" cellspacing="0" class="admin-row-table-01">
+<table cellpadding="0" cellspacing="0" class="form-table">
 <?php if($this->action == 'admin_edit'): ?>
 	<tr>
 		<th class="col-head"><?php echo $formEx->label('UploaderCategory.id', 'NO') ?></th>
@@ -40,7 +37,7 @@
 	</tr>
 <?php endif; ?>
 	<tr>
-		<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $formEx->label('UploaderCategory.name', 'カテゴリ名') ?></th>
+		<th class="col-head"><?php echo $formEx->label('UploaderCategory.name', 'カテゴリ名') ?>&nbsp;<span class="required">*</span></th>
 		<td class="col-input">
 			<?php echo $formEx->input('UploaderCategory.name', array('type' => 'text', 'size' => 40, 'maxlength' => 50)) ?>
 			<?php echo $formEx->error('UploaderCategory.name') ?>

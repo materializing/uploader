@@ -21,12 +21,12 @@
  */
 $baser->css('/uploader/css/uploader',null,null,false);
 ?>
+
+
 <style type="text/css">
 #fileList{
 	padding:5px;
 }
 </style>
-
-<h2><?php $baser->contentsTitle() ?></h2>
 
 <?php $baser->element('index') ?>
