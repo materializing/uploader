@@ -26,14 +26,14 @@ $uploaderCategories = $formEx->getControlSource("UploaderFile.uploader_category_
 $this->passedArgs['action'] = 'ajax_list';
 ?>
 
-<div style="text-align: left">
+<div class="file-filter">
 <?php if($uploaderCategories): ?>
 	<small style="font-weight:bold">カテゴリ</small>&nbsp;<?php echo $formEx->input('Filter.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => '指定なし', 'id' => 'FilterUploaderCategoryId'.$listId, 'class' => 'filter-control')) ?>　
 <?php endif ?>
 	<small style="font-weight:bold">タイプ</small>&nbsp;<?php echo $formEx->input('Filter.uploader_type', array('type' => 'radio', 'options' => array('all'=>'指定なし', 'img' => '画像', 'etc' => '画像以外'), 'id' => 'FilterUploaderType'.$listId, 'class' => 'filter-control')) ?>
 </div>
 <?php $baser->element('pagination') ?>
-<div class="file-list-body clearfix">
+<div class="file-list-body clearfix corner5">
 <?php if ($files): ?>
 	<?php foreach ($files as $file): ?>
 <span class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">

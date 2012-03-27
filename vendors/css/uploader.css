@@ -32,19 +32,30 @@
 	height:100%;
 	white-space: normal;
 	overflow:auto;
-	background-color:#ebebeb;
+	background-color:#FFF;
 	text-align:center;
+}
+.file-filter {
+	text-align: left;
+	margin-bottom: 10px;
+}
+.file-list-body {
+	margin-top: 5px;
+	background-color: #E6E6E6;
+	padding:5px;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 /* selectable-file
 ----------------------------------------------- */
 .selectable-file{
-	padding:5px;
+	padding:10px 5px;
 	margin:3px!important;
 	background-color:#FFFFFF;
 	display:block;
 	float:left;
-	width:120px;
+	width:132px;
 	height:165px!important;
 	text-align:center;
 	word-wrap: break-word;
@@ -128,6 +139,7 @@
 .ui-dialog th {
 	text-align: right;
 	padding:5px;
+	font-weight: bold;
 }
 .ui-dialog td {
 	text-align: left;
@@ -138,26 +150,66 @@
 ----------------------------------------------- */
 .cke_dialog_contents .file-list{
 	margin-top:10px;
-	padding:5px;
+	padding:10px;
 	height:100%;
+	background-color: #FFF;
 }
 .cke_dialog_contents .file-list-body {
 	overflow: auto;
 	height:280px;
 	margin-top: 5px;
-	width: 710px;
+	width: 760px;
 	position: relative;
+	border:1px solid #D5D5D5;
+	background-color: #E6E6E6;
+	padding:5px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.pagination span span a, .pagination .disabled, .pagination .current {
+    padding: 3px 9px!important;
+	line-height: 18px!important;
+}
+.pagination a:link{
+	color:#669900!important;
+}
+.pagination a:hover{
+	color:#FFF!important;
+}
+.pagination span span a {
+    border: 1px solid #99CC00!important;
+    margin: 0 2px!important;
+    text-decoration: none!important;
+}
+.pagination .next, .pagination .prev {
+    border: 1px solid #99CC00!important;
+    margin: 0 2px!important;
+    text-decoration: none!important;
+    padding: 3px 9px!important;
+	line-height: 18px!important;
 }
 
 /* UploaderFile
 ----------------------------------------------- */
 .uploader-file-file {
-	border: 1px solid #999999;
+	font-size:14px;
+	border: 1px solid #CCC;
 	background-color: #FFFFFF;
+	padding:2px;
+}
+#UploaderForm label{
+	font-weight: bold;
+}
+.uploader-file input {
+	font-size:14px;
 }
 .ui-dialog .uploader-file-file {
 	border: 1px solid #999999;
 	background-color: #FFFFFF;
+}
+#UploaderForm select,
+.file-list select{
+	font-size:14px!important;
 }
 .ui-dialog .uploader-file-image{
 	text-align:center;
@@ -169,13 +221,23 @@
 	text-align: left;
 	font-weight: bold;
 	word-wrap: break-word;
-	width:382px;
+	width:415px;
+	margin-bottom: 15px;
+	border:5px solid #CCC;
+	padding:10px;
+}
+.ui-dialog .uploader-file-image .url a {
+	color:#690;
+	font-size:16px;
+	line-height: 24px;
 }
 .ui-dialog .uploader-file-id,
 .ui-dialog .uploader-file-name{
 	background-color:#e2e2e2;
 }
-
+.ui-widget select{
+	font-size: 16px;
+}
 /* contextMenu
 ----------------------------------------------- */
 .contextMenu .disabled a{
@@ -185,6 +247,12 @@
 .cke_dialog_ui_vbox select {
 	background-color: #fff!important;
 	border:1px solid #CCC;
+	padding:3px 1px!important;
+	font-size:14px!important;
+}
+.cke_dialog_ui_vbox option {
+	font-size:14px!important;
+	padding:1px 1px!important;
 }
 .cke_dialog_ui_vbox input {
 	margin-right: 5px;

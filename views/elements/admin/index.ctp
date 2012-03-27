@@ -54,7 +54,7 @@ var listId = '<?php echo $listId ?>';
 			bgiframe: true,
 			autoOpen: false,
 			position: ['center', 20],
-			width:420,
+			width:480,
 			modal: true,
 			open: function(){
 				var name = $("#fileList"+listId+" .selected .name").html();
@@ -113,7 +113,7 @@ var listId = '<?php echo $listId ?>';
 	function uploaderFileFileChangeHandler(){
 	
 		var url = $("#BaseUrl").html()+'admin/uploader/uploader_files/ajax_upload';
-		$("#waiting"+listId).show();
+		$("#Waiting").show();
 		if($('#UploaderFileFile'+listId).val()){
 			var data = [];
 			if($("#UploaderFileUploaderCategoryId"+listId).length) {
@@ -136,7 +136,7 @@ var listId = '<?php echo $listId ?>';
 		}else{
 			$('#ErrorMessage').remove();
 			$('#fileList'+listId).prepend('<p id="ErrorMessage" class="message">アップロードに失敗しました。ファイルサイズを確認してください。</p>');
-			$("#waiting"+listId).hide();
+			$("#Waiting").hide();
 		}
 		// フォームを初期化
 		// セキュリティ上の関係でvalue値を直接消去する事はできないので、一旦エレメントごと削除し、
@@ -151,7 +151,7 @@ var listId = '<?php echo $listId ?>';
  */
 	function updateFileList(){
 
-		$("#waiting"+listId).show();
+		$("#Waiting").show();
 		$.get(getListUrl(),updateFileListCompleteHander);
 
 	}
@@ -203,17 +203,17 @@ var listId = '<?php echo $listId ?>';
 
 		/* ページネーションイベントを追加 */
 		$('.page-numbers a').bind('click.paginationEvent', function(){
-			$("#waiting"+listId).show();
+			$("#Waiting").show();
 			$.get($(this).attr('href'),updateFileListCompleteHander);
 			return false;
 		});
 
 		$('#FilterUploaderCategoryId'+listId).bind('change.filterEvent', function() {
-			$("#waiting"+listId).show();
+			$("#Waiting").show();
 			$.get(getListUrl(),updateFileListCompleteHander);
 		});
 		$('input[name="data[Filter][uploader_type]"]').bind('click.filterEvent', function() {
-			$("#waiting"+listId).show();
+			$("#Waiting").show();
 			$.get(getListUrl(),updateFileListCompleteHander);
 		});
 
@@ -229,7 +229,7 @@ var listId = '<?php echo $listId ?>';
 	function updateFileListCompleteHander(result) {
 		$("#fileList"+listId).html(result);
 		initFileList();
-		$("#waiting"+listId).hide();
+		$("#Waiting").hide();
 	}
 /**
  * Ajax List 取得用のURLを取得する
@@ -266,10 +266,10 @@ var listId = '<?php echo $listId ?>';
 
 			case 'delete':
 				if(confirm('本当に削除してもよろしいですか？')){
-					$("#waiting"+listId).show();
+					$("#Waiting").show();
 					$.post(delUrl, {"data[UploaderFile][id]": $("#fileList"+listId+" .selected .id").html()}, function(res){
 						if(!res){
-							$("#waiting"+listId).hide();
+							$("#Waiting").hide();
 							alert("サーバーでの処理に失敗しました。");
 						}else{
 							$("#fileList"+listId).trigger("deletecomplete");
@@ -298,20 +298,14 @@ var listId = '<?php echo $listId ?>';
 <div id="UsePermission" style="display: none"><?php echo $uploaderConfigs['use_permission'] ?></div>
 
 <!-- コンテキストメニュー -->
-<ul id="FileMenu1" class="contextMenu">
+<ul id="FileMenu1" class="context-menu">
     <li class="edit"><a href="#edit">編集</a></li>
     <li class="delete"><a href="#delete">削除</a></li>
 </ul>
-<ul id="FileMenu2" class="contextMenu">
+<ul id="FileMenu2" class="context-menu">
     <li class="edit disabled"><a href="#">編集</a></li>
     <li class="delete disabled"><a href="#">削除</a></li>
 </ul>
-
-<!-- loader -->
-<div id="waiting<?php echo $listId ?>" class="waiting corner5">
-	<?php echo $html->image('ajax-loader.gif') ?>
-    Waiting...
-</div>
 
 <!-- 編集ダイアログ -->
 <div id="dialog" title="ファイル情報編集">
@@ -358,14 +352,14 @@ var listId = '<?php echo $listId ?>';
 
 <!-- form -->
 <?php if(!$installMessage): ?>
-<p>アップロード&nbsp;
+<div id="UploaderForm"><?php echo $formEx->label('UploaderFile.uploader_category_id', 'アップロード') ?>&nbsp;
 	<?php if($uploaderCategories): ?>
 		<?php echo $formEx->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => 'カテゴリ指定なし', 'id' => 'UploaderFileUploaderCategoryId'.$listId)) ?>&nbsp;
 	<?php endif ?>
 	<span id="SpanUploadFile<?php echo $listId ?>">
 		<?php echo $formEx->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId, 'class' => 'uploader-file-file')) ?>
 	</span>
-</p>
+</div>
 <?php else: ?>
 <p style="color:#C00;font-weight:bold"><?php echo $installMessage ?></p>
 <?php endif ?>
