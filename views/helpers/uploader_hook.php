@@ -140,6 +140,13 @@ DOC_END;
 		// TODO uploads固定となってしまっているのでmodelから取得するようにする
 		$path = WWW_ROOT.$_url;
 
+		$matches[1] = preg_replace('/width="[^"]+?"/', '', $matches[1]);
+		$matches[1] = preg_replace('/height="[^"]+?"/', '', $matches[1]);
+		$matches[1] = preg_replace('/style="[^"]+?"/', '', $matches[1]);
+		$matches[3] = preg_replace('/width="[^"]+?"/', '', $matches[3]);
+		$matches[3] = preg_replace('/height="[^"]+?"/', '', $matches[3]);
+		$matches[3] = preg_replace('/style="[^"]+?"/', '', $matches[3]);
+		
 		if(file_exists($path)) {
 			return '<img'.$matches[1].'src="'.$this->webroot($_url).'"'.$matches[3].'/>';
 		}else {
