@@ -107,7 +107,7 @@ class UploaderHookHelper extends AppHelper {
 	function __getCkeditorUploaderScript($id) {
 
 		return <<< DOC_END
-			$(function(){
+			$(window).load(function(){
 				{$id}.on( 'pluginsLoaded', function( ev ) {
 					{$id}.addCommand( 'baserUploader', new CKEDITOR.dialogCommand( 'baserUploaderDialog' ));
 					{$id}.ui.addButton( 'BaserUploader', { label : 'アップローダー', command : 'baserUploader' });
