@@ -23,59 +23,59 @@
 
 
 <!-- form -->
-<?php echo $formEx->create('UploaderConfig', array('action' => 'index')) ?>
+<?php echo $bcForm->create('UploaderConfig', array('action' => 'index')) ?>
 
 <h2>画像サイズ設定</h2>
 
 <div class="section">
 	<table cellpadding="0" cellspacing="0" class="form-table">
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $formEx->label('UploaderConfig.large_width', 'PCサイズ（大）') ?></th>
+			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.large_width', 'PCサイズ（大）') ?></th>
 			<td class="col-input">
-				<small>[幅]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.large_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
-				<small>[高さ]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.large_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
-				<?php echo $formEx->error('UploaderConfig.large_width') ?>
-				<?php echo $formEx->error('UploaderConfig.large_height') ?>
+				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.large_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
+				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.large_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
+				<?php echo $bcForm->error('UploaderConfig.large_width') ?>
+				<?php echo $bcForm->error('UploaderConfig.large_height') ?>
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $formEx->label('UploaderConfig.midium_width', 'PCサイズ（中）') ?></th>
+			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.midium_width', 'PCサイズ（中）') ?></th>
 			<td class="col-input">
-				<small>[幅]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.midium_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
-				<small>[高さ]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.midium_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
-				<?php echo $formEx->error('UploaderConfig.midium_width') ?>
-				<?php echo $formEx->error('UploaderConfig.midium_height') ?>
+				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.midium_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
+				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.midium_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
+				<?php echo $bcForm->error('UploaderConfig.midium_width') ?>
+				<?php echo $bcForm->error('UploaderConfig.midium_height') ?>
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $formEx->label('UploaderConfig.small_width', 'PCサイズ（小）') ?></th>
+			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.small_width', 'PCサイズ（小）') ?></th>
 			<td class="col-input">
-				<small>[幅]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.small_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
-				<small>[高さ]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.small_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　
-				<?php echo $formEx->input('UploaderConfig.small_thumb', array('type' => 'checkbox', 'label' => '正方形に切り抜く', 'between' => '&nbsp;')) ?>
-				<?php echo $formEx->error('UploaderConfig.small_width') ?>
-				<?php echo $formEx->error('UploaderConfig.small_height') ?>
-				<?php echo $formEx->error('UploaderConfig.small_thumb') ?>
+				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.small_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
+				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.small_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　
+				<?php echo $bcForm->input('UploaderConfig.small_thumb', array('type' => 'checkbox', 'label' => '正方形に切り抜く', 'between' => '&nbsp;')) ?>
+				<?php echo $bcForm->error('UploaderConfig.small_width') ?>
+				<?php echo $bcForm->error('UploaderConfig.small_height') ?>
+				<?php echo $bcForm->error('UploaderConfig.small_thumb') ?>
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $formEx->label('UploaderConfig.mobile_large_width', '携帯サイズ（大）') ?></th>
+			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.mobile_large_width', '携帯サイズ（大）') ?></th>
 			<td class="col-input">
-				<small>[幅]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.mobile_large_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
-				<small>[高さ]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.mobile_large_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
-				<?php echo $formEx->error('UploaderConfig.mobile_large_width') ?>
-				<?php echo $formEx->error('UploaderConfig.mobile_large_height') ?>
+				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.mobile_large_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
+				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.mobile_large_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
+				<?php echo $bcForm->error('UploaderConfig.mobile_large_width') ?>
+				<?php echo $bcForm->error('UploaderConfig.mobile_large_height') ?>
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $formEx->label('UploaderConfig.mobile_small_width', '携帯サイズ（小）') ?></th>
+			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.mobile_small_width', '携帯サイズ（小）') ?></th>
 			<td class="col-input">
-				<small>[幅]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.mobile_small_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
-				<small>[高さ]</small>&nbsp;<?php echo $formEx->input('UploaderConfig.mobile_small_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　
-				<?php echo $formEx->input('UploaderConfig.mobile_small_thumb', array('type' => 'checkbox', 'label' => '正方形に切り抜く', 'between' => '&nbsp;')) ?>
-				<?php echo $formEx->error('UploaderConfig.mobile_small_width') ?>
-				<?php echo $formEx->error('UploaderConfig.mobile_small_height') ?>
-				<?php echo $formEx->error('UploaderConfig.mobile_small_thumb') ?>
+				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.mobile_small_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
+				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.mobile_small_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　
+				<?php echo $bcForm->input('UploaderConfig.mobile_small_thumb', array('type' => 'checkbox', 'label' => '正方形に切り抜く', 'between' => '&nbsp;')) ?>
+				<?php echo $bcForm->error('UploaderConfig.mobile_small_width') ?>
+				<?php echo $bcForm->error('UploaderConfig.mobile_small_height') ?>
+				<?php echo $bcForm->error('UploaderConfig.mobile_small_thumb') ?>
 			</td>
 		</tr>
 	</table>
@@ -88,11 +88,11 @@
 <div id ="FormOptionBody" class="slide-body section">
 	<table cellpadding="0" cellspacing="0" class="form-table">
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $formEx->label('UploaderConfig.use_permission', '制限設定') ?></th>
+			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.use_permission', '制限設定') ?></th>
 			<td class="col-input">
-				<?php echo $formEx->input('UploaderConfig.use_permission', array('type' => 'checkbox', 'label' => '編集/削除を制限する', 'between' => '&nbsp;')) ?>
+				<?php echo $bcForm->input('UploaderConfig.use_permission', array('type' => 'checkbox', 'label' => '編集/削除を制限する', 'between' => '&nbsp;')) ?>
 				<?php echo $html->image('admin/icn_help.png', array('class' => 'btn help', 'alt' => 'ヘルプ')) ?>
-				<?php echo $formEx->error('UploaderConfig.use_permission') ?>
+				<?php echo $bcForm->error('UploaderConfig.use_permission') ?>
 				<div id="helptextUsePermission" class="helptext">
 					管理者以外のユーザーは、自分がアップロードしたファイル以外、編集・削除をできないようにします。
 				</div>
@@ -104,7 +104,7 @@
 
 <!-- button -->
 <div class="submit">
-	<?php echo $formEx->submit('更　新', array('div' => false, 'class' => 'btn-orange button', 'id' => 'btnSubmit')) ?>
+	<?php echo $bcForm->submit('更　新', array('div' => false, 'class' => 'btn-orange button', 'id' => 'btnSubmit')) ?>
 </div>
 
-<?php echo $formEx->end() ?>
+<?php echo $bcForm->end() ?>

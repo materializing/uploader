@@ -22,7 +22,7 @@
 if(!isset($listId)) {
 	$listId = '';
 }
-$uploaderCategories = $formEx->getControlSource('UploaderFile.uploader_category_id');
+$uploaderCategories = $bcForm->getControlSource('UploaderFile.uploader_category_id');
 //==============================================================================
 // Ajaxで呼び出される事が前提の為インラインで呼びだし
 //==============================================================================
@@ -309,32 +309,32 @@ var listId = '<?php echo $listId ?>';
 
 <!-- 編集ダイアログ -->
 <div id="dialog" title="ファイル情報編集">
-	<?php echo $formEx->create('UploaderFile',array('action' => 'edit', 'id' => 'UploaderFileEditForm'.$listId)) ?>
+	<?php echo $bcForm->create('UploaderFile',array('action' => 'edit', 'id' => 'UploaderFileEditForm'.$listId)) ?>
     <table cellpadding="0" cellspacing="0">
         <tr>
-            <th class="col-head"><?php echo $formEx->label('UploaderFile.id', 'NO') ?></th>
+            <th class="col-head"><?php echo $bcForm->label('UploaderFile.id', 'NO') ?></th>
             <td class="col-input">
-				<?php echo $formEx->text('UploaderFile.id', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileId'.$listId, 'class' => 'uploader-file-id')) ?>&nbsp;
+				<?php echo $bcForm->text('UploaderFile.id', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileId'.$listId, 'class' => 'uploader-file-id')) ?>&nbsp;
             </td>
         </tr>
 		<tr>
-			<th class="col-head"><!--<span class="required">*</span>&nbsp;--><?php echo $formEx->label('UploaderFile.name', 'ファイル名') ?></th>
+			<th class="col-head"><!--<span class="required">*</span>&nbsp;--><?php echo $bcForm->label('UploaderFile.name', 'ファイル名') ?></th>
 			<td class="col-input">
-				<?php echo $formEx->text('UploaderFile.name', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileName'.$listId, 'class' => 'uploader-file-name')) ?>
-				<?php echo $formEx->error('UploaderFile.name', 'ファイル名を入力して下さい') ?>&nbsp;
+				<?php echo $bcForm->text('UploaderFile.name', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileName'.$listId, 'class' => 'uploader-file-name')) ?>
+				<?php echo $bcForm->error('UploaderFile.name', 'ファイル名を入力して下さい') ?>&nbsp;
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><?php echo $formEx->label('UploaderFile.real_name_1', '説明文') ?></th>
+			<th class="col-head"><?php echo $bcForm->label('UploaderFile.real_name_1', '説明文') ?></th>
 			<td class="col-input">
-				<?php echo $formEx->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
+				<?php echo $bcForm->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
 			</td>
 		</tr>
 <?php if($uploaderCategories): ?>
 		<tr>
-			<th class="col-head"><?php echo $formEx->label('UploaderFile.real_name_1', 'カテゴリ') ?></th>
+			<th class="col-head"><?php echo $bcForm->label('UploaderFile.real_name_1', 'カテゴリ') ?></th>
 			<td class="col-input">
-				<?php echo $formEx->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => '指定なし', 'id' => '_UploaderFileUploaderCategoryId'.$listId)) ?>
+				<?php echo $bcForm->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => '指定なし', 'id' => '_UploaderFileUploaderCategoryId'.$listId)) ?>
 			</td>
 		</tr>
 <?php endif ?>
@@ -342,22 +342,22 @@ var listId = '<?php echo $listId ?>';
 			<th class="col-head">保存者</th>
 			<td class="col-input">
 				<span id="UploaderFileUserName<?php echo $listId ?>">&nbsp;</span>
-				<?php echo $formEx->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
+				<?php echo $bcForm->input('UploaderFile.user_id', array('type' => 'hidden', 'id' => 'UploaderFileUserId'.$listId)) ?>
 			</td>
 		</tr>
 		<tr><td colspan="2" id="UploaderFileImage<?php echo $listId ?>" class="uploader-file-image"><?php echo $html->image('ajax-loader.gif') ?></td></tr>
     </table>
-	<?php echo $formEx->end() ?>
+	<?php echo $bcForm->end() ?>
 </div>
 
 <!-- form -->
 <?php if(!$installMessage): ?>
-<div id="UploaderForm"><?php echo $formEx->label('UploaderFile.uploader_category_id', 'アップロード') ?>&nbsp;
+<div id="UploaderForm"><?php echo $bcForm->label('UploaderFile.uploader_category_id', 'アップロード') ?>&nbsp;
 	<?php if($uploaderCategories): ?>
-		<?php echo $formEx->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => 'カテゴリ指定なし', 'id' => 'UploaderFileUploaderCategoryId'.$listId)) ?>&nbsp;
+		<?php echo $bcForm->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => 'カテゴリ指定なし', 'id' => 'UploaderFileUploaderCategoryId'.$listId)) ?>&nbsp;
 	<?php endif ?>
 	<span id="SpanUploadFile<?php echo $listId ?>">
-		<?php echo $formEx->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId, 'class' => 'uploader-file-file')) ?>
+		<?php echo $bcForm->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId, 'class' => 'uploader-file-file')) ?>
 	</span>
 </div>
 <?php else: ?>

@@ -34,7 +34,7 @@ class UploaderHookHelper extends AppHelper {
 
 		// TODO プラグインフックの仕組みとしてヘルパが自動初期化されないので明示的に初期化
 		$this->Javascript = new JavascriptHelper();
-		$this->HtmlEx = new HtmlExHelper();
+		$this->BcHtml = new BcHtmlHelper();
 
 	}
 /**
@@ -49,7 +49,7 @@ class UploaderHookHelper extends AppHelper {
 
 		if($view) {
 
-			if(isset($view->loaded['ckeditor'])) {
+			if(isset($view->loaded['bcCkeditor'])) {
 
 				if(preg_match_all("/(editor_[a-z0-9_]*?)\s*?=\s*?CKEDITOR\.replace/s",$view->output,$matches)) {
 
@@ -60,7 +60,7 @@ class UploaderHookHelper extends AppHelper {
 
 					/* CSSを読み込む */
 					// 適用の優先順位の問題があるので、bodyタグの直後に読み込む
-					$css = $this->HtmlEx->css('/uploader/css/uploader');
+					$css = $this->BcHtml->css('/uploader/css/uploader');
 					$view->output = str_replace('</body>',$css.'</body>',$view->output);
 
 					/* VIEWのCKEDITOR読込部分のコードを書き換える */
@@ -140,6 +140,13 @@ DOC_END;
 		// TODO uploads固定となってしまっているのでmodelから取得するようにする
 		$path = WWW_ROOT.$_url;
 
+		$matches[1] = preg_replace('/width="[^"]+?"/', '', $matches[1]);
+		$matches[1] = preg_replace('/height="[^"]+?"/', '', $matches[1]);
+		$matches[1] = preg_replace('/style="[^"]+?"/', '', $matches[1]);
+		$matches[3] = preg_replace('/width="[^"]+?"/', '', $matches[3]);
+		$matches[3] = preg_replace('/height="[^"]+?"/', '', $matches[3]);
+		$matches[3] = preg_replace('/style="[^"]+?"/', '', $matches[3]);
+		
 		if(file_exists($path)) {
 			return '<img'.$matches[1].'src="'.$this->webroot($_url).'"'.$matches[3].'/>';
 		}else {

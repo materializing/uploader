@@ -42,14 +42,14 @@ class UploaderFilesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $components = array('AuthEx','Cookie','AuthConfigure','RequestHandler');
+	var $components = array('AuthEx','Cookie','BcAuthConfigure','RequestHandler');
 /**
  * ヘルパー
  *
  * @var		array
  * @access	public
  */
-	var $helpers = array('TextEx', 'TimeEx', 'FormEx', 'Uploader.Uploader');
+	var $helpers = array('BcText', 'BcTime', 'BcForm', 'Uploader.Uploader');
 /**
  * ページタイトル
  *
@@ -123,9 +123,9 @@ class UploaderFilesController extends PluginsController {
 		// インストール確認
 		$installMessage = '';
 		$viewFilesPath = str_replace(ROOT,'',WWW_ROOT).'files';
-		$viewSavePath = $viewFilesPath.DS.$this->UploaderFile->actsAs['Upload']['saveDir'];
+		$viewSavePath = $viewFilesPath.DS.$this->UploaderFile->actsAs['BcUpload']['saveDir'];
 		$filesPath = WWW_ROOT.'files';
-		$savePath = $filesPath.DS.$this->UploaderFile->actsAs['Upload']['saveDir'];
+		$savePath = $filesPath.DS.$this->UploaderFile->actsAs['BcUpload']['saveDir'];
 		if(!is_dir($savePath)) {
 			$ret = mkdir($savePath,0777);
 			if(!$ret) {

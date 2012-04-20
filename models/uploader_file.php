@@ -55,7 +55,7 @@ class UploaderFile extends AppModel {
  * @var 	array
  * @access 	public
  */
-	var $actsAs = array('Upload' => array(
+	var $actsAs = array('BcUpload' => array(
 		'saveDir'	=> "uploads",
 		'fields'	=> array(
 				'name'	=> array('type'	=> 'all')
@@ -87,9 +87,9 @@ class UploaderFile extends AppModel {
 			}
 		}
 		
-		$settings = $this->actsAs['Upload'];
+		$settings = $this->actsAs['BcUpload'];
 		$settings['fields']['name']['imagecopy'] = $imagecopy;
-		$this->Behaviors->attach('Upload', $settings);
+		$this->Behaviors->attach('BcUpload', $settings);
 
 	}
 /**
@@ -101,7 +101,7 @@ class UploaderFile extends AppModel {
  */
 	function fileExists($fileName) {
 
-		$savePath = WWW_ROOT . 'files' . DS . $this->actsAs['Upload']['saveDir'] . DS . $fileName;
+		$savePath = WWW_ROOT . 'files' . DS . $this->actsAs['BcUpload']['saveDir'] . DS . $fileName;
 		return file_exists($savePath);
 
 	}
