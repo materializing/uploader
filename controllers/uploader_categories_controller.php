@@ -49,7 +49,7 @@ class UploaderCategoriesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $components = array('AuthEx','Cookie','BcAuthConfigure');
+	var $components = array('BcAuth','Cookie','BcAuthConfigure');
 /**
  * サブメニュー
  *

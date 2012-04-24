@@ -91,7 +91,7 @@
 
 /* selected
 ----------------------------------------------- */
-.selected{
+.file-list-body .selected{
 	background-color:#99CCFF!important;
 }
 

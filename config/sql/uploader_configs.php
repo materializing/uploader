@@ -19,8 +19,8 @@ class UploaderConfigsSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'length' => 8, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false),
 		'value' => array('type' => 'text', 'null' => false),
-		'created' => array('type' => 'datetime', 'null' => false),
-		'modified' => array('type' => 'datetime', 'null' => false),
+		'created' => array('type' => 'datetime', 'null' => true),
+		'modified' => array('type' => 'datetime', 'null' => true),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
 	);
 }
