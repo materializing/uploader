@@ -42,14 +42,14 @@ class UploaderFilesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $components = array('AuthEx','Cookie','AuthConfigure','RequestHandler');
+	var $components = array('BcAuth','Cookie','BcAuthConfigure','RequestHandler');
 /**
  * ヘルパー
  *
  * @var		array
  * @access	public
  */
-	var $helpers = array('TextEx', 'TimeEx', 'FormEx', 'Uploader.Uploader');
+	var $helpers = array('BcText', 'BcTime', 'BcForm', 'Uploader.Uploader');
 /**
  * ページタイトル
  *
@@ -65,12 +65,15 @@ class UploaderFilesController extends PluginsController {
  */
 	var $uses = array('Plugin','Uploader.UploaderFile', 'Uploader.UploaderConfig');
 /**
- * ナビ
+ * ぱんくずナビ
  *
- * @var		array
- * @access	public
+ * @var array
+ * @access public
  */
-	var $navis = array('アップロードファイル管理'=>'/admin/uploader/uploader_files/index');
+	var $crumbs = array(
+		array('name' => 'プラグイン管理', 'url' => array('plugin' => '', 'controller' => 'plugins', 'action' => 'index')),
+		array('name' => 'アップロードファイル管理', 'url' => array('controller' => 'uploader_files', 'action' => 'index'))
+	);
 /**
  * サブメニューエレメント
  *
@@ -123,9 +126,9 @@ class UploaderFilesController extends PluginsController {
 		// インストール確認
 		$installMessage = '';
 		$viewFilesPath = str_replace(ROOT,'',WWW_ROOT).'files';
-		$viewSavePath = $viewFilesPath.DS.$this->UploaderFile->actsAs['Upload']['saveDir'];
+		$viewSavePath = $viewFilesPath.DS.$this->UploaderFile->actsAs['BcUpload']['saveDir'];
 		$filesPath = WWW_ROOT.'files';
-		$savePath = $filesPath.DS.$this->UploaderFile->actsAs['Upload']['saveDir'];
+		$savePath = $filesPath.DS.$this->UploaderFile->actsAs['BcUpload']['saveDir'];
 		if(!is_dir($savePath)) {
 			$ret = mkdir($savePath,0777);
 			if(!$ret) {

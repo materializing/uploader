@@ -55,7 +55,7 @@ class UploaderFile extends AppModel {
  * @var 	array
  * @access 	public
  */
-	var $actsAs = array('Upload' => array(
+	var $actsAs = array('BcUpload' => array(
 		'saveDir'	=> "uploads",
 		'fields'	=> array(
 				'name'	=> array('type'	=> 'all')
@@ -87,7 +87,7 @@ class UploaderFile extends AppModel {
 			}
 		}
 		
-		$settings = $this->actsAs['Upload'];
+		$settings = $this->actsAs['BcUpload'];
 		$settings['fields']['name']['imagecopy'] = $imagecopy;
 		$this->Behaviors->attach('Upload', $settings);
 

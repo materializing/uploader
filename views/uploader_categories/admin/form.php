@@ -23,39 +23,39 @@
 
 
 <!-- form -->
-<?php echo $formEx->create('UploaderCategory') ?>
-<?php echo $formEx->input('UploaderCategory.id', array('type' => 'hidden')) ?>
+<?php echo $bcForm->create('UploaderCategory') ?>
+<?php echo $bcForm->input('UploaderCategory.id', array('type' => 'hidden')) ?>
 
 <table cellpadding="0" cellspacing="0" class="form-table">
 <?php if($this->action == 'admin_edit'): ?>
 	<tr>
-		<th class="col-head"><?php echo $formEx->label('UploaderCategory.id', 'NO') ?></th>
+		<th class="col-head"><?php echo $bcForm->label('UploaderCategory.id', 'NO') ?></th>
 		<td class="col-input">
-			<?php echo $formEx->value('UploaderCategory.id') ?>
-			<?php echo $formEx->input('UploaderCategory.id', array('type' => 'hidden')) ?>
+			<?php echo $bcForm->value('UploaderCategory.id') ?>
+			<?php echo $bcForm->input('UploaderCategory.id', array('type' => 'hidden')) ?>
 		</td>
 	</tr>
 <?php endif; ?>
 	<tr>
-		<th class="col-head"><?php echo $formEx->label('UploaderCategory.name', 'カテゴリ名') ?>&nbsp;<span class="required">*</span></th>
+		<th class="col-head"><?php echo $bcForm->label('UploaderCategory.name', 'カテゴリ名') ?>&nbsp;<span class="required">*</span></th>
 		<td class="col-input">
-			<?php echo $formEx->input('UploaderCategory.name', array('type' => 'text', 'size' => 40, 'maxlength' => 50)) ?>
-			<?php echo $formEx->error('UploaderCategory.name') ?>
+			<?php echo $bcForm->input('UploaderCategory.name', array('type' => 'text', 'size' => 40, 'maxlength' => 50)) ?>
+			<?php echo $bcForm->error('UploaderCategory.name') ?>
 		</td>
 	</tr>
 </table>
 
 <div class="submit">
 <?php if($this->action == 'admin_add'): ?>
-	<?php echo $formEx->submit('登　録', array('div' => false, 'class' => 'btn-red button')) ?>
+	<?php echo $bcForm->submit('登　録', array('div' => false, 'class' => 'btn-red button')) ?>
 <?php else: ?>
-	<?php echo $formEx->submit('更　新', array('div' => false, 'class' => 'btn-orange button')) ?>
+	<?php echo $bcForm->submit('更　新', array('div' => false, 'class' => 'btn-orange button')) ?>
 	<?php $bcBaser->link('削　除',
-			array('action' => 'delete', $formEx->value('UploaderCategory.id')),
+			array('action' => 'delete', $bcForm->value('UploaderCategory.id')),
 			array('class' => 'btn-gray button'),
-			sprintf('%s を本当に削除してもいいですか？', $formEx->value('UploaderCategory.name')),
+			sprintf('%s を本当に削除してもいいですか？', $bcForm->value('UploaderCategory.name')),
 			false); ?>
 <?php endif ?>
 </div>
 
-<?php echo $formEx->end() ?>
+<?php echo $bcForm->end() ?>
