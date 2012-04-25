@@ -50,7 +50,7 @@
 	<?php echo $formEx->submit('登　録', array('div' => false, 'class' => 'btn-red button')) ?>
 <?php else: ?>
 	<?php echo $formEx->submit('更　新', array('div' => false, 'class' => 'btn-orange button')) ?>
-	<?php $baser->link('削　除',
+	<?php $bcBaser->link('削　除',
 			array('action' => 'delete', $formEx->value('UploaderCategory.id')),
 			array('class' => 'btn-gray button'),
 			sprintf('%s を本当に削除してもいいですか？', $formEx->value('UploaderCategory.name')),

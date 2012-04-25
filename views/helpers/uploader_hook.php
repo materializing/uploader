@@ -34,7 +34,7 @@ class UploaderHookHelper extends AppHelper {
 
 		// TODO プラグインフックの仕組みとしてヘルパが自動初期化されないので明示的に初期化
 		$this->Javascript = new JavascriptHelper();
-		$this->HtmlEx = new HtmlExHelper();
+		$this->bcHtml = new BcHtmlHelper();
 
 	}
 /**
