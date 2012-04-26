@@ -111,6 +111,11 @@ class UploaderFilesController extends PluginsController {
  */
 	function admin_ajax_index($id='') {
 
+		if(!isset($this->siteConfigs['admin_list_num'])) {
+			$this->siteConfigs['admin_list_num'] = 10;
+		}
+		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
+		$this->setViewConditions('UploadFile', array('default' => $default));
 		$this->set('listId', $id);
 		$this->set('installMessage', $this->checkInstall());
 
@@ -244,7 +249,7 @@ class UploaderFilesController extends PluginsController {
 			$this->render('ajax_result');
 			return;
 		}
-		$user = $this->AuthEx->user();
+		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		if(!empty($user[$userModel]['id'])) {
 			$this->data['UploaderFile']['user_id'] = $user[$userModel]['id'];
@@ -304,7 +309,7 @@ class UploaderFilesController extends PluginsController {
 			$this->notFound();
 		}
 
-		$user = $this->AuthEx->user();
+		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
 
@@ -333,7 +338,7 @@ class UploaderFilesController extends PluginsController {
 			$this->notFound();
 		}
 
-		$user = $this->AuthEx->user();
+		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
 		$uploaderFile = $this->UploaderFile->read(null, $this->data['UploaderFile']['id']);

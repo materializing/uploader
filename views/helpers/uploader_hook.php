@@ -49,7 +49,7 @@ class UploaderHookHelper extends AppHelper {
 
 		if($view) {
 
-			if(isset($view->loaded['ckeditor'])) {
+			if(isset($view->loaded['bcCkeditor'])) {
 
 				if(preg_match_all("/(editor_[a-z0-9_]*?)\s*?=\s*?CKEDITOR\.replace/s",$view->output,$matches)) {
 

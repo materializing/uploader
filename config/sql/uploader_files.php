@@ -21,8 +21,8 @@ class UploaderFilesSchema extends CakeSchema {
 		'alt' => array('type' => 'text', 'null' => true, 'default' => NULL),
 		'uploader_category_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 8),
 		'user_id' => array('type' => 'integer', 'null' => true, 'default' => NULL, 'length' => 8),
-		'created' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'modified' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+		'created' => array('type' => 'datetime', 'null' => true),
+		'modified' => array('type' => 'datetime', 'null' => true),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
 	);
 }
