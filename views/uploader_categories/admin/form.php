@@ -21,6 +21,11 @@
  */
 ?>
 
+<script type="text/javascript">
+$(window).load(function() {
+	$("#UploaderCategoryName").focus();
+});
+</script>
 
 <!-- form -->
 <?php echo $bcForm->create('UploaderCategory') ?>

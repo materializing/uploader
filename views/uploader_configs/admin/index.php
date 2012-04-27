@@ -20,7 +20,11 @@
  * @license			http://basercms.net/license/index.html
  */
 ?>
-
+<script type="text/javascript">
+$(window).load(function() {
+	$("#UploaderConfigLargeWidth").focus();
+});
+</script>
 
 <!-- form -->
 <?php echo $bcForm->create('UploaderConfig', array('action' => 'index')) ?>

@@ -29,4 +29,10 @@ $bcBaser->css('/uploader/css/uploader',null,null,false);
 }
 </style>
 
+<script type="text/javascript">
+$(window).load(function() {
+	$("#UploaderFileFile").focus();
+});
+</script>
+
 <?php $bcBaser->element('index') ?>
