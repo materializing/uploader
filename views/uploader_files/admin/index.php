@@ -19,7 +19,7 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
-$baser->css('/uploader/css/uploader',null,null,false);
+$bcBaser->css('/uploader/css/uploader', array('inline' => false));
 ?>
 
 
@@ -29,4 +29,4 @@ $baser->css('/uploader/css/uploader',null,null,false);
 }
 </style>
 
-<?php $baser->element('index') ?>
+<?php $bcBaser->element('index') ?>
