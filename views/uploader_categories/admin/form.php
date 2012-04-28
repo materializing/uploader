@@ -21,6 +21,11 @@
  */
 ?>
 
+<script type="text/javascript">
+$(window).load(function() {
+	$("#UploaderCategoryName").focus();
+});
+</script>
 
 <!-- form -->
 <?php echo $bcForm->create('UploaderCategory') ?>
@@ -50,7 +55,7 @@
 	<?php echo $bcForm->submit('登　録', array('div' => false, 'class' => 'btn-red button')) ?>
 <?php else: ?>
 	<?php echo $bcForm->submit('更　新', array('div' => false, 'class' => 'btn-orange button')) ?>
-	<?php $baser->link('削　除',
+	<?php $bcBaser->link('削　除',
 			array('action' => 'delete', $bcForm->value('UploaderCategory.id')),
 			array('class' => 'btn-gray button'),
 			sprintf('%s を本当に削除してもいいですか？', $bcForm->value('UploaderCategory.name')),

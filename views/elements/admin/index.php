@@ -26,8 +26,8 @@ $uploaderCategories = $bcForm->getControlSource('UploaderFile.uploader_category_
 //==============================================================================
 // Ajaxで呼び出される事が前提の為インラインで呼びだし
 //==============================================================================
-$baser->css('/js/jquery.contextMenu-1.0/jquery.contextMenu');
-$baser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0.0.min'));
+$bcBaser->css('/js/jquery.contextMenu-1.0/jquery.contextMenu');
+$bcBaser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0.0.min'));
 ?>
 <script type="text/javascript">
 var listId = '<?php echo $listId ?>';
@@ -286,13 +286,13 @@ var listId = '<?php echo $listId ?>';
 <div id="LoginUserId" style="display: none"><?php echo $user['id'] ?></div>
 
 <!-- ListUrl -->
-<?php $baser->link('ListUrl', array('action' => 'ajax_list', $listId, 'num' => $this->passedArgs['num']), array('id' => 'ListUrl'.$listId, 'style' => 'display:none')) ?>
+<?php $bcBaser->link('ListUrl', array('action' => 'ajax_list', $listId, 'num' => $this->passedArgs['num']), array('id' => 'ListUrl'.$listId, 'style' => 'display:none')) ?>
 
 <!-- LoginUserGroupId -->
 <div id="LoginUserGroupId" style="display: none"><?php echo $user['user_group_id'] ?></div>
 
 <!-- BaseUrl -->
-<div id="BaseUrl" style="display: none"><?php echo $baser->root() ?></div>
+<div id="BaseUrl" style="display: none"><?php echo $bcBaser->root() ?></div>
 
 <!-- UsePermission -->
 <div id="UsePermission" style="display: none"><?php echo $uploaderConfigs['use_permission'] ?></div>
@@ -366,7 +366,7 @@ var listId = '<?php echo $listId ?>';
 
 <!-- list-num -->
 <?php if(empty($this->params['isAjax'])): ?>
-<?php $baser->element('list_num') ?>
+<?php $bcBaser->element('list_num') ?>
 <?php endif ?>
 
 <!-- ファイルリスト -->

@@ -20,4 +20,4 @@
  * @license			http://basercms.net/license/index.html
  */
 ?>
-<?php $baser->element('index') ?>
+<?php $bcBaser->element('index') ?>

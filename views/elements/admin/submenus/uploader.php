@@ -25,11 +25,11 @@
 <tr>
 	<th>アップローダーメニュー</th>
 	<td>
-		<ul class="cleafix">
-			<li><?php $baser->link('アップロードファイル一覧', array('plugin' => 'uploader', 'controller' => 'uploader_files', 'action' => 'index')) ?></li>
-			<li><?php $baser->link('カテゴリ一覧', array('plugin' => 'uploader', 'controller' => 'uploader_categories', 'action' => 'index')) ?></li>
-			<li><?php $baser->link('カテゴリ新規登録', array('plugin' => 'uploader', 'controller' => 'uploader_categories', 'action' => 'add')) ?></li>
-			<li><?php $baser->link('プラグイン基本設定', array('plugin' => 'uploader', 'controller' => 'uploader_configs', 'action' => 'index')) ?></li>
+		<ul>
+			<li><?php $bcBaser->link('アップロードファイル一覧', array('plugin' => 'uploader', 'controller' => 'uploader_files', 'action' => 'index')) ?></li>
+			<li><?php $bcBaser->link('カテゴリ一覧', array('plugin' => 'uploader', 'controller' => 'uploader_categories', 'action' => 'index')) ?></li>
+			<li><?php $bcBaser->link('カテゴリ新規登録', array('plugin' => 'uploader', 'controller' => 'uploader_categories', 'action' => 'add')) ?></li>
+			<li><?php $bcBaser->link('プラグイン基本設定', array('plugin' => 'uploader', 'controller' => 'uploader_configs', 'action' => 'index')) ?></li>
 		</ul>
 	</td>
 </tr>

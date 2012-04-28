@@ -65,12 +65,15 @@ class UploaderFilesController extends PluginsController {
  */
 	var $uses = array('Plugin','Uploader.UploaderFile', 'Uploader.UploaderConfig');
 /**
- * ナビ
+ * ぱんくずナビ
  *
- * @var		array
- * @access	public
+ * @var array
+ * @access public
  */
-	var $navis = array('アップロードファイル管理'=>'/admin/uploader/uploader_files/index');
+	var $crumbs = array(
+		array('name' => 'プラグイン管理', 'url' => array('plugin' => '', 'controller' => 'plugins', 'action' => 'index')),
+		array('name' => 'アップロードファイル管理', 'url' => array('controller' => 'uploader_files', 'action' => 'index'))
+	);
 /**
  * サブメニューエレメント
  *

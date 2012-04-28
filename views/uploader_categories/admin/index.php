@@ -23,11 +23,11 @@
 
 
 <!-- list-num -->
-<?php $baser->element('list_num') ?>
+<?php $bcBaser->element('list_num') ?>
 
 <!-- pagination -->
 
-<?php $baser->element('pagination') ?>
+<?php $bcBaser->element('pagination') ?>
 
 <!-- list -->
 <table cellpadding="0" cellspacing="0" class="form-table" id="TableUploaderCategories">
@@ -49,8 +49,8 @@
 		<?php $count++ ?>
 	<tr<?php echo $class; ?>>
 		<td class="operation-button">
-			<?php $baser->link('編集',array('action'=>'edit', $data['UploaderCategory']['id']),array('class'=>'btn-orange-s button-s'),null,false) ?>
-			<?php $baser->link('削除', array('action'=>'delete', $data['UploaderCategory']['id']), array('class'=>'btn-gray-s button-s'), sprintf('%s を本当に削除してもいいですか？', $data['UploaderCategory']['name']),false); ?></td>
+			<?php $bcBaser->link('編集',array('action'=>'edit', $data['UploaderCategory']['id']),array('class'=>'btn-orange-s button-s'),null,false) ?>
+			<?php $bcBaser->link('削除', array('action'=>'delete', $data['UploaderCategory']['id']), array('class'=>'btn-gray-s button-s'), sprintf('%s を本当に削除してもいいですか？', $data['UploaderCategory']['name']),false); ?></td>
 		<td><?php echo $data['UploaderCategory']['id'] ?></td>
 		<td><?php echo $data['UploaderCategory']['name'] ?></td>
 		<td>
@@ -65,4 +65,4 @@
 </table>
 
 <!-- pagination -->
-<?php $baser->element('pagination') ?>
+<?php $bcBaser->element('pagination') ?>

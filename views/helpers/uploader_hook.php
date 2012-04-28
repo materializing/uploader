@@ -34,7 +34,7 @@ class UploaderHookHelper extends AppHelper {
 
 		// TODO プラグインフックの仕組みとしてヘルパが自動初期化されないので明示的に初期化
 		$this->Javascript = new JavascriptHelper();
-		$this->BcHtml = new BcHtmlHelper();
+		$this->bcHtml = new BcHtmlHelper();
 
 	}
 /**
@@ -60,7 +60,7 @@ class UploaderHookHelper extends AppHelper {
 
 					/* CSSを読み込む */
 					// 適用の優先順位の問題があるので、bodyタグの直後に読み込む
-					$css = $this->BcHtml->css('/uploader/css/uploader');
+					$css = $this->bcHtml->css('/uploader/css/uploader');
 					$view->output = str_replace('</body>',$css.'</body>',$view->output);
 
 					/* VIEWのCKEDITOR読込部分のコードを書き換える */
