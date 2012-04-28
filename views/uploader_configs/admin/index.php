@@ -32,10 +32,12 @@ $(window).load(function() {
 <h2>画像サイズ設定</h2>
 
 <div class="section">
-	<table cellpadding="0" cellspacing="0" class="form-table">
+	<table cellpadding="0" cellspacing="0" class="list-table" id="ListTable">
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.large_width', 'PCサイズ（大）') ?></th>
-			<td class="col-input">
+			<th><span class="required">*</span>&nbsp;
+				<?php echo $bcForm->label('UploaderConfig.large_width', 'PCサイズ（大）') ?>
+			</th>
+			<td>
 				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.large_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
 				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.large_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
 				<?php echo $bcForm->error('UploaderConfig.large_width') ?>
@@ -43,8 +45,10 @@ $(window).load(function() {
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.midium_width', 'PCサイズ（中）') ?></th>
-			<td class="col-input">
+			<th><span class="required">*</span>&nbsp;
+				<?php echo $bcForm->label('UploaderConfig.midium_width', 'PCサイズ（中）') ?>
+			</th>
+			<td>
 				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.midium_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
 				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.midium_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
 				<?php echo $bcForm->error('UploaderConfig.midium_width') ?>
@@ -52,8 +56,10 @@ $(window).load(function() {
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.small_width', 'PCサイズ（小）') ?></th>
-			<td class="col-input">
+			<th><span class="required">*</span>&nbsp;
+				<?php echo $bcForm->label('UploaderConfig.small_width', 'PCサイズ（小）') ?>
+			</th>
+			<td>
 				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.small_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
 				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.small_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　
 				<?php echo $bcForm->input('UploaderConfig.small_thumb', array('type' => 'checkbox', 'label' => '正方形に切り抜く', 'between' => '&nbsp;')) ?>
@@ -63,8 +69,10 @@ $(window).load(function() {
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.mobile_large_width', '携帯サイズ（大）') ?></th>
-			<td class="col-input">
+			<th><span class="required">*</span>&nbsp;
+				<?php echo $bcForm->label('UploaderConfig.mobile_large_width', '携帯サイズ（大）') ?>
+			</th>
+			<td>
 				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.mobile_large_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
 				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.mobile_large_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px
 				<?php echo $bcForm->error('UploaderConfig.mobile_large_width') ?>
@@ -72,8 +80,10 @@ $(window).load(function() {
 			</td>
 		</tr>
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.mobile_small_width', '携帯サイズ（小）') ?></th>
-			<td class="col-input">
+			<th><span class="required">*</span>&nbsp;
+				<?php echo $bcForm->label('UploaderConfig.mobile_small_width', '携帯サイズ（小）') ?>
+			</th>
+			<td>
 				<small>[幅]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.mobile_small_width', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　×　
 				<small>[高さ]</small>&nbsp;<?php echo $bcForm->input('UploaderConfig.mobile_small_height', array('type' => 'text', 'size' => 8,'maxlength' => 8)) ?>&nbsp;px　
 				<?php echo $bcForm->input('UploaderConfig.mobile_small_thumb', array('type' => 'checkbox', 'label' => '正方形に切り抜く', 'between' => '&nbsp;')) ?>
