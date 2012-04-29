@@ -20,7 +20,7 @@
 /**
  * システムナビ
  */
-	$config['BcApp.adminNavi.twitter'] = array(
+	$config['BcApp.adminNavi.uploader'] = array(
 			'name'		=> 'アップローダープラグイン',
 			'contents'	=> array(
 				array('name' => 'アップロードファイル一覧', 

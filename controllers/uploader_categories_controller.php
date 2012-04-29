@@ -161,6 +161,86 @@ class UploaderCategoriesController extends PluginsController {
 		$this->redirect('index');
 		
 	}
+/**
+ * [ADMIN] 削除処理　(ajax)
+ *
+ * @param int $blogContentId
+ * @param int $id
+ * @return void
+ * @access public
+ */
+	function admin_ajax_delete($id = null) {
+
+		if(!$id) {
+			$this->ajaxError(500, '無効な処理です。');
+		}
+
+		// 削除実行
+		if($this->_del($id)) {
+			clearViewCache();
+			exit(true);
+		}
+
+		exit();
+
+	}
+/**
+ * 一括削除
+ * 
+ * @param array $ids
+ * @return boolean
+ * @access protected
+ */
+	function _batch_del($ids) {
+		
+		if($ids) {
+			foreach($ids as $id) {
+				$this->_del($id);
+			}
+		}
+		return true;
+		
+	}
+/**
+ * データを削除する
+ * 
+ * @param int $id
+ * @return boolean 
+ * @access protected
+ */
+	function _del($id) {
+		
+		// メッセージ用にデータを取得
+		$data = $this->UploaderCategory->read(null, $id);
+
+		// 削除実行
+		if($this->UploaderCategory->del($id)) {
+			$this->UploaderCategory->saveDbLog($data['UploaderCategory']['name'].' を削除しました。');
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+/**
+ * [ADMIN] コピー
+ * 
+ * @param int $id 
+ * @return void
+ * @access public
+ */
+	function admin_ajax_copy($id = null) {
+		
+		$result = $this->UploaderCategory->copy($id);
+		if($result) {
+			$result['UploaderCategory']['id'] = $this->UploaderCategory->getInsertID();
+			$this->setViewConditions('UploaderCategory', array('action' => 'admin_index'));
+			$this->set('data', $result);
+		} else {
+			$this->ajaxError(500, $this->UploaderCategory->validationErrors);
+		}
+		
+	}
 
 }
 ?>

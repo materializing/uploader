@@ -56,7 +56,45 @@ class UploaderCategory extends AppModel {
  * @access	public
  */
 	var $validate = array(
-		'name' => array(array(	'rule'		=> array('notEmpty'),
-										'message'	=> 'カテゴリ名を入力してください。')));
+		'name' => array(
+			array(
+				'rule'		=> array('notEmpty'),
+				'message'	=> 'カテゴリ名を入力してください。')
+			)
+		);
+/**
+ * コピーする
+ * 
+ * @param int $id
+ * @param array $data
+ * @return mixed page Or false
+ */
+	function copy($id = null, $data = array()) {
+		
+		$data = array();
+		if($id) {
+			$data = $this->find('first', array('conditions' => array('UploaderCategory.id' => $id)));
+		}
+		
+		$data['UploaderCategory']['name'] .= '_copy';
+		$data['UploaderCategory']['id'] = $this->getMax('id', array('UploaderCategory.id' => $data['UploaderCategory']['id'])) + 1;
+		
+		unset($data['UploaderCategory']['id']);
+		unset($data['UploaderCategory']['created']);
+		unset($data['UploaderCategory']['modified']);
+		
+		$this->create($data);
+		$result = $this->save();
+		if($result) {
+			return $result;
+		} else {
+			if(isset($this->validationErrors['name'])) {
+				return $this->copy(null, $data);
+			} else {
+				return false;
+			}
+		}
+		
+	}
+
 }
-?>

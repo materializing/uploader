@@ -31,19 +31,19 @@ $(window).load(function() {
 <?php echo $bcForm->create('UploaderCategory') ?>
 <?php echo $bcForm->input('UploaderCategory.id', array('type' => 'hidden')) ?>
 
-<table cellpadding="0" cellspacing="0" class="form-table">
+<table cellpadding="0" cellspacing="0" class="list-table" id="ListTable">
 <?php if($this->action == 'admin_edit'): ?>
 	<tr>
-		<th class="col-head"><?php echo $bcForm->label('UploaderCategory.id', 'NO') ?></th>
-		<td class="col-input">
+		<th><?php echo $bcForm->label('UploaderCategory.id', 'NO') ?></th>
+		<td>
 			<?php echo $bcForm->value('UploaderCategory.id') ?>
 			<?php echo $bcForm->input('UploaderCategory.id', array('type' => 'hidden')) ?>
 		</td>
 	</tr>
 <?php endif; ?>
 	<tr>
-		<th class="col-head"><?php echo $bcForm->label('UploaderCategory.name', 'カテゴリ名') ?>&nbsp;<span class="required">*</span></th>
-		<td class="col-input">
+		<th><?php echo $bcForm->label('UploaderCategory.name', 'カテゴリ名') ?>&nbsp;<span class="required">*</span></th>
+		<td>
 			<?php echo $bcForm->input('UploaderCategory.name', array('type' => 'text', 'size' => 40, 'maxlength' => 50)) ?>
 			<?php echo $bcForm->error('UploaderCategory.name') ?>
 		</td>
@@ -52,12 +52,12 @@ $(window).load(function() {
 
 <div class="submit">
 <?php if($this->action == 'admin_add'): ?>
-	<?php echo $bcForm->submit('登　録', array('div' => false, 'class' => 'btn-red button')) ?>
+	<?php echo $bcForm->submit('登　録', array('div' => false, 'class' => 'button')) ?>
 <?php else: ?>
-	<?php echo $bcForm->submit('更　新', array('div' => false, 'class' => 'btn-orange button')) ?>
+	<?php echo $bcForm->submit('更　新', array('div' => false, 'class' => 'button')) ?>
 	<?php $bcBaser->link('削　除',
 			array('action' => 'delete', $bcForm->value('UploaderCategory.id')),
-			array('class' => 'btn-gray button'),
+			array('class' => 'button'),
 			sprintf('%s を本当に削除してもいいですか？', $bcForm->value('UploaderCategory.name')),
 			false); ?>
 <?php endif ?>
