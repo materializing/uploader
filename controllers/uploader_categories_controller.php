@@ -89,7 +89,7 @@ class UploaderCategoriesController extends PluginsController {
 				$message = 'アップロードファイルカテゴリ「'.$this->data['UploaderCategory']['name'].'」を追加しました。';
 				$this->Session->setFlash($message);
 				$this->UploaderCategory->saveDbLog($message);
-				$this->redirect(array('action'=>'edit', $this->UploaderCategory->getInsertID()));
+				$this->redirect(array('action'=>'index'));
 			}else {
 				$this->Session->setFlash('入力エラーです。内容を修正してください。');
 			}
