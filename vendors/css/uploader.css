@@ -169,6 +169,7 @@
 .pagination span span a, .pagination .disabled, .pagination .current {
     padding: 3px 9px!important;
 	line-height: 18px!important;
+	float:left!important;
 }
 .pagination a:link{
 	color:#669900!important;
@@ -180,6 +181,7 @@
     border: 1px solid #99CC00!important;
     margin: 0 2px!important;
     text-decoration: none!important;
+	float:left!important;
 }
 .pagination .next, .pagination .prev {
     border: 1px solid #99CC00!important;
@@ -187,8 +189,11 @@
     text-decoration: none!important;
     padding: 3px 9px!important;
 	line-height: 18px!important;
+	float:left!important;
 }
-
+.pagination .disabled {
+	border: 1px solid #DFDFDF!important;
+}
 /* UploaderFile
 ----------------------------------------------- */
 .uploader-file-file {
