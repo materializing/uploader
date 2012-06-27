@@ -66,7 +66,7 @@ class UploaderHookHelper extends AppHelper {
 					/* VIEWのCKEDITOR読込部分のコードを書き換える */
 					foreach($matches[1] as $key => $match) {
 						$jscode = $this->__getCkeditorUploaderScript($match);
-						$pattern = "/<script type=\"text\/javascript\">(.*?".$match."\s*?=\s*?CKEDITOR.replace.*?)\/\/\]\]>\n*?<\/script>/s";
+						$pattern = "/<script type=\"text\/javascript\">[\s\n]*?\/\/<\!\[CDATA\[[\s\n]*?([\$]\(window\)\.load.+?".$match."\s=\sCKEDITOR\.replace.*?)\/\/\]\]>\n*?<\/script>/s";
 						$output = preg_replace($pattern,$this->Javascript->codeBlock("$1".$jscode),$view->output);
 						if(!is_null($output)) {
 							$view->output = $output;
