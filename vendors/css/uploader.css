@@ -36,8 +36,8 @@
 	text-align:center;
 }
 .file-filter {
+	float:left;
 	text-align: left;
-	margin-bottom: 10px;
 }
 .file-list-body {
 	margin-top: 5px;
@@ -156,7 +156,7 @@
 }
 .cke_dialog_contents .file-list-body {
 	overflow: auto;
-	height:280px;
+	height:256px;
 	margin-top: 5px;
 	width: 760px;
 	position: relative;
@@ -263,5 +263,10 @@
 	margin-right: 5px;
 }
 .cke_dialog_ui_vbox .pagination {
-	margin:5px;
+	margin:2px;
+	line-height:16px;
+}
+.ui-dialog .pagination .page-result{
+	padding:2px;
+	float:right;
 }
