@@ -262,8 +262,8 @@ class UploaderFilesController extends PluginsController {
 			$this->set('result',true);
 		}else {
 			$this->set('result',null);
-			$this->render('ajax_result');
 		}
+		$this->render('ajax_result');
 
 	}
 /**
