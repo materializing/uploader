@@ -72,10 +72,10 @@ class UploaderConfigsController extends PluginsController {
 			$this->UploaderConfig->set($this->data);
 			if($this->UploaderConfig->validates()) {
 				$this->UploaderConfig->saveKeyValue($this->data);
-				$this->Session->setFlash('アップローダー設定を保存しました。');
+				$this->setMessage('アップローダー設定を保存しました。');
 				$this->redirect('index');
 			} else {
-				$this->Session->setFlash('入力エラーです。内容を修正してください。');
+				$this->setMessage('入力エラーです。内容を修正してください。', true);
 			}
 		}
 		

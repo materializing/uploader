@@ -36,14 +36,14 @@
  * スキーマの読み込み
  */
 	if($this->loadSchema('1.2.11', 'uploader', 'uploader_configs')){
-		$this->setMessage('uploader_configs テーブルの作成に成功しました。');
+		$this->setUpdateLog('uploader_configs テーブルの作成に成功しました。');
 	} else {
-		$this->setMessage('uploader_configs テーブルの作成に失敗しました。', true);
+		$this->setUpdateLog('uploader_configs テーブルの作成に失敗しました。', true);
 	}
 	if($this->loadSchema('1.2.11', 'uploader', 'uploader_categories')){
-		$this->setMessage('uploader_categories テーブルの作成に成功しました。');
+		$this->setUpdateLog('uploader_categories テーブルの作成に成功しました。');
 	} else {
-		$this->setMessage('uploader_categories テーブルの作成に失敗しました。', true);
+		$this->setUpdateLog('uploader_categories テーブルの作成に失敗しました。', true);
 	}
 /**
  * 初期データ読み込み
@@ -52,9 +52,9 @@
 if(verpoint($this->getBaserVersion()) >= 1006011000) {
 
 	if($this->loadCsv('1.2.11', 'uploader')){
-		$this->setMessage('uploader_configs テーブルの初期データ作成に成功しました。');
+		$this->setUpdateLog('uploader_configs テーブルの初期データ作成に成功しました。');
 	} else {
-		$this->setMessage('uploader_configs テーブルの初期データ作成に失敗しました。', true);
+		$this->setUpdateLog('uploader_configs テーブルの初期データ作成に失敗しました。', true);
 	}
 
 } else {
@@ -62,9 +62,9 @@ if(verpoint($this->getBaserVersion()) >= 1006011000) {
 	$path = $this->_getUpdatePath('1.2.11', 'uploader');
 
 	if($this->Updater->loadCsv('plugin', $path)) {
-		$this->setMessage('uploader_configs テーブルの初期データ作成に成功しました。');
+		$this->setUpdateLog('uploader_configs テーブルの初期データ作成に成功しました。');
 	} else {
-		$this->setMessage('uploader_configs テーブルの初期データ作成に失敗しました。', true);
+		$this->setUpdateLog('uploader_configs テーブルの初期データ作成に失敗しました。', true);
 	}
 
 }
