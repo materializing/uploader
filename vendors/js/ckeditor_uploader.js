@@ -101,6 +101,18 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						linkElement.setAttribute('rel','colorbox');
 						linkElement.setAttribute('title',element.getAttribute( 'alt' ));
 						linkElement.append(element, false);
+						
+						if(this.getContentElement('info', 'chkCaption').getValue()) {
+							var box = editor.document.createElement( 'div' );
+							var caption = editor.document.createElement( 'div' );
+							box.setAttribute('class', 'bc-caption');
+							caption.setAttribute('class', 'bc-caption-text');
+							caption.appendHtml(this.getContentElement('info', 'txtAlt').getValue());
+							box.append(linkElement);
+							box.append(caption);
+							linkElement = box;
+						}
+							
 						element = linkElement;
 					}
 				}
@@ -133,7 +145,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 					id : 'formElements1',
 					type : 'hbox',
 					padding : 0,
-					widths : [ '50%', '50%'],
+					widths : [ '45%', '45%', '10%'],
 					children : [
 					{   /* URL */
 						id : 'txtUrl',
@@ -190,7 +202,13 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 								element.appendHtml(this.getValue());
 							}
 						}
-					}
+					},
+					{   /* キャプション */
+						id : 'chkCaption',
+						type : 'checkbox',
+						label : 'キャプション',
+						style:'margin-top:20px; display:block; '
+					},
 					]
 				},
 				{	/* フォーム要素２列目 */
