@@ -103,9 +103,17 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						linkElement.append(element, false);
 						
 						if(this.getContentElement('info', 'chkCaption').getValue()) {
+							var imageSettings = $.parseJSON($("#UploaderImageSettings").html());
+							var width;
+							if(this.getValueOf('info','rdoSize')) {
+								width = imageSettings[this.getValueOf('info','rdoSize')]['width'];
+							}
 							var box = editor.document.createElement( 'div' );
 							var caption = editor.document.createElement( 'div' );
 							box.setAttribute('class', 'bc-caption');
+							if(width) {
+								box.setAttribute('style', 'width:' + width + 'px');
+							}
 							caption.setAttribute('class', 'bc-caption-text');
 							caption.appendHtml(this.getContentElement('info', 'txtAlt').getValue());
 							box.append(linkElement);
@@ -231,8 +239,6 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 							if(element){
 								if(element.getAttribute( 'hspace' )){
 									this.setValue( element.getAttribute( 'hspace' ) );
-								}else{
-									this.setValue('10');
 								}
 							}
 						},
@@ -266,9 +272,8 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 								
 							if(element && element.getAttribute( 'vspace' )) {
 								this.setValue( element.getAttribute( 'vspace' ) );
-							}else{
-								this.setValue('0');
 							}
+							
 						},
 						commit : function( element, imgFlg ) {
 

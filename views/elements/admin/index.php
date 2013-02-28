@@ -29,6 +29,10 @@ $uploaderCategories = $bcForm->getControlSource('UploaderFile.uploader_category_
 $bcBaser->css('/js/jquery.contextMenu-1.0/jquery.contextMenu');
 $bcBaser->js(array('jquery.contextMenu-1.0/jquery.contextMenu', 'jquery.upload-1.0.0.min'));
 ?>
+<?php if(isset($imageSettings)) : ?>
+<div id="UploaderImageSettings" style="display:none"><?php echo $javascript->object($imageSettings) ?></div>
+<?php endif ?>
+
 <script type="text/javascript">
 var listId = '<?php echo $listId ?>';
 /**

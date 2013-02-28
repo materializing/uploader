@@ -117,6 +117,8 @@ class UploaderFilesController extends PluginsController {
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
 		$this->setViewConditions('UploadFile', array('default' => $default));
 		$this->set('listId', $id);
+		$settings = $this->UploaderFile->Behaviors->BcUpload->settings;
+		$this->set('imageSettings', $settings['fields']['name']['imagecopy']);
 		$this->set('installMessage', $this->checkInstall());
 
 	}

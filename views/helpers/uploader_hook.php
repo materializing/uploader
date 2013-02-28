@@ -105,9 +105,10 @@ class UploaderHookHelper extends AppHelper {
  * @access	private
  */
 	function __getCkeditorUploaderScript($id) {
-
+		$css = $this->url('/uploader/css/ckeditor/contents.css');
 		return <<< DOC_END
 			$(window).load(function(){
+				CKEDITOR.config.contentsCss.push('{$css}');
 				{$id}.on( 'pluginsLoaded', function( ev ) {
 					{$id}.addCommand( 'baserUploader', new CKEDITOR.dialogCommand( 'baserUploaderDialog' ));
 					{$id}.ui.addButton( 'BaserUploader', { label : 'アップローダー', command : 'baserUploader' });
