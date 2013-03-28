@@ -173,35 +173,19 @@ class UploaderFilesController extends PluginsController {
  */
 	function admin_ajax_list($id='') {
 
-		$this->layout = 'ajax';
 		Configure::write('debug',0);
-		if(!isset($this->siteConfigs['admin_list_num'])) {
-			$this->siteConfigs['admin_list_num'] = 10;
-		}
+		
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
 		$this->setViewConditions('UploadFile', array('default' => $default, 'type' => 'get'));
-		$conditions = array();
-		if(!empty($this->passedArgs['uploader_category_id'])) {
-			$conditions = array('UploaderFile.uploader_category_id' => $this->passedArgs['uploader_category_id']);
-			$this->data['Filter']['uploader_category_id'] = $this->passedArgs['uploader_category_id'];
-		}
-		if(!empty($this->passedArgs['uploader_type'])) {
-			switch ($this->passedArgs['uploader_type']) {
-				case 'img':
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.png');
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.jpg');
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.gif');
-					break;
-				case 'etc':
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.png');
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.jpg');
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.gif');
-					break;
-			}
-			$this->data['Filter']['uploader_type'] = $this->passedArgs['uploader_type'];
-		} else {
+
+		$this->data['Filter'] = $this->passedArgs;
+		if(empty($this->data['Filter']['uploader_type'])) {
 			$this->data['Filter']['uploader_type'] = 'all';
 		}
+		if(!empty($this->data['Filter']['name'])) {
+			$this->data['Filter']['name'] = urldecode($this->data['Filter']['name']);
+		}
+			
 		// =====================================================================
 		// setViewConditions で type を get に指定した場合、
 		// 自動的に $this->passedArgs['num'] 設定されないので明示的に取得
@@ -216,20 +200,61 @@ class UploaderFilesController extends PluginsController {
 			$num = $this->siteConfigs['admin_list_num'];
 		}
 
+		$conditions = $this->_createAdminIndexConditions($this->data['Filter']);
 		$this->paginate = array('conditions'=>$conditions,
 				'fields'=>array(),
 				'order'=>'created DESC',
 				'limit'=>$num
 		);
+		
 		$dbDatas = $this->paginate('UploaderFile');
+		
 		foreach($dbDatas as $key => $dbData) {
 			$files = $this->UploaderFile->filesExists($dbData['UploaderFile']['name']);
 			$dbData = Set::merge($dbData,array('UploaderFile'=>$files));
 			$dbDatas[$key] = $dbData;
 		}
+		
 		$this->set('listId', $id);
 		$this->set('files',$dbDatas);
 
+	}
+/**
+ * 一覧の検索条件を生成する
+ * 
+ * @param array $data
+ * @return array 
+ */
+	function _createAdminIndexConditions($data) {
+		
+		$conditions = array();
+		if(!empty($data['uploader_category_id'])) {
+			$conditions = array('UploaderFile.uploader_category_id' => $data['uploader_category_id']);
+			$this->data['Filter']['uploader_category_id'] = $data['uploader_category_id'];
+		}
+		if(!empty($data['uploader_type'])) {
+			switch ($data['uploader_type']) {
+				case 'img':
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.png');
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.jpg');
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.gif');
+					break;
+				case 'etc':
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.png');
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.jpg');
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.gif');
+					break;
+				case 'all':
+				case '':
+			}
+		}
+		if(!empty($data['name'])) {
+			$conditions['and']['or'][] = array('UploaderFile.name LIKE' => '%' . $data['name'] . '%');
+			$conditions['and']['or'][] = array('UploaderFile.alt LIKE' => '%' . $data['name'] . '%');
+		}
+		
+		return $conditions;
+		
 	}
 /**
  * [ADMIN] Ajaxファイルアップロード
@@ -292,12 +317,13 @@ class UploaderFilesController extends PluginsController {
  */
 	function admin_ajax_exists_images($name) {
 
+		Configure::write('debug', 0);
 		$this->RequestHandler->setContent('json');
 		$this->RequestHandler->respondAs('application/json; charset=UTF-8');
 		$files = $this->UploaderFile->filesExists($name);
 		$this->set('result',$files);
 		$this->render('json_result');
-
+		
 	}
 /**
  * [ADMIN] 編集処理

@@ -197,10 +197,11 @@
 /* UploaderFile
 ----------------------------------------------- */
 .uploader-file-file {
-	font-size:14px;
-	border: 1px solid #CCC;
-	background-color: #FFFFFF;
+	font-size:16px;
+	/*border: 1px solid #CCC;*/
+	/*background-color: #FFFFFF;*/
 	padding:2px;
+	width:107px;
 }
 #UploaderForm label{
 	font-weight: bold;

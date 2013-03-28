@@ -24,14 +24,23 @@ header('Content-type: text/html; charset=utf-8');
 $users = $bcForm->getControlSource("UploaderFile.user_id");
 $uploaderCategories = $bcForm->getControlSource("UploaderFile.uploader_category_id");
 $this->passedArgs['action'] = 'ajax_list';
+//==============================================================================
+// Ajaxで呼び出される事が前提の為インラインで呼びだし
+//==============================================================================
+$bcBaser->js(array('jquery.upload-1.0.0.min'));
 ?>
 
-<div class="file-filter">
+
+<div class="file-filter submit">
+	<small style="font-weight:bold">名称</small>&nbsp;<?php echo $bcForm->input('Filter.name', array('type' => 'text', 'id' => 'FilterName'.$listId, 'class' => 'filter-control', 'style' => 'width:160px')) ?>　
 <?php if($uploaderCategories): ?>
 	<small style="font-weight:bold">カテゴリ</small>&nbsp;<?php echo $bcForm->input('Filter.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => '指定なし', 'id' => 'FilterUploaderCategoryId'.$listId, 'class' => 'filter-control')) ?>　
 <?php endif ?>
 	<small style="font-weight:bold">タイプ</small>&nbsp;<?php echo $bcForm->input('Filter.uploader_type', array('type' => 'radio', 'options' => array('all'=>'指定なし', 'img' => '画像', 'etc' => '画像以外'), 'id' => 'FilterUploaderType'.$listId, 'class' => 'filter-control')) ?>
+	<?php echo $bcForm->submit('検索', array('id' => 'BtnFilter'.$listId, 'div' => false, 'class' => 'button')) ?>
 </div>
+
+
 <?php $bcBaser->element('pagination') ?>
 <div class="file-list-body clearfix corner5">
 <?php if ($files): ?>

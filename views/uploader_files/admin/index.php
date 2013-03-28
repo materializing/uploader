@@ -24,7 +24,7 @@ $bcBaser->css('/uploader/css/uploader', array('inline' => false));
 
 
 <style type="text/css">
-#fileList{
+#fileList {
 	padding:5px;
 }
 </style>
