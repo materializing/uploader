@@ -24,7 +24,7 @@ $bcBaser->css('/uploader/css/uploader', array('inline' => false));
 
 
 <style type="text/css">
-#fileList {
+#FileList {
 	padding:5px;
 }
 </style>
@@ -35,4 +35,4 @@ $(window).load(function() {
 });
 </script>
 
-<?php $bcBaser->element('index') ?>
+<?php $bcBaser->element('uploader_files/index') ?>

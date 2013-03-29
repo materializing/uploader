@@ -25,19 +25,15 @@
     background-position:0 -576px!important;
 }
 
-/* fileList
+/* FileList
 ----------------------------------------------- */
-#fileList{
+#FileList{
 	width:100%;
 	height:100%;
 	white-space: normal;
 	overflow:auto;
 	background-color:#FFF;
 	text-align:center;
-}
-.file-filter {
-	float:left;
-	text-align: left;
 }
 .file-list-body {
 	margin-top: 5px;
@@ -158,7 +154,6 @@
 	overflow: auto;
 	height:256px;
 	margin-top: 5px;
-	width: 760px;
 	position: relative;
 	border:1px solid #D5D5D5;
 	background-color: #E6E6E6;
@@ -270,4 +265,28 @@
 .ui-dialog .pagination .page-result{
 	padding:2px;
 	float:right;
+}
+.pagination {
+	margin-bottom: 0;
+	float:right;
+}
+#UploaderForm div{
+	float:left;
+}
+/*.file-filter {
+	border:5px solid #CCC;
+	padding:10px;
+	margin-bottom: 10px;
+}*/
+#Search {
+	display: block;
+}
+#UploaderSearch {
+	margin-top:10px;
+	border:1px solid #CCC;
+	padding:1px 1px 1px 10px;
+	background-color: #DCDCDC;
+}
+.file-filter select {
+	width:100px;
 }

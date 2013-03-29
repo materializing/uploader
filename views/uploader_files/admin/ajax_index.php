@@ -19,4 +19,4 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
-$bcBaser->element('index');
+$bcBaser->element('uploader_files/index');

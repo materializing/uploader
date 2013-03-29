@@ -41,30 +41,14 @@ $uploaderCategories = $bcForm->getControlSource('UploaderFile.uploader_category_
 </div>
 
 
-<!-- form -->
-<?php if(!$installMessage): ?>
-<div class="panel-box" id="UploaderForm">
-	<?php echo $bcForm->label('UploaderFile.uploader_category_id', 'アップロード') ?>&nbsp;
-	<?php if($uploaderCategories): ?>
-		<?php echo $bcForm->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => 'カテゴリ指定なし', 'id' => 'UploaderFileUploaderCategoryId'.$listId)) ?>&nbsp;
-	<?php endif ?>
-	<span id="SpanUploadFile<?php echo $listId ?>">
-		<?php echo $bcForm->file('UploaderFile.file', array('id'=>'UploaderFileFile'.$listId, 'class' => 'uploader-file-file')) ?>
-	</span>
-</div>
-<?php else: ?>
-<p style="color:#C00;font-weight:bold"><?php echo $installMessage ?></p>
-<?php endif ?>
+<!-- ファイルリスト -->
+<div id="FileList<?php echo $listId ?>" class="corner5 file-list"></div>
 
 
 <!-- list-num -->
 <?php if(empty($this->params['isAjax'])): ?>
 <?php $bcBaser->element('list_num') ?>
 <?php endif ?>
-
-
-<!-- ファイルリスト -->
-<div id="fileList<?php echo $listId ?>" class="corner5 file-list"></div>
 
 
 <!-- コンテキストメニュー -->
@@ -76,6 +60,7 @@ $uploaderCategories = $bcForm->getControlSource('UploaderFile.uploader_category_
     <li class="edit disabled"><a href="#">編集</a></li>
     <li class="delete disabled"><a href="#">削除</a></li>
 </ul>
+
 
 <!-- 編集ダイアログ -->
 <div id="dialog" title="ファイル情報編集">

@@ -1,3 +1,22 @@
+/* SVN FILE: $Id$ */
+/**
+ * アップロードリスト
+ *
+ * PHP versions 4 and 5
+ *
+ * Baser :  Basic Creating Support Project <http://basercms.net>
+ * Copyright 2008 - 2011, Catchup, Inc.
+ *								1-19-4 ikinomatsubara, fukuoka-shi
+ *								fukuoka, Japan 819-0055
+ *
+ * @copyright		Copyright 2008 - 2011, Catchup, Inc.
+ * @link			http://basercms.net BaserCMS Project
+ * @since			Baser v 0.1.0
+ * @version			$Revision$
+ * @modifiedby		$LastChangedBy$
+ * @lastmodified	$Date$
+ * @license			http://basercms.net/license/index.html
+ */
 /**
  * 起動時処理
  */
@@ -14,9 +33,6 @@ $(function(){
 	// 一覧を更新する
 	updateFileList();
 
-	// ファイルアップロードイベントを登録
-	$('#UploaderFileFile'+listId).change(uploaderFileFileChangeHandler);
-
 	/* ダイアログを初期化 */
 	$("#dialog").dialog({
 		bgiframe: true,
@@ -25,15 +41,15 @@ $(function(){
 		width:480,
 		modal: true,
 		open: function(){
-			var name = $("#fileList"+listId+" .selected .name").html();
+			var name = $("#FileList"+listId+" .selected .name").html();
 			var imgUrl = baseUrl+'admin/uploader/uploader_files/ajax_image/'+name+'/midium';
-			$("#UploaderFileId"+listId).val($("#fileList" + $("#ListId").html() + " .selected .id").html());
+			$("#UploaderFileId"+listId).val($("#FileList" + $("#ListId").html() + " .selected .id").html());
 			$("#UploaderFileName"+listId).val(name);
-			$("#UploaderFileAlt"+listId).val($("#fileList"+listId+" .selected .alt").html());
-			$("#UploaderFileUserId"+listId).val($("#fileList"+listId+" .selected .user-id").html());
-			$("#UploaderFileUserName"+listId).html($("#fileList"+listId+" .selected .user-name").html());
+			$("#UploaderFileAlt"+listId).val($("#FileList"+listId+" .selected .alt").html());
+			$("#UploaderFileUserId"+listId).val($("#FileList"+listId+" .selected .user-id").html());
+			$("#UploaderFileUserName"+listId).html($("#FileList"+listId+" .selected .user-name").html());
 			if($("#_UploaderFileUploaderCategoryId"+listId).length) {
-				$("#_UploaderFileUploaderCategoryId"+listId).val($("#fileList"+listId+" .selected .uploader-category-id").html());
+				$("#_UploaderFileUploaderCategoryId"+listId).val($("#FileList"+listId+" .selected .uploader-category-id").html());
 			}
 
 			$.get(imgUrl,function(res){
@@ -105,7 +121,7 @@ function uploadSuccessHandler(res){
 		updateFileList();
 	}else{
 		$('#ErrorMessage').remove();
-		$('#fileList'+listId).prepend('<p id="ErrorMessage" class="message">アップロードに失敗しました。ファイルサイズを確認してください。</p>');
+		$('#FileList'+listId).prepend('<p id="ErrorMessage" class="message">アップロードに失敗しました。ファイルサイズを確認してください。</p>');
 		$("#Waiting").hide();
 	}
 	// フォームを初期化
@@ -139,7 +155,7 @@ function initFileList(){
 	$(".selectable-file").unbind('mouseleave.selectEvent');
 	$(".page-numbers a").unbind('click.paginationEvent');
 	$(".selectable-file").unbind('dblclick.dblclickEvent');
-	$(".filter-control").unbind('change.filterEvent');
+	$(".filter-control").unbind('click.filterEvent');
 
 	$(".selectable-file").each(function(){
 		if($(this).contextMenu && !listId) {
@@ -169,6 +185,9 @@ function initFileList(){
 
 	});
 
+	// ファイルアップロードイベントを登録
+	$('#UploaderFileFile'+listId).change(uploaderFileFileChangeHandler);
+	
 	$(".selectable-file").bind('mouseenter.selectEvent', function(){
 		$(this).css('background-color','#FFCC00');
 	});
@@ -187,7 +206,7 @@ function initFileList(){
 		$("#Waiting").show();
 		$.get(getListUrl(),updateFileListCompleteHander);			
 	});
-/*		$('#FilterUploaderCategoryId'+listId).bind('change.filterEvent', function() {
+	/*$('#FilterUploaderCategoryId'+listId).bind('change.filterEvent', function() {
 		$("#Waiting").show();
 		$.get(getListUrl(),updateFileListCompleteHander);
 	});
@@ -198,8 +217,8 @@ function initFileList(){
 
 	$('.selectable-file').corner("5px");
 	$('.corner5').corner("5px");
-	$("#fileList"+listId).trigger("filelistload");
-	$("#fileList"+listId).effect("highlight",{},1500);
+	$("#FileList"+listId).trigger("filelistload");
+	$("#FileList"+listId).effect("highlight",{},1500);
 
 }
 /**
@@ -208,7 +227,7 @@ function initFileList(){
 function updateFileListCompleteHander(result) {
 	
 	var listId = $("#ListId").html();
-	$("#fileList"+listId).html(result);
+	$("#FileList"+listId).html(result);
 	initFileList();
 	$("#Waiting").hide();
 	
@@ -229,7 +248,6 @@ function getListUrl() {
 	if($('#FilterName'+listId).length) {
 		listUrl += '/name:'+ encodeURI($('#FilterName'+listId).val());
 	}
-	p(listUrl);
 	return listUrl;
 	
 }
@@ -257,12 +275,12 @@ function contextMenuHander(action, el, pos) {
 		case 'delete':
 			if(confirm('本当に削除してもよろしいですか？')){
 				$("#Waiting").show();
-				$.post(delUrl, {"data[UploaderFile][id]": $("#fileList"+listId+" .selected .id").html()}, function(res){
+				$.post(delUrl, {"data[UploaderFile][id]": $("#FileList"+listId+" .selected .id").html()}, function(res){
 					if(!res){
 						$("#Waiting").hide();
 						alert("サーバーでの処理に失敗しました。");
 					}else{
-						$("#fileList"+listId).trigger("deletecomplete");
+						$("#FileList"+listId).trigger("deletecomplete");
 						updateFileList();
 					}
 				});

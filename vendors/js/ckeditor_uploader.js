@@ -23,12 +23,13 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 		return {
 			title : 'ファイルプロパティ',
 			minWidth : 720,
-			minHeight : 464,
+			minHeight : 510,
 			whiteSpace : 'normal',
 		/**
          * ダイアログ 起動イベント
          **/
 			onShow : function() {
+				this.move(this.getPosition().x,0);
 				this.editMode = false;
 				var element = this.getParentEditor().getSelection().getSelectedElement();
 				var selection = this.getParentEditor().getSelection();
@@ -384,20 +385,36 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 					children : [],
 					setup : function() {
 						var fileList = $("#"+this.domId);
-						fileList.html('<div style="text-align:center"><img src="'+baseUrl+'img/ajax-loader.gif" /></div>');
+						
+						var inner = '<div id="UploaderSearch" class="corner5" style="display:none"></div>' + 
+									'<div class="inner" style="text-align:center"><img style="margin-top:120px" src="'+baseUrl+'img/ajax-loader.gif" /></div>';
+						fileList.html(inner);
+						
 						var dialog = this.getDialog();
 						var listId = Math.floor(Math.random()*99999999+1);
 						$.ajax({
 							type: "GET",
 							dataType: "html",
-							url: baseUrl+"admin/uploader/uploader_files/ajax_index/"+listId,
+							url: baseUrl+"admin/uploader/uploader_files/ajax_get_search_box/"+listId,
+							success: function(res){
+								$("#UploaderSearch").html(res);
+								$("#UploaderSearch").slideDown();
+							},
+							error: function(msg,textStatus, errorThrown) {
+								alert(textStatus);
+							}
+						});
+						$.ajax({
+							type: "GET",
+							dataType: "html",
+							url: baseUrl+"admin/uploader/uploader_files/index/"+listId,
 							success: function(res){
 
 								// リストをセット
-								fileList.html(res);
+								fileList.find('.inner').html(res);
 
 								// リストのロード完了イベント
-								$("#fileList"+listId).bind('filelistload',function() {
+								$("#FileList"+listId).bind('filelistload',function() {
 
 									// ファイル選択イベント
 									$('.selectable-file').click(function() {
@@ -440,7 +457,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 
 								});
 								
-								$("#fileList"+listId).bind('deletecomplete',function(){
+								$("#FileList"+listId).bind('deletecomplete',function(){
 									dialog.setValueOf( 'info', 'txtUrl', '');
 									dialog.setValueOf( 'info', 'txtAlt', '');
 								});

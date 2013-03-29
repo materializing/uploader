@@ -89,7 +89,7 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_index() {
+	function admin_index($id='') {
 
 		if(!isset($this->siteConfigs['admin_list_num'])) {
 			$this->siteConfigs['admin_list_num'] = 10;
@@ -98,28 +98,15 @@ class UploaderFilesController extends PluginsController {
 		$this->setViewConditions('UploadFile', array('default' => $default));
 		$this->set('uploaderConfigs', $this->UploaderConfig->findExpanded());
 		$this->set('installMessage', $this->checkInstall());
-		$this->pageTitle = 'アップロードファイル一覧';
-
-	}
-/**
- * [ADMIN] ファイル一覧
- *
- * @param	int		$id		呼び出し元 識別ID
- * @param	string	$filter
- * @return	void
- * @access	public
- */
-	function admin_ajax_index($id='') {
-
-		if(!isset($this->siteConfigs['admin_list_num'])) {
-			$this->siteConfigs['admin_list_num'] = 10;
+		
+		if($this->RequestHandler->isAjax()) {
+			$settings = $this->UploaderFile->Behaviors->BcUpload->settings;
+			$this->set('listId', $id);
+			$this->set('imageSettings', $settings['fields']['name']['imagecopy']);
+		} else {
+			$this->search = 'uploader_files_index';
+			$this->pageTitle = 'アップロードファイル一覧';
 		}
-		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
-		$this->setViewConditions('UploadFile', array('default' => $default));
-		$this->set('listId', $id);
-		$settings = $this->UploaderFile->Behaviors->BcUpload->settings;
-		$this->set('imageSettings', $settings['fields']['name']['imagecopy']);
-		$this->set('installMessage', $this->checkInstall());
 
 	}
 /**
@@ -387,6 +374,16 @@ class UploaderFilesController extends PluginsController {
 		}
 
 	}
-
+/**
+ * 検索ボックスを取得する
+ * 
+ * @param string $listid
+ */
+	function admin_ajax_get_search_box($listId = "") {
+		
+		$this->set('listId', $listId);
+		$this->render('../elements/admin/searches/uploader_files_index');
+		
+	}
 }
 ?>
