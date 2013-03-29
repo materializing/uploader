@@ -77,7 +77,7 @@ $bcBaser->js(array('jquery.upload-1.0.0.min'));
 		<th>NO</th>
 		<th>イメージ</th>
 		<th>カテゴリ</th>
-		<th>ファイル名<br />ALT</th>
+		<th>ファイル名<br />説明文</th>
 		<th>投稿者</th>
 		<th>投稿日<br />編集日</th>
 	</tr>
