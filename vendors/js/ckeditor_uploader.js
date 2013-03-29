@@ -128,8 +128,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 
 				editor.insertElement(element);
 				
-				$("#dialog").remove();
-				$("#fileMenu").remove();
+				$("#EditDialog").remove();
 
 				return true;
 				
@@ -138,8 +137,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 		 * キャンセルボタン クリックイベント
 		 */
 			onCancel : function() {
-				$("#dialog").remove();
-				$("#fileMenu").remove();
+				$("#EditDialog").remove();
 			},
 		/**
          * コンテンツプロパティ

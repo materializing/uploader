@@ -20,21 +20,36 @@
  * @license			http://basercms.net/license/index.html
  */
 ?>
-<span class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
-	<?php echo $uploader->file($file,array('width'=>120,'height'=>120,'size'=>'small','alt'=>$file['UploaderFile']['alt'],'style'=>'width:120px;height:120px')) ?>
-	<div style="text-align:right">
-		<span class="id"><?php echo $file['UploaderFile']['id'] ?></span>.<span class="alt"><?php echo $bcText->mbTruncate($file['UploaderFile']['alt'], 14) ?></span>
-	</div>
-	<span class="name"><?php echo $file['UploaderFile']['name'] ?></span>
-	<div style="text-align:right;margin-top:2px">
-		<span class="created"><?php echo $bcTime->format('Y.m.d',$file['UploaderFile']['created']) ?></span>
-	</div>
-	<span class="modified"><?php echo $bcTime->format('Y.m.d',$file['UploaderFile']['modified']) ?></span>
-	<span class="small"><?php echo $file['UploaderFile']['small'] ?></span>
-	<span class="midium"><?php echo $file['UploaderFile']['midium'] ?></span>
-	<span class="large"><?php echo $file['UploaderFile']['large'] ?></span>
-	<span class="url"><?php echo $uploader->getFileUrl($file['UploaderFile']['name']) ?></span>
-	<span class="user-id"><?php echo $file['UploaderFile']['user_id'] ?></span>
-	<span class="uploader-category-id"><?php echo $file['UploaderFile']['uploader_category_id'] ?></span>
-	<span class="user-name"><?php echo $bcText->arrayValue($file['UploaderFile']['user_id'], $users) ?></span>
-</span>
+
+
+<tr class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
+<?php if(!$listId): ?>
+	<td class="row-tools" style="width:15%">
+		<?php $bcBaser->link($bcBaser->getImg('admin/icn_tool_edit.png', array('width' => 24, 'height' => 24, 'alt' => '編集', 'class' => 'btn')), array('action' => 'edit', $file['UploaderFile']['id']), array('title' => '編集')) ?>
+		<?php $bcBaser->link($bcBaser->getImg('admin/icn_tool_delete.png', array('width' => 24, 'height' => 24, 'alt' => '削除', 'class' => 'btn')), array('action' => 'delete', $file['UploaderFile']['id']), array('title' => '削除', 'class' => 'btn-delete')) ?>
+	</td>
+<?php endif ?>
+	<td class="id">
+		<?php echo $file['UploaderFile']['id'] ?>
+		<div  style="display:none">
+			<span class="small"><?php echo $file['UploaderFile']['small'] ?></span>
+			<span class="midium"><?php echo $file['UploaderFile']['midium'] ?></span>
+			<span class="large"><?php echo $file['UploaderFile']['large'] ?></span>
+			<span class="url"><?php echo $uploader->getFileUrl($file['UploaderFile']['name']) ?></span>
+			<span class="user-id"><?php echo $file['UploaderFile']['user_id'] ?></span>
+			<span class="name"><?php echo $file['UploaderFile']['name'] ?></span>
+			<span class="alt"><?php echo $file['UploaderFile']['alt'] ?></span>
+		</div>
+	</td>
+	<td class="img"><?php echo $uploader->file($file,array('size'=>'small','alt'=>$file['UploaderFile']['alt'],'style'=>'width:80px')) ?></td>
+	<td><span class="uploader-category-id"><?php echo $bcText->arrayValue($file['UploaderFile']['uploader_category_id'], $uploaderCategories) ?></td>
+	<td width="30%">
+		<span><?php echo $file['UploaderFile']['name'] ?></span><br />
+		<span><?php echo $bcText->mbTruncate($file['UploaderFile']['alt'], 40) ?><span>
+	</td>
+	<td class="user-name"><?php echo $bcText->arrayValue($file['UploaderFile']['user_id'], $users) ?></td>
+	<td class="created">
+		<span class="created"><?php echo $bcTime->format('Y.m.d',$file['UploaderFile']['created']) ?></span><br />
+		<span class="modified"><?php echo $bcTime->format('Y.m.d',$file['UploaderFile']['modified']) ?></span>
+	</td>
+</tr>

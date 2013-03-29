@@ -49,7 +49,7 @@ class UploaderFilesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $helpers = array(BC_TEXT_HELPER, BC_TIME_HELPER, BC_FORM_HELPER, 'Uploader.Uploader');
+	var $helpers = array(BC_TEXT_HELPER, BC_TIME_HELPER, BC_FORM_HELPER, 'Uploader.Uploader', 'BcUpload');
 /**
  * ページタイトル
  *
@@ -202,9 +202,16 @@ class UploaderFilesController extends PluginsController {
 			$dbDatas[$key] = $dbData;
 		}
 		
+		$uploaderConfig = $this->UploaderConfig->findExpanded();
 		$this->set('listId', $id);
 		$this->set('files',$dbDatas);
-
+		if(empty($uploaderConfig['layout_type'])) {
+			$layoutType = 'panel';
+		} else {
+			$layoutType = 'table';
+		}
+		$this->set('layoutType', $uploaderConfig['layout_type']);
+		
 	}
 /**
  * 一覧の検索条件を生成する
@@ -259,10 +266,9 @@ class UploaderFilesController extends PluginsController {
 		Configure::write('debug',0);
 
 		if(!$this->data) {
-			$this->set('result',null);
-			$this->render('ajax_result');
-			return;
+			$this->ajaxError(500, '無効な処理です。');
 		}
+		
 		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		if(!empty($user[$userModel]['id'])) {
@@ -273,11 +279,10 @@ class UploaderFilesController extends PluginsController {
 		$this->UploaderFile->create($this->data);
 
 		if($this->UploaderFile->save()) {
-			$this->set('result',true);
-		}else {
-			$this->set('result',null);
+			echo true;
 		}
-		$this->render('ajax_result');
+		
+		exit();
 
 	}
 /**
@@ -318,27 +323,42 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_edit() {
+	function admin_edit($id = null) {
 
-		if (!$this->data) {
+		if (!$this->data && $this->RequestHandler->isAjax()) {
+			$this->ajaxError(500, '無効な処理です。');
+		} elseif(!$this->RequestHandler->isAjax() && !$id) {
 			$this->notFound();
 		}
-
+		
 		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
-
 		if($uploaderConfig['use_permission']) {
 			if($user[$userModel]['user_group_id'] != 1 && $this->data['UploaderFile']['user_id'] != $user[$userModel]['id']) {
 				$this->notFound();
 			}
 		}
-
-		$this->UploaderFile->set($this->data);
-		$this->set('result',$this->UploaderFile->save());
-		if ($this->RequestHandler->isAjax()) {
-			$this->render('ajax_result');
+		
+		if(!$this->data) {
+			$this->data = $this->UploaderFile->read(null, $id);
+		} else {
+			$this->UploaderFile->set($this->data);
+			$result = $this->UploaderFile->save();
+			if ($this->RequestHandler->isAjax()) {
+				echo $result;
+				exit();
+			} else {
+				if($result) {
+					$this->setMessage('ファイルの内容を保存しました。');
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->setMessage('保存中にエラーが発生しました。');
+				}
+			}	
 		}
+		
+		$this->render('../elements/admin/uploader_files/form');
 
 	}
 /**
@@ -347,16 +367,16 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_delete() {
+	function admin_delete($id) {
 
-		if(!$this->data) {
+		if(!$id) {
 			$this->notFound();
 		}
 
 		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
-		$uploaderFile = $this->UploaderFile->read(null, $this->data['UploaderFile']['id']);
+		$uploaderFile = $this->UploaderFile->read(null, $id);
 
 		if(!$uploaderFile) {
 			$this->notFound();
@@ -368,9 +388,17 @@ class UploaderFilesController extends PluginsController {
 			}
 		}
 
-		$this->set('result',$this->UploaderFile->del($this->data['UploaderFile']['id']));
+		$result = $this->UploaderFile->del($id);
 		if ($this->RequestHandler->isAjax()) {
-			$this->render('ajax_result');
+			echo $result;
+			exit();
+		} else {
+			if($result) {
+				$this->setMessage($uploaderFile['UploaderFile']['name']. ' を削除しました。', false, true);
+			} else {
+				$this->setMessage('削除中にエラーが発生しました。', true);
+			}
+			$this->redirect(array('action' => 'index'));
 		}
 
 	}

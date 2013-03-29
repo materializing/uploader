@@ -19,4 +19,8 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
-$bcBaser->element('uploader_files/index_list');
+if($layoutType == 'table') {
+	$bcBaser->element('uploader_files/index_list');
+} else {
+	$bcBaser->element('uploader_files/index_panel');
+}

@@ -102,7 +102,14 @@ $(window).load(function() {
 <div id ="FormOptionBody" class="slide-body section">
 	<table cellpadding="0" cellspacing="0" class="form-table">
 		<tr>
-			<th class="col-head"><span class="required">*</span>&nbsp;<?php echo $bcForm->label('UploaderConfig.use_permission', '制限設定') ?></th>
+			<th class="col-head"><?php echo $bcForm->label('UploaderConfig.layout_type', 'レイアウトタイプ') ?></th>
+			<td class="col-input">
+				<?php echo $bcForm->input('UploaderConfig.layout_type', array('type' => 'radio', 'options' => array('panel' => 'パネル', 'table' => 'テーブル'))) ?>
+				<?php echo $bcForm->error('UploaderConfig.layout_type') ?>
+			</td>
+		</tr>
+		<tr>
+			<th class="col-head"><?php echo $bcForm->label('UploaderConfig.use_permission', '制限設定') ?></th>
 			<td class="col-input">
 				<?php echo $bcForm->input('UploaderConfig.use_permission', array('type' => 'checkbox', 'label' => '編集/削除を制限する', 'between' => '&nbsp;')) ?>
 				<?php echo $html->image('admin/icn_help.png', array('class' => 'btn help', 'alt' => 'ヘルプ')) ?>

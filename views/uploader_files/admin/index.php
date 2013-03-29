@@ -22,13 +22,6 @@
 $bcBaser->css('/uploader/css/uploader', array('inline' => false));
 ?>
 
-
-<style type="text/css">
-#FileList {
-	padding:5px;
-}
-</style>
-
 <script type="text/javascript">
 $(window).load(function() {
 	$("#UploaderFileFile").focus();

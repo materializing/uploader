@@ -34,7 +34,7 @@ $(function(){
 	updateFileList();
 
 	/* ダイアログを初期化 */
-	$("#dialog").dialog({
+	$("#EditDialog").dialog({
 		bgiframe: true,
 		autoOpen: false,
 		position: ['center', 20],
@@ -51,7 +51,6 @@ $(function(){
 			if($("#_UploaderFileUploaderCategoryId"+listId).length) {
 				$("#_UploaderFileUploaderCategoryId"+listId).val($("#FileList"+listId+" .selected .uploader-category-id").html());
 			}
-
 			$.get(imgUrl,function(res){
 				$("#UploaderFileImage"+listId).html(res);
 			});
@@ -156,14 +155,16 @@ function initFileList(){
 	$(".page-numbers a").unbind('click.paginationEvent');
 	$(".selectable-file").unbind('dblclick.dblclickEvent');
 	$(".filter-control").unbind('click.filterEvent');
+	$(".btn-delete").unbind('click');
 
-	$(".selectable-file").each(function(){
+	$("#DivPanelList .selectable-file").each(function(){
+		
 		if($(this).contextMenu && !listId) {
 			/* 右クリックメニューを追加 */
 			if($(this).find('.user-id').html() == $("#LoginUserId").html() || $("#LoginUserGroupId").html() == 1 || !Number(usePermission)) {
 				$(this).contextMenu({menu: 'FileMenu1'}, contextMenuHander);
 				$(this).bind('dblclick.dblclickEvent', function(){
-					$('#dialog').dialog('open');
+					$('#EditDialog').dialog('open');
 				});
 			} else {
 				$(this).contextMenu({menu: 'FileMenu2'}, contextMenuHander);
@@ -177,24 +178,60 @@ function initFileList(){
 			});
 		}
 
-		// IEの場合contextmenuを検出できなかったので、mousedownに変更した
-		$(this).bind('mousedown', function(){
-			$(".selectable-file").removeClass('selected');
-			$(this).addClass('selected');
-		});
-
 	});
 
+	$(".btn-delete").click(function(){
+		if(!confirm('このデータを削除します。よろしいですか？')) {
+			return false;
+		}
+		$("#Waiting").show();
+		$.ajax({
+			type: "GET",
+			dataType: "html",
+			url: $(this).attr('href'),
+			success: function(res){
+				$.get(getListUrl(), updateFileListCompleteHander);
+			},
+			error: function(msg,textStatus, errorThrown) {
+				alert(textStatus);
+			}
+		});
+		return false;
+	});
+	
 	// ファイルアップロードイベントを登録
 	$('#UploaderFileFile'+listId).change(uploaderFileFileChangeHandler);
 	
-	$(".selectable-file").bind('mouseenter.selectEvent', function(){
-		$(this).css('background-color','#FFCC00');
-	});
-	$(".selectable-file").bind('mouseleave.selectEvent', function(){
-		$(this).css('background-color','#FFFFFF');
-	});
-
+	if(listId) {
+		$(".selectable-file").bind('mouseenter.selectEvent', function(){
+			$(this).css('background-color','#FFCC00');
+		});
+		$(".selectable-file").bind('mouseleave.selectEvent', function(){
+			$(this).css('background-color','#FFFFFF');
+		});
+		$(".selectable-file").each(function(){
+			// IEの場合contextmenuを検出できなかったので、mousedownに変更した
+			$(this).bind('mousedown', function(){
+				$(".selectable-file").removeClass('selected');
+				$(this).addClass('selected');
+			});
+		});
+	} else {
+		$("#DivPanelList .selectable-file").bind('mouseenter.selectEvent', function(){
+			$(this).css('background-color','#FFCC00');
+		});
+		$("#DivPanelList .selectable-file").bind('mouseleave.selectEvent', function(){
+			$(this).css('background-color','#FFFFFF');
+		});	
+		$("#DivPanelList .selectable-file").each(function(){
+			// IEの場合contextmenuを検出できなかったので、mousedownに変更した
+			$(this).bind('mousedown', function(){
+				$(".selectable-file").removeClass('selected');
+				$(this).addClass('selected');
+			});
+		});
+	}
+	
 	/* ページネーションイベントを追加 */
 	$('.page-numbers a').bind('click.paginationEvent', function(){
 		$("#Waiting").show();
@@ -257,7 +294,7 @@ function getListUrl() {
 function contextMenuHander(action, el, pos) {
 
 	var listId = $("#ListId").html();
-	var delUrl = $("#BaseUrl").html()+'admin/uploader/uploader_files/delete';
+	var delUrl = $("#BaseUrl").html()+'admin/uploader/uploader_files/delete/' + $("#FileList"+listId+" .selected .id").html();
 
 	// IEの場合、action値が正常に取得できないので整形する
 	var pos = action.indexOf("#");
@@ -269,13 +306,13 @@ function contextMenuHander(action, el, pos) {
 	switch (action){
 
 		case 'edit':
-			$('#dialog').dialog('open');
+			$('#EditDialog').dialog('open');
 			break;
 
 		case 'delete':
 			if(confirm('本当に削除してもよろしいですか？')){
 				$("#Waiting").show();
-				$.post(delUrl, {"data[UploaderFile][id]": $("#FileList"+listId+" .selected .id").html()}, function(res){
+				$.get(delUrl, function(res){
 					if(!res){
 						$("#Waiting").hide();
 						alert("サーバーでの処理に失敗しました。");
