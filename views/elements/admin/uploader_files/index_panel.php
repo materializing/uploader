@@ -22,6 +22,7 @@
 // IE文字化け対策
 header('Content-type: text/html; charset=utf-8');
 $users = $bcForm->getControlSource("UploaderFile.user_id");
+$uploaderCategories = $bcForm->getControlSource("UploaderFile.uploader_category_id");
 $this->passedArgs['action'] = 'ajax_list';
 //==============================================================================
 // Ajaxで呼び出される事が前提の為インラインで呼びだし
