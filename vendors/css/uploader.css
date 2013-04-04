@@ -19,37 +19,105 @@
  * @license			http://basercms.net/license/index.html
  */
 
-/* CKEDITOR
+/* DivTableList
 ----------------------------------------------- */
-.cke_button_baserUploader .cke_icon{
-    background-position:0 -576px!important;
-}
-
-/* fileList
------------------------------------------------ */
-#fileList{
-	width:100%;
-	height:100%;
-	white-space: normal;
-	overflow:auto;
-	background-color:#FFF;
-	text-align:center;
-}
-.file-filter {
-	float:left;
-	text-align: left;
-}
-.file-list-body {
-	margin-top: 5px;
-	background-color: #E6E6E6;
+#DivTableList #FileList {
 	padding:5px;
-	margin-left:auto;
-	margin-right:auto;
+}
+#DivTableList table{
+	background-color: #FFF;
+	width:98%;
+}
+#DivTableList table td {
+	white-space:normal!important;
+}
+#DivTableList .list-table{
+	border: 1px solid #AFAFB1;
+	border-collapse: collapse;
+	margin-bottom:15px;
+	width:100%;
+}
+#DivTableList .list-table th{
+	vertical-align:middle;
+	text-align: left;
+	background-image: url(../../img/admin/bg_list.png);
+	background-repeat: repeat-y;
+	background-color: #E8F1CF;
+	padding:5px 10px;
+	border: 1px solid #CCC;
+	white-space: nowrap;
+}
+#DivTableList .list-table th a{
+	text-decoration:none;
+	white-space: nowrap;
+}
+#DivTableList .list-table th a:hover{
+	color:#9C0;
+}
+#DivTableList .list-table th img,
+#DivTableList .list-table td img{
+	vertical-align:middle;
+}
+#DivTableList .list-table th a {
+	line-height: 20px;
+}
+#DivTableList .list-table td{
+	padding: 5px 10px;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+	border-top: 1px dotted #CCC;
+	border-bottom: 1px dotted #CCC;
+}
+#DivTableList .list-table td a{
+	color:#333;
+	text-decoration:underline;
+}
+#DivTableList .list-table td a:hover{
+	text-decoration:none;
+}
+#DivTableList .list-table tr.odd{
+	background-color: #FFF;
+}
+#DivTableList .list-table tr.even{
+	background-color:#F3F3F3;
+}
+#DivTableList .list-table tr.disablerow {
+	background-color:#bbb;
+}
+#DivTableList .list-table tr.activerow{
+	background-color:#C30;
+	color:#fff;
+}
+#DivTableList .list-table tr.activerow a{
+	color:#fff;
+}
+#DivTableList .list-table tr.hoverrow{
+	background-color:#ffffde;
+	color:#333;
+}
+#DivTableList .list-table tr.hoverrow a{
+	color:#333;
+}
+#DivTableList .list-table tr.selectedrow{
+	background-color:#2F6FAB;
+	color:#fff;
+}
+#DivTableList .list-table tr.selectedrow small,
+#DivTableList .list-table tr.selectedrow a{
+	color:#fff;
+}
+.list-table .no-data {
+	padding:20px 0;
+	text-align: center;
 }
 
-/* selectable-file
+/* DivPanelList
 ----------------------------------------------- */
-.selectable-file{
+#DivPanelList .pagination {
+	margin-bottom: 0;
+	float:right;
+}
+#DivPanelList .selectable-file{
 	padding:10px 5px;
 	margin:3px!important;
 	background-color:#FFFFFF;
@@ -60,33 +128,50 @@
 	text-align:center;
 	word-wrap: break-word;
 }
-.selectable-file span{
+#DivPanelList .selectable-file span{
 	white-space:normal!important;
 	color:#333333!important;
 	font-size:10px!important;
 	line-height:12px;
 }
-.selectable-file img{
+#DivPanelList .selectable-file img{
 	display:block;
 	margin:auto auto 1px;
 }
-.selectable-file,
-.selectable-file img{
+#DivPanelList .selectable-file,
+#DivPanelList .selectable-file img{
 	cursor:pointer;
 }
-.selectable-file .name,
-.selectable-file .modified,
-.selectable-file .small,
-.selectable-file .midium,
-.selectable-file .large,
-.selectable-file .user-name,
-.selectable-file .user-id,
-.selectable-file .url,
-.selectable-file .uploader-category-id{
+#DivPanelList .selectable-file .name,
+#DivPanelList .selectable-file .modified,
+#DivPanelList .selectable-file .small,
+#DivPanelList .selectable-file .midium,
+#DivPanelList .selectable-file .large,
+#DivPanelList .selectable-file .user-id,
+#DivPanelList .selectable-file .url,
+#DivPanelList .selectable-file .uploader-category-id{
 	display:none;
 }
-.selectable-file .created {
+#DivPanelList .selectable-file .created {
 	color:#999!important;
+}
+
+/* FileList
+----------------------------------------------- */
+#FileList{
+	width:100%;
+	height:100%;
+	white-space: normal;
+	overflow:auto;
+	background-color:#FFF;
+	text-align:center;
+}
+#DivPanelList .file-list-body {
+	margin-top: 5px;
+	background-color: #E6E6E6;
+	padding:5px;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 /* selected
@@ -98,15 +183,7 @@
 /* page-numbers
 ----------------------------------------------- */
 .page-numbers a{
-	text-decoration:underline!important;
 	cursor:pointer!important;
-
-}
-
-/* dialog / fileMenu
------------------------------------------------ */
-#dialog, #fileMenu{
-	display:none;
 }
 
 /* waiting
@@ -129,6 +206,62 @@
 .waiting img{
 	display:block;
 	margin:auto;
+}
+
+/* UploaderFile
+----------------------------------------------- */
+#UploaderForm label{
+	font-weight: bold;
+}
+#UploaderForm .uploader-file-file {
+	font-size:16px;
+	/*border: 1px solid #CCC;*/
+	/*background-color: #FFFFFF;*/
+	padding:2px;
+	width:107px;
+}
+#UploaderForm .uploader-file input {
+	font-size:14px;
+}
+#UploaderForm select,
+.file-list select{
+	font-size:14px!important;
+}
+#UploaderForm div{
+	float:left;
+}
+
+/* contextMenu
+----------------------------------------------- */
+.contextMenu .disabled a{
+	color:#eee;
+}
+
+/* file-filter
+----------------------------------------------- */
+.file-filter select {
+	width:100px;
+}
+
+/* list-table
+----------------------------------------------- */
+.list-table td{
+	text-align: left;
+}
+
+/* EditDialog
+----------------------------------------------- */
+#EditDialog{
+	display:none;
+}
+
+/* =============================================================================
+ * 　CKEditor
+ * ========================================================================== */
+/* CKEDITOR
+----------------------------------------------- */
+.cke_button_baserUploader .cke_icon{
+    background-position:0 -576px!important;
 }
 
 /* table
@@ -158,7 +291,6 @@
 	overflow: auto;
 	height:256px;
 	margin-top: 5px;
-	width: 760px;
 	position: relative;
 	border:1px solid #D5D5D5;
 	background-color: #E6E6E6;
@@ -166,55 +298,36 @@
 	margin-left:auto;
 	margin-right:auto;
 }
-.pagination span span a, .pagination .disabled, .pagination .current {
+.cke_dialog_contents .pagination span span a, .pagination .disabled, .pagination .current {
     padding: 3px 9px!important;
 	line-height: 18px!important;
 	float:left!important;
 }
-.pagination a:link{
+.cke_dialog_contents .pagination a:link{
 	color:#669900!important;
 }
-.pagination a:hover{
+.cke_dialog_contents .pagination a:hover{
 	color:#FFF!important;
 }
-.pagination span span a {
+.cke_dialog_contents .pagination span span a {
     border: 1px solid #99CC00!important;
     margin: 0 2px!important;
     text-decoration: none!important;
 	float:left!important;
 }
-.pagination .next, .pagination .prev {
-    border: 1px solid #99CC00!important;
+.cke_dialog_contents .pagination .next, .pagination .prev {
     margin: 0 2px!important;
     text-decoration: none!important;
     padding: 3px 9px!important;
 	line-height: 18px!important;
 	float:left!important;
 }
-.pagination .disabled {
+.cke_dialog_contents .pagination .disabled {
 	border: 1px solid #DFDFDF!important;
-}
-/* UploaderFile
------------------------------------------------ */
-.uploader-file-file {
-	font-size:14px;
-	border: 1px solid #CCC;
-	background-color: #FFFFFF;
-	padding:2px;
-}
-#UploaderForm label{
-	font-weight: bold;
-}
-.uploader-file input {
-	font-size:14px;
 }
 .ui-dialog .uploader-file-file {
 	border: 1px solid #999999;
 	background-color: #FFFFFF;
-}
-#UploaderForm select,
-.file-list select{
-	font-size:14px!important;
 }
 .ui-dialog .uploader-file-image{
 	text-align:center;
@@ -243,12 +356,6 @@
 .ui-widget select{
 	font-size: 16px;
 }
-/* contextMenu
------------------------------------------------ */
-.contextMenu .disabled a{
-	color:#eee;
-}
-
 .cke_dialog_ui_vbox select {
 	background-color: #fff!important;
 	border:1px solid #CCC;
@@ -270,3 +377,10 @@
 	padding:2px;
 	float:right;
 }
+#UploaderSearch {
+	margin-top:10px;
+	border:1px solid #CCC;
+	padding:1px 1px 1px 10px;
+	background-color: #DCDCDC;
+}
+

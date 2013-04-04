@@ -23,12 +23,13 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 		return {
 			title : 'ファイルプロパティ',
 			minWidth : 720,
-			minHeight : 464,
+			minHeight : 510,
 			whiteSpace : 'normal',
 		/**
          * ダイアログ 起動イベント
          **/
 			onShow : function() {
+				this.move(this.getPosition().x,0);
 				this.editMode = false;
 				var element = this.getParentEditor().getSelection().getSelectedElement();
 				var selection = this.getParentEditor().getSelection();
@@ -101,14 +102,33 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						linkElement.setAttribute('rel','colorbox');
 						linkElement.setAttribute('title',element.getAttribute( 'alt' ));
 						linkElement.append(element, false);
+						
+						if(this.getContentElement('info', 'chkCaption').getValue()) {
+							var imageSettings = $.parseJSON($("#UploaderImageSettings").html());
+							var width;
+							if(this.getValueOf('info','rdoSize')) {
+								width = imageSettings[this.getValueOf('info','rdoSize')]['width'];
+							}
+							var box = editor.document.createElement( 'div' );
+							var caption = editor.document.createElement( 'div' );
+							box.setAttribute('class', 'bc-caption');
+							if(width) {
+								box.setAttribute('style', 'width:' + width + 'px');
+							}
+							caption.setAttribute('class', 'bc-caption-text');
+							caption.appendHtml(this.getContentElement('info', 'txtAlt').getValue());
+							box.append(linkElement);
+							box.append(caption);
+							linkElement = box;
+						}
+							
 						element = linkElement;
 					}
 				}
 
 				editor.insertElement(element);
 				
-				$("#dialog").remove();
-				$("#fileMenu").remove();
+				$("#EditDialog").remove();
 
 				return true;
 				
@@ -117,8 +137,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 		 * キャンセルボタン クリックイベント
 		 */
 			onCancel : function() {
-				$("#dialog").remove();
-				$("#fileMenu").remove();
+				$("#EditDialog").remove();
 			},
 		/**
          * コンテンツプロパティ
@@ -133,7 +152,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 					id : 'formElements1',
 					type : 'hbox',
 					padding : 0,
-					widths : [ '50%', '50%'],
+					widths : [ '45%', '45%', '10%'],
 					children : [
 					{   /* URL */
 						id : 'txtUrl',
@@ -190,7 +209,13 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 								element.appendHtml(this.getValue());
 							}
 						}
-					}
+					},
+					{   /* キャプション */
+						id : 'chkCaption',
+						type : 'checkbox',
+						label : 'キャプション',
+						style:'margin-top:20px; display:block; '
+					},
 					]
 				},
 				{	/* フォーム要素２列目 */
@@ -213,8 +238,6 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 							if(element){
 								if(element.getAttribute( 'hspace' )){
 									this.setValue( element.getAttribute( 'hspace' ) );
-								}else{
-									this.setValue('10');
 								}
 							}
 						},
@@ -248,9 +271,8 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 								
 							if(element && element.getAttribute( 'vspace' )) {
 								this.setValue( element.getAttribute( 'vspace' ) );
-							}else{
-								this.setValue('0');
 							}
+							
 						},
 						commit : function( element, imgFlg ) {
 
@@ -361,20 +383,36 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 					children : [],
 					setup : function() {
 						var fileList = $("#"+this.domId);
-						fileList.html('<div style="text-align:center"><img src="'+baseUrl+'img/ajax-loader.gif" /></div>');
+						
+						var inner = '<div id="UploaderSearch" class="corner5" style="display:none"></div>' + 
+									'<div class="inner" style="text-align:center"><img style="margin-top:120px" src="'+baseUrl+'img/ajax-loader.gif" /></div>';
+						fileList.html(inner);
+						
 						var dialog = this.getDialog();
 						var listId = Math.floor(Math.random()*99999999+1);
 						$.ajax({
 							type: "GET",
 							dataType: "html",
-							url: baseUrl+"admin/uploader/uploader_files/ajax_index/"+listId,
+							url: baseUrl+"admin/uploader/uploader_files/ajax_get_search_box/"+listId,
+							success: function(res){
+								$("#UploaderSearch").html(res);
+								$("#UploaderSearch").slideDown();
+							},
+							error: function(msg,textStatus, errorThrown) {
+								alert(textStatus);
+							}
+						});
+						$.ajax({
+							type: "GET",
+							dataType: "html",
+							url: baseUrl+"admin/uploader/uploader_files/index/"+listId,
 							success: function(res){
 
 								// リストをセット
-								fileList.html(res);
+								fileList.find('.inner').html(res);
 
 								// リストのロード完了イベント
-								$("#fileList"+listId).bind('filelistload',function() {
+								$("#FileList"+listId).bind('filelistload',function() {
 
 									// ファイル選択イベント
 									$('.selectable-file').click(function() {
@@ -417,7 +455,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 
 								});
 								
-								$("#fileList"+listId).bind('deletecomplete',function(){
+								$("#FileList"+listId).bind('deletecomplete',function(){
 									dialog.setValueOf( 'info', 'txtUrl', '');
 									dialog.setValueOf( 'info', 'txtAlt', '');
 								});

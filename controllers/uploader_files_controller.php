@@ -49,7 +49,7 @@ class UploaderFilesController extends PluginsController {
  * @var		array
  * @access	public
  */
-	var $helpers = array(BC_TEXT_HELPER, BC_TIME_HELPER, BC_FORM_HELPER, 'Uploader.Uploader');
+	var $helpers = array(BC_TEXT_HELPER, BC_TIME_HELPER, BC_FORM_HELPER, 'Uploader.Uploader', 'BcUpload');
 /**
  * ページタイトル
  *
@@ -89,7 +89,7 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_index() {
+	function admin_index($id='') {
 
 		if(!isset($this->siteConfigs['admin_list_num'])) {
 			$this->siteConfigs['admin_list_num'] = 10;
@@ -98,26 +98,15 @@ class UploaderFilesController extends PluginsController {
 		$this->setViewConditions('UploadFile', array('default' => $default));
 		$this->set('uploaderConfigs', $this->UploaderConfig->findExpanded());
 		$this->set('installMessage', $this->checkInstall());
-		$this->pageTitle = 'アップロードファイル一覧';
-
-	}
-/**
- * [ADMIN] ファイル一覧
- *
- * @param	int		$id		呼び出し元 識別ID
- * @param	string	$filter
- * @return	void
- * @access	public
- */
-	function admin_ajax_index($id='') {
-
-		if(!isset($this->siteConfigs['admin_list_num'])) {
-			$this->siteConfigs['admin_list_num'] = 10;
+		
+		if($this->RequestHandler->isAjax()) {
+			$settings = $this->UploaderFile->Behaviors->BcUpload->settings;
+			$this->set('listId', $id);
+			$this->set('imageSettings', $settings['fields']['name']['imagecopy']);
+		} else {
+			$this->search = 'uploader_files_index';
+			$this->pageTitle = 'アップロードファイル一覧';
 		}
-		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
-		$this->setViewConditions('UploadFile', array('default' => $default));
-		$this->set('listId', $id);
-		$this->set('installMessage', $this->checkInstall());
 
 	}
 /**
@@ -171,35 +160,19 @@ class UploaderFilesController extends PluginsController {
  */
 	function admin_ajax_list($id='') {
 
-		$this->layout = 'ajax';
 		Configure::write('debug',0);
-		if(!isset($this->siteConfigs['admin_list_num'])) {
-			$this->siteConfigs['admin_list_num'] = 10;
-		}
+		
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
 		$this->setViewConditions('UploadFile', array('default' => $default, 'type' => 'get'));
-		$conditions = array();
-		if(!empty($this->passedArgs['uploader_category_id'])) {
-			$conditions = array('UploaderFile.uploader_category_id' => $this->passedArgs['uploader_category_id']);
-			$this->data['Filter']['uploader_category_id'] = $this->passedArgs['uploader_category_id'];
-		}
-		if(!empty($this->passedArgs['uploader_type'])) {
-			switch ($this->passedArgs['uploader_type']) {
-				case 'img':
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.png');
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.jpg');
-					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.gif');
-					break;
-				case 'etc':
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.png');
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.jpg');
-					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.gif');
-					break;
-			}
-			$this->data['Filter']['uploader_type'] = $this->passedArgs['uploader_type'];
-		} else {
+
+		$this->data['Filter'] = $this->passedArgs;
+		if(empty($this->data['Filter']['uploader_type'])) {
 			$this->data['Filter']['uploader_type'] = 'all';
 		}
+		if(!empty($this->data['Filter']['name'])) {
+			$this->data['Filter']['name'] = urldecode($this->data['Filter']['name']);
+		}
+			
 		// =====================================================================
 		// setViewConditions で type を get に指定した場合、
 		// 自動的に $this->passedArgs['num'] 設定されないので明示的に取得
@@ -214,20 +187,68 @@ class UploaderFilesController extends PluginsController {
 			$num = $this->siteConfigs['admin_list_num'];
 		}
 
+		$conditions = $this->_createAdminIndexConditions($this->data['Filter']);
 		$this->paginate = array('conditions'=>$conditions,
 				'fields'=>array(),
 				'order'=>'created DESC',
 				'limit'=>$num
 		);
+		
 		$dbDatas = $this->paginate('UploaderFile');
+		
 		foreach($dbDatas as $key => $dbData) {
 			$files = $this->UploaderFile->filesExists($dbData['UploaderFile']['name']);
 			$dbData = Set::merge($dbData,array('UploaderFile'=>$files));
 			$dbDatas[$key] = $dbData;
 		}
+		
+		$uploaderConfig = $this->UploaderConfig->findExpanded();
 		$this->set('listId', $id);
 		$this->set('files',$dbDatas);
-
+		if(empty($uploaderConfig['layout_type'])) {
+			$layoutType = 'panel';
+		} else {
+			$layoutType = 'table';
+		}
+		$this->set('layoutType', $uploaderConfig['layout_type']);
+		
+	}
+/**
+ * 一覧の検索条件を生成する
+ * 
+ * @param array $data
+ * @return array 
+ */
+	function _createAdminIndexConditions($data) {
+		
+		$conditions = array();
+		if(!empty($data['uploader_category_id'])) {
+			$conditions = array('UploaderFile.uploader_category_id' => $data['uploader_category_id']);
+			$this->data['Filter']['uploader_category_id'] = $data['uploader_category_id'];
+		}
+		if(!empty($data['uploader_type'])) {
+			switch ($data['uploader_type']) {
+				case 'img':
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.png');
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.jpg');
+					$conditions['or'][] = array('UploaderFile.name LIKE' => '%.gif');
+					break;
+				case 'etc':
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.png');
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.jpg');
+					$conditions['and'][] = array('UploaderFile.name NOT LIKE' => '%.gif');
+					break;
+				case 'all':
+				case '':
+			}
+		}
+		if(!empty($data['name'])) {
+			$conditions['and']['or'][] = array('UploaderFile.name LIKE' => '%' . $data['name'] . '%');
+			$conditions['and']['or'][] = array('UploaderFile.alt LIKE' => '%' . $data['name'] . '%');
+		}
+		
+		return $conditions;
+		
 	}
 /**
  * [ADMIN] Ajaxファイルアップロード
@@ -245,10 +266,9 @@ class UploaderFilesController extends PluginsController {
 		Configure::write('debug',0);
 
 		if(!$this->data) {
-			$this->set('result',null);
-			$this->render('ajax_result');
-			return;
+			$this->ajaxError(500, '無効な処理です。');
 		}
+		
 		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		if(!empty($user[$userModel]['id'])) {
@@ -259,11 +279,10 @@ class UploaderFilesController extends PluginsController {
 		$this->UploaderFile->create($this->data);
 
 		if($this->UploaderFile->save()) {
-			$this->set('result',true);
-		}else {
-			$this->set('result',null);
-			$this->render('ajax_result');
+			echo true;
 		}
+		
+		exit();
 
 	}
 /**
@@ -290,12 +309,13 @@ class UploaderFilesController extends PluginsController {
  */
 	function admin_ajax_exists_images($name) {
 
+		Configure::write('debug', 0);
 		$this->RequestHandler->setContent('json');
 		$this->RequestHandler->respondAs('application/json; charset=UTF-8');
 		$files = $this->UploaderFile->filesExists($name);
 		$this->set('result',$files);
 		$this->render('json_result');
-
+		
 	}
 /**
  * [ADMIN] 編集処理
@@ -303,27 +323,42 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_edit() {
+	function admin_edit($id = null) {
 
-		if (!$this->data) {
+		if (!$this->data && $this->RequestHandler->isAjax()) {
+			$this->ajaxError(500, '無効な処理です。');
+		} elseif(!$this->RequestHandler->isAjax() && !$id) {
 			$this->notFound();
 		}
-
+		
 		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
-
 		if($uploaderConfig['use_permission']) {
 			if($user[$userModel]['user_group_id'] != 1 && $this->data['UploaderFile']['user_id'] != $user[$userModel]['id']) {
 				$this->notFound();
 			}
 		}
-
-		$this->UploaderFile->set($this->data);
-		$this->set('result',$this->UploaderFile->save());
-		if ($this->RequestHandler->isAjax()) {
-			$this->render('ajax_result');
+		
+		if(!$this->data) {
+			$this->data = $this->UploaderFile->read(null, $id);
+		} else {
+			$this->UploaderFile->set($this->data);
+			$result = $this->UploaderFile->save();
+			if ($this->RequestHandler->isAjax()) {
+				echo $result;
+				exit();
+			} else {
+				if($result) {
+					$this->setMessage('ファイルの内容を保存しました。');
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->setMessage('保存中にエラーが発生しました。');
+				}
+			}	
 		}
+		
+		$this->render('../elements/admin/uploader_files/form');
 
 	}
 /**
@@ -332,16 +367,16 @@ class UploaderFilesController extends PluginsController {
  * @return	void
  * @access	public
  */
-	function admin_delete() {
+	function admin_delete($id) {
 
-		if(!$this->data) {
+		if(!$id) {
 			$this->notFound();
 		}
 
 		$user = $this->BcAuth->user();
 		$userModel = $this->getUserModel();
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
-		$uploaderFile = $this->UploaderFile->read(null, $this->data['UploaderFile']['id']);
+		$uploaderFile = $this->UploaderFile->read(null, $id);
 
 		if(!$uploaderFile) {
 			$this->notFound();
@@ -353,12 +388,30 @@ class UploaderFilesController extends PluginsController {
 			}
 		}
 
-		$this->set('result',$this->UploaderFile->del($this->data['UploaderFile']['id']));
+		$result = $this->UploaderFile->del($id);
 		if ($this->RequestHandler->isAjax()) {
-			$this->render('ajax_result');
+			echo $result;
+			exit();
+		} else {
+			if($result) {
+				$this->setMessage($uploaderFile['UploaderFile']['name']. ' を削除しました。', false, true);
+			} else {
+				$this->setMessage('削除中にエラーが発生しました。', true);
+			}
+			$this->redirect(array('action' => 'index'));
 		}
 
 	}
-
+/**
+ * 検索ボックスを取得する
+ * 
+ * @param string $listid
+ */
+	function admin_ajax_get_search_box($listId = "") {
+		
+		$this->set('listId', $listId);
+		$this->render('../elements/admin/searches/uploader_files_index');
+		
+	}
 }
 ?>

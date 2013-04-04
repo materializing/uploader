@@ -87,11 +87,11 @@ class UploaderCategoriesController extends PluginsController {
 			$this->UploaderCategory->set($this->data);
 			if($this->UploaderCategory->save()) {
 				$message = 'アップロードファイルカテゴリ「'.$this->data['UploaderCategory']['name'].'」を追加しました。';
-				$this->Session->setFlash($message);
+				$this->setMessage($message);
 				$this->UploaderCategory->saveDbLog($message);
 				$this->redirect(array('action'=>'index'));
 			}else {
-				$this->Session->setFlash('入力エラーです。内容を修正してください。');
+				$this->setMessage('入力エラーです。内容を修正してください。', true);
 			}
 		}
 		$this->pageTitle = 'カテゴリ新規登録';
@@ -109,7 +109,7 @@ class UploaderCategoriesController extends PluginsController {
 
 		/* 除外処理 */
 		if(!$id && empty($this->data)) {
-			$this->Session->setFlash('無効なIDです。');
+			$this->setMessage('無効なIDです。', true);
 			$this->redirect(array('action'=>'index'));
 		}
 
@@ -119,12 +119,10 @@ class UploaderCategoriesController extends PluginsController {
 
 			$this->UploaderCategory->set($this->data);
 			if($this->UploaderCategory->save()) {
-				$message = 'アップロードファイルカテゴリ「'.$this->data['UploaderCategory']['name'].'」を更新しました。';
-				$this->Session->setFlash($message);
-				$this->UploaderCategory->saveDbLog($message);
+				$this->setMessage('アップロードファイルカテゴリ「'.$this->data['UploaderCategory']['name'].'」を更新しました。', false, true);
 				$this->redirect(array('action'=>'edit', $id));
 			}else {
-				$this->Session->setFlash('入力エラーです。内容を修正してください。');
+				$this->setMessage('入力エラーです。内容を修正してください。', true);
 			}
 
 		}
@@ -143,7 +141,7 @@ class UploaderCategoriesController extends PluginsController {
 	function admin_delete($id = null) {
 
 		if(!$id) {
-			$this->Session->setFlash('無効なIDです。');
+			$this->setMessage('無効なIDです。', true);
 			$this->redirect(array('action'=>'index'));
 		}
 
@@ -151,11 +149,9 @@ class UploaderCategoriesController extends PluginsController {
 		$name = $this->UploaderCategory->field('name', array('UploaderCategory.id' => $id));
 
 		if($this->UploaderCategory->del($id)) {
-			$message = 'アップロードファイルカテゴリ「'.$name.'」を削除しました。';
-			$this->Session->setFlash($message);
-			$this->UploaderCategory->saveDbLog($message);
+			$this->setMessage('アップロードファイルカテゴリ「'.$name.'」を削除しました。', false, true);
 		}else {
-			$this->Session->setFlash('データベース処理中にエラーが発生しました。');
+			$this->setMessage('データベース処理中にエラーが発生しました。', true);
 		}
 
 		$this->redirect('index');
