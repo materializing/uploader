@@ -215,7 +215,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						type : 'checkbox',
 						label : 'キャプション',
 						style:'margin-top:20px; display:block; '
-					},
+					}
 					]
 				},
 				{	/* フォーム要素２列目 */
