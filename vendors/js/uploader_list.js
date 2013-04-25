@@ -25,6 +25,7 @@ $(function(){
 	var listId = $("#ListId").html();
 	var allFields = $([]).add($("#name")).add($("#alt"));
 	var baseUrl = $("#BaseUrl").html();
+	var adminPrefix = $("#AdminPrefix").html();
 	var categoryId = null;
 	
 	// 右クリックメニューをbodyに移動
@@ -43,7 +44,7 @@ $(function(){
 		modal: true,
 		open: function(){
 			var name = $("#FileList"+listId+" .selected .name").html();
-			var imgUrl = baseUrl+'admin/uploader/uploader_files/ajax_image/'+name+'/midium';
+			var imgUrl = baseUrl + adminPrefix + '/uploader/uploader_files/ajax_image/'+name+'/midium';
 			$("#UploaderFileId"+listId).val($("#FileList" + $("#ListId").html() + " .selected .id").html());
 			$("#UploaderFileName"+listId).val(name);
 			$("#UploaderFileAlt"+listId).val($("#FileList"+listId+" .selected .alt").html());
@@ -95,7 +96,7 @@ $(function(){
 	function uploaderFileFileChangeHandler(){
 
 		var listId = $("#ListId").html();
-		var url = $("#BaseUrl").html()+'admin/uploader/uploader_files/ajax_upload';
+		var url = baseUrl + adminPrefix + '/uploader/uploader_files/ajax_upload';
 		$("#Waiting").show();
 		if($('#UploaderFileFile'+listId).val()){
 			var data = [];
@@ -298,7 +299,7 @@ $(function(){
 	function contextMenuHander(action, el, pos) {
 
 		var listId = $("#ListId").html();
-		var delUrl = $("#BaseUrl").html()+'admin/uploader/uploader_files/delete/' + $("#FileList"+listId+" .selected .id").html();
+		var delUrl = baseUrl + adminPrefix + '/uploader/uploader_files/delete/' + $("#FileList"+listId+" .selected .id").html();
 
 		// IEの場合、action値が正常に取得できないので整形する
 		var pos = action.indexOf("#");

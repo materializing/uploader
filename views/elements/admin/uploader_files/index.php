@@ -35,6 +35,7 @@ if(!isset($listId)) {
 	<div id="LoginUserId"><?php echo $user['id'] ?></div>
 	<div id="LoginUserGroupId"><?php echo $user['user_group_id'] ?></div>
 	<div id="BaseUrl"><?php echo $bcBaser->root() ?></div>
+	<div id="AdminPrefix" style="display:none;"><?php echo Configure::read('Routing.admin'); ?></div>
 	<div id="UsePermission"><?php echo $uploaderConfigs['use_permission'] ?></div>
 	<div id="ListId"><?php echo $listId ?></div>
 </div>
