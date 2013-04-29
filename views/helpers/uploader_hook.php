@@ -55,6 +55,7 @@ class UploaderHookHelper extends AppHelper {
 
 					/* ckeditor_uploader.js を読み込む */
 					$jscode = $this->Javascript->codeBlock("var baseUrl ='".$this->base."/';");
+					$jscode .= $this->Javascript->codeBlock("var adminPrefix ='".Configure::read('Routing.admin')."';");
 					$jscode .= $this->Javascript->link('/uploader/js/ckeditor_uploader');
 					$view->output = str_replace('</head>',$jscode.'</head>',$view->output);
 
@@ -188,4 +189,3 @@ DOC_END;
 	}
 
 }
-?>
