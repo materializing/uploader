@@ -215,7 +215,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						type : 'checkbox',
 						label : 'キャプション',
 						style:'margin-top:20px; display:block; '
-					},
+					}
 					]
 				},
 				{	/* フォーム要素２列目 */
@@ -354,7 +354,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 
 							if(element && imgFlg){
 								// 画像のサイズを取得する
-								$.get(baseUrl+'admin/uploader/uploader_files/ajax_exists_images/'+getFileName(element.getAttribute( 'src' ),''),null,function(res){
+								$.get(baseUrl + adminPrefix + '/uploader/uploader_files/ajax_exists_images/'+getFileName(element.getAttribute( 'src' ),''),null,function(res){
 									if(res){
 										rdoSize.find('input[type=radio]').eq(1).attr('disabled',!res.small);
 										rdoSize.find('input[type=radio]').eq(2).attr('disabled',!res.midium);
@@ -393,7 +393,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						$.ajax({
 							type: "GET",
 							dataType: "html",
-							url: baseUrl+"admin/uploader/uploader_files/ajax_get_search_box/"+listId,
+							url: baseUrl + adminPrefix + "/uploader/uploader_files/ajax_get_search_box/"+listId,
 							success: function(res){
 								$("#UploaderSearch").html(res);
 								$("#UploaderSearch").slideDown();
@@ -405,7 +405,7 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
 						$.ajax({
 							type: "GET",
 							dataType: "html",
-							url: baseUrl+"admin/uploader/uploader_files/index/"+listId,
+							url: baseUrl + adminPrefix + "/uploader/uploader_files/index/"+listId,
 							success: function(res){
 
 								// リストをセット

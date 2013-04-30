@@ -23,8 +23,16 @@
 $(function(){
 
 	var listId = $("#ListId").html();
+	
+	//==========================================================================
+	// 複数のエディタよりリストが呼出される可能性がある為、#ListIdの値を読み込んだら削除する
+	// TODO 強引すぎるので他の方法がないか検討要
+	//==========================================================================
+	$("#ListId").remove();
+	
 	var allFields = $([]).add($("#name")).add($("#alt"));
 	var baseUrl = $("#BaseUrl").html();
+	var adminPrefix = $("#AdminPrefix").html();
 	var categoryId = null;
 	
 	// 右クリックメニューをbodyに移動
@@ -43,8 +51,8 @@ $(function(){
 		modal: true,
 		open: function(){
 			var name = $("#FileList"+listId+" .selected .name").html();
-			var imgUrl = baseUrl+'admin/uploader/uploader_files/ajax_image/'+name+'/midium';
-			$("#UploaderFileId"+listId).val($("#FileList" + $("#ListId").html() + " .selected .id").html());
+			var imgUrl = baseUrl + adminPrefix + '/uploader/uploader_files/ajax_image/'+name+'/midium';
+			$("#UploaderFileId"+listId).val($("#FileList" + listId + " .selected .id").html());
 			$("#UploaderFileName"+listId).val(name);
 			$("#UploaderFileAlt"+listId).val($("#FileList"+listId+" .selected .alt").html());
 			$("#UploaderFileUserId"+listId).val($("#FileList"+listId+" .selected .user-id").html());
@@ -94,8 +102,7 @@ $(function(){
  */
 	function uploaderFileFileChangeHandler(){
 
-		var listId = $("#ListId").html();
-		var url = $("#BaseUrl").html()+'admin/uploader/uploader_files/ajax_upload';
+		var url = baseUrl + adminPrefix + '/uploader/uploader_files/ajax_upload';
 		$("#Waiting").show();
 		if($('#UploaderFileFile'+listId).val()){
 			var data = [];
@@ -110,8 +117,6 @@ $(function(){
  * アップロード完了後イベント
  */
 	function uploadSuccessHandler(res){
-
-		var listId = $("#ListId").html();
 		
 		if(res){
 			if($('#UploaderFileUploaderCategoryId'+listId).length) {
@@ -146,7 +151,6 @@ $(function(){
  */
 	function initFileList(){
 
-		var listId = $("#ListId").html();
 		var usePermission = $("#UsePermission").html();
 
 		if(categoryId) {
@@ -267,7 +271,6 @@ $(function(){
  */
 	function updateFileListCompleteHander(result) {
 
-		var listId = $("#ListId").html();
 		$("#FileList"+listId).html(result);
 		initFileList();
 		$("#Waiting").hide();
@@ -278,7 +281,6 @@ $(function(){
  */
 	function getListUrl() {
 
-		var listId = $("#ListId").html();
 		var listUrl = $("#ListUrl"+listId).attr('href');
 		if($('#FilterUploaderCategoryId'+listId).length) {
 			listUrl += '/uploader_category_id:'+$('#FilterUploaderCategoryId'+listId).val();
@@ -286,7 +288,7 @@ $(function(){
 		if($('input[name="data[Filter][uploader_type]"]:checked').length) {
 			listUrl += '/uploader_type:'+$('input[name="data[Filter][uploader_type]"]:checked').val();
 		}
-		if($('#FilterName'+listId).length) {
+		if($('#FilterName'+listId).val()) {
 			listUrl += '/name:'+ encodeURI($('#FilterName'+listId).val());
 		}
 		return listUrl;
@@ -297,8 +299,7 @@ $(function(){
  */
 	function contextMenuHander(action, el, pos) {
 
-		var listId = $("#ListId").html();
-		var delUrl = $("#BaseUrl").html()+'admin/uploader/uploader_files/delete/' + $("#FileList"+listId+" .selected .id").html();
+		var delUrl = baseUrl + adminPrefix + '/uploader/uploader_files/delete/' + $("#FileList"+listId+" .selected .id").html();
 
 		// IEの場合、action値が正常に取得できないので整形する
 		var pos = action.indexOf("#");
