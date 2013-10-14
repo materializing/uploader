@@ -83,6 +83,13 @@ $(function(){
 			<?php echo $bcForm->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
 		</td>
 	</tr>
+	<tr>
+		<th class="col-head"><?php echo $bcForm->label('UploaderFile.use_disp_limit_date', '公開期間') ?></th>
+		<td class="col-input">
+			<?php echo $bcForm->datePicker('UploaderFile.publish_begin', array('size'=>10, 'id'=>'UploaderFilePublishBegin'.$listId)) ?>&nbsp;〜&nbsp;
+			<?php echo $bcForm->datePicker('UploaderFile.publish_end', array('size'=>10, 'id'=>'UploaderFilePublishEnd'.$listId)) ?>
+		</td>
+	</tr>
 <?php if($uploaderCategories): ?>
 	<tr>
 		<th class="col-head"><?php echo $bcForm->label('UploaderFile.real_name_1', 'カテゴリ') ?></th>

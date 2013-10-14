@@ -21,7 +21,13 @@
  */
 ?>
 <span class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
-	<?php echo $uploader->file($file,array('width'=>120,'height'=>120,'size'=>'small','alt'=>$file['UploaderFile']['alt'],'style'=>'width:120px;height:120px')) ?>
+	<?php echo $uploader->file($file, array(
+		'width' => 120,
+		'height'=> 120,
+		'size'	=> 'small',
+		'alt'	=> $file['UploaderFile']['alt'],
+		'style' => 'width:120px;height:120px'
+	)) ?>
 	<div style="text-align:right">
 		<span class="id"><?php echo $file['UploaderFile']['id'] ?></span>.<span><?php echo $bcText->mbTruncate($file['UploaderFile']['alt'], 13) ?></span>
 	</div>
@@ -37,6 +43,8 @@
 		<span class="large"><?php echo $file['UploaderFile']['large'] ?></span>
 		<span class="url"><?php echo $uploader->getFileUrl($file['UploaderFile']['name']) ?></span>
 		<span class="user-id"><?php echo $file['UploaderFile']['user_id'] ?></span>
+		<span class="publish-begin"><?php echo $bcTime->format('Y/m/d', $file['UploaderFile']['publish_begin']) ?></span>
+		<span class="publish-end"><?php echo $bcTime->format('Y/m/d', $file['UploaderFile']['publish_end']) ?></span>
 		<span class="uploader-category-id"><?php echo $file['UploaderFile']['uploader_category_id'] ?></span>
 		<span class="alt"><?php echo $file['UploaderFile']['alt'] ?></span>
 	</div>

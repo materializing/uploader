@@ -81,19 +81,24 @@ class UploaderHelper extends AppHelper {
 
 		if(in_array(strtolower($ext), array('gif','jpg','png'))) {
 			if (isset($options['size'])) {
-				$basename = basename($uploaderFile['name'],'.'.$ext);
-				$resizeName = $basename . '__' . $options['size'] . '.' . $ext;
-
-				if(file_exists($this->savePath.$resizeName)) {
+				$resizeName = $pathInfo['filename'] . '__' . $options['size'] . '.' . $ext;
+				
+				if(!empty($uploaderFile['publish_begin']) || !empty($uploaderFile['publish_end'])) {
+					$savePath = $this->savePath . 'limited' . DS . $resizeName;
+				} else {
+					$savePath = $this->savePath . $resizeName;
+				}
+				if(file_exists($savePath)) {
 					$imgUrl = $this->_getFileUrl($resizeName);
 					unset($options['size']);
 				}
 			}
-			return $this->Html->image($imgUrl,$options);
+			return $this->Html->image($imgUrl, $options);
 		}else {
 			$imgUrl = '/uploader/img/icon_upload_file.png';
-			return $this->Html->image($imgUrl,$options);
+			return $this->Html->image($imgUrl, $options);
 		}
+		
 	}
 /**
  * ファイルが保存されているURLを取得する

@@ -92,6 +92,43 @@ class UploaderFile extends AppModel {
 		$this->Behaviors->attach('BcUpload', $settings);
 
 	}
+	
+	function beforeSave($options = array()) {
+		
+		parent::beforeSave($options);
+		
+		if(!empty($this->data['UploaderFile']['id'])) {
+			
+			$savePath = WWW_ROOT . 'files' . DS . $this->actsAs['BcUpload']['saveDir'] . DS;
+			$sizes = array('large', 'midium', 'small', 'mobile_large', 'mobile_small');
+			$pathinfo = pathinfo($this->data['UploaderFile']['name']);
+			
+			if(!empty($this->data['UploaderFile']['publish_begin']) || !empty($this->data['UploaderFile']['publish_end'])) {
+				if(file_exists($savePath . $this->data['UploaderFile']['name'])) {
+					rename($savePath . $this->data['UploaderFile']['name'], $savePath . 'limited' . DS . $this->data['UploaderFile']['name']);
+				}
+				foreach($sizes as $size) {
+					$file = $pathinfo['filename'] . '__' . $size . '.' . $pathinfo['extension'];
+					if(file_exists($savePath . $file)) {
+						rename($savePath . $file, $savePath . 'limited' . DS . $file);
+					}
+				}	
+			} else {
+				if(file_exists($savePath . 'limited' . DS . $this->data['UploaderFile']['name'])) {
+					rename($savePath . 'limited' . DS . $this->data['UploaderFile']['name'], $savePath . $this->data['UploaderFile']['name']);
+				}
+				foreach($sizes as $size) {
+					$file = $pathinfo['filename'] . '__' . $size . '.' . $pathinfo['extension'];
+					if(file_exists($savePath . 'limited' . DS . $file)) {
+						rename($savePath . 'limited' . DS . $file, $savePath . $file);
+					}
+				}	
+			}
+		}
+		
+		return true;
+		
+	}
 /**
  * ファイルの存在チェックを行う
  *
@@ -99,9 +136,13 @@ class UploaderFile extends AppModel {
  * @return	void
  * @access	boolean
  */
-	function fileExists($fileName) {
-
-		$savePath = WWW_ROOT . 'files' . DS . $this->actsAs['BcUpload']['saveDir'] . DS . $fileName;
+	function fileExists($fileName, $limited = false) {
+		
+		if($limited) {
+			$savePath = WWW_ROOT . 'files' . DS . $this->actsAs['BcUpload']['saveDir'] . DS . 'limited' . DS . $fileName;
+		} else {
+			$savePath = WWW_ROOT . 'files' . DS . $this->actsAs['BcUpload']['saveDir'] . DS . $fileName;
+		}
 		return file_exists($savePath);
 
 	}
@@ -112,14 +153,21 @@ class UploaderFile extends AppModel {
  * @return	array
  * @access	void
  */
-	function filesExists($fileName) {
+	function filesExists($fileName, $limited = null) {
 
+		if(is_null($limited)) {
+			$data = $this->find('first', array('conditions' => array('UploaderFile.name' => $fileName), 'recursive' => -1));
+			$limited = false;
+			if(!empty($data['UploaderFile']['publish_begin']) || !empty($data['UploaderFile']['publish_end'])) {
+				$limited = true;
+			}
+		}
 		$pathinfo = pathinfo($fileName);
 		$ext = $pathinfo['extension'];
 		$basename = basename($fileName,'.'.$ext);
-		$files['small'] = $this->fileExists($basename.'__small'.'.'.$ext);
-		$files['midium'] = $this->fileExists($basename.'__midium'.'.'.$ext);
-		$files['large'] = $this->fileExists($basename.'__large'.'.'.$ext);
+		$files['small'] = $this->fileExists($basename.'__small'.'.'.$ext, $limited);
+		$files['midium'] = $this->fileExists($basename.'__midium'.'.'.$ext, $limited);
+		$files['large'] = $this->fileExists($basename.'__large'.'.'.$ext, $limited);
 		return $files;
 
 	}
@@ -143,6 +191,13 @@ class UploaderFile extends AppModel {
 		}
 		return false;
 
+	}
+	
+	function getSourceFileName($fileName) {
+		
+		$sizes = array('large', 'midium', 'small', 'mobile_large', 'mobile_small');
+		return preg_replace('/__(' . implode('|', $sizes) . ')\./', '.', $fileName);
+		
 	}
 
 }

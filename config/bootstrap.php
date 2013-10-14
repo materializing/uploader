@@ -18,4 +18,5 @@
  * @license			http://basercms.net/license/index.html
  */
 loadPluginConfig('uploader.uploader');
+Router::connect('/files/uploads/*', array('plugin' => 'uploader', 'controller' => 'uploader_files', 'action' => 'view_limited_file'));
 ?>

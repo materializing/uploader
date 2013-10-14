@@ -55,6 +55,8 @@ $(function(){
 			$("#UploaderFileId"+listId).val($("#FileList" + listId + " .selected .id").html());
 			$("#UploaderFileName"+listId).val(name);
 			$("#UploaderFileAlt"+listId).val($("#FileList"+listId+" .selected .alt").html());
+			$("#UploaderFilePublishBegin"+listId).val($("#FileList"+listId+" .selected .publish-begin").html());
+			$("#UploaderFilePublishEnd"+listId).val($("#FileList"+listId+" .selected .publish-end").html());
 			$("#UploaderFileUserId"+listId).val($("#FileList"+listId+" .selected .user-id").html());
 			$("#UploaderFileUserName"+listId).html($("#FileList"+listId+" .selected .user-name").html());
 			if($("#_UploaderFileUploaderCategoryId"+listId).length) {
@@ -76,6 +78,8 @@ $(function(){
 				var data = {"data[UploaderFile][id]":$("#UploaderFileId"+listId).val(),
 					"data[UploaderFile][name]":$("#UploaderFileName"+listId).val(),
 					"data[UploaderFile][alt]":$("#UploaderFileAlt"+listId).val(),
+					"data[UploaderFile][publish_begin]":$("#UploaderFilePublishBegin"+listId).val(),
+					"data[UploaderFile][publish_end]":$("#UploaderFilePublishEnd"+listId).val(),
 					"data[UploaderFile][user_id]":$("#UploaderFileUserId"+listId).val(),
 					"data[UploaderFile][uploader_category_id]":$("#_UploaderFileUploaderCategoryId"+listId).val()
 				};

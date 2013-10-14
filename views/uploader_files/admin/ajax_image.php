@@ -22,8 +22,8 @@
 $url = $uploader->getFileUrl($file['UploaderFile']['name']);
 ?>
 <p class="url">
-	<a href="<?php echo $url ?>" target="_blank"><?php echo FULL_BASE_URL.$url ?></a>
+	<a href="<?php echo $url  ?>" target="_blank"><?php echo FULL_BASE_URL.$url ?></a>
 </p>
 <p class="image">
-	<a href="<?php echo $url ?>" target="_blank"><?php echo $uploader->file($file, array('size' => $size,'alt' => $file['UploaderFile']['name'])) ?></a>
+	<a href="<?php echo $url ?>" target="_blank"><?php echo $uploader->file($file, array('size' => $size, 'alt' => $file['UploaderFile']['name'])) ?></a>
 </p>
