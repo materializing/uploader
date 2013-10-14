@@ -28,11 +28,25 @@
  */
 	$filesPath = WWW_ROOT.'files';
 	$savePath = $filesPath.DS.'uploads';
+	$limitedPath = $savePath . DS . 'limited';
+	
 	if(is_writable($filesPath) && !is_dir($savePath)){
 		mkdir($savePath);
-		chmod($savePath,0777);
 	}
 	if(!is_writable($savePath)){
-		chmod($savePath,0777);
+		chmod($savePath, 0777);
 	}
+	if(is_writable($savePath) && !is_dir($limitedPath)){
+		mkdir($limitedPath);
+	}
+	if(!is_writable($limitedPath)){
+		chmod($limitedPath, 0777);
+	}
+	if(is_writable($limitedPath)){
+		$File = new File($limitedPath . DS . '.htaccess');
+		$htaccess = "Order allow,deny\nDeny from all";
+		$File->write($htaccess);
+		$File->close();
+	}
+	
 ?>

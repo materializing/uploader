@@ -200,5 +200,18 @@ class UploaderFile extends AppModel {
 		
 	}
 
+	function beforeDelete($cascade = true) {
+		
+		$data = $this->read(null, $this->id);
+		if(!empty($data['UploaderFile']['publish_begin']) || !empty($data['UploaderFile']['publish_end'])) {
+			$this->Behaviors->BcUpload->savePath .= 'limited' . DS;
+		} else {
+			$this->Behaviors->BcUpload->savePath = preg_replace('/' . preg_quote('uploads' . DS, '/') . '$/', '', $this->Behaviors->BcUpload->savePath);
+		}
+		parent::beforeDelete($cascade);
+		
+		return true;
+		
+	}
 }
 ?>
