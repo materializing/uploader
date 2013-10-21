@@ -33,28 +33,28 @@ class UploaderConfig extends BcPluginAppModel {
  * @var     string
  * @access  public
  */
-	var $name = 'UploaderConfig';
+	public $name = 'UploaderConfig';
 /**
  * データソース
  *
  * @var		string
  * @access 	public
  */
-	var $useDbConfig = 'plugin';
+	public $useDbConfig = 'plugin';
 /**
  * プラグイン名
  *
  * @var		string
  * @access 	public
  */
-	var $plugin = 'Uploader';
+	public $plugin = 'Uploader';
 /**
  * バリデート
  *
  * @var		array
  * @access	public
  */
-	var $validate = array(
+	public $validate = array(
 		'large_width' => array(array(	'rule'		=> array('notEmpty'),
 										'message'	=> 'PCサイズ（大）[幅] を入力してください。')),
 		'large_height' => array(array(	'rule'		=> array('notEmpty'),

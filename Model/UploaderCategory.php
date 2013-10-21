@@ -34,28 +34,28 @@ class UploaderCategory extends BcPluginAppModel {
  * @var		string
  * @access	public
  */
-	var $name = 'UploaderCategory';
+	public $name = 'UploaderCategory';
 /**
  * DB接続設定
  *
  * @var		string
  * @access	public
  */
-	var $useDbConfig = 'plugin';
+	public $useDbConfig = 'plugin';
 /**
  * プラグイン名
  *
  * @var		string
  * @access	public
  */
-	var $plugin = 'Uploader';
+	public $plugin = 'Uploader';
 /**
  * バリデート
  *
  * @var		array
  * @access	public
  */
-	var $validate = array(
+	public $validate = array(
 		'name' => array(
 			array(
 				'rule'		=> array('notEmpty'),
@@ -69,7 +69,7 @@ class UploaderCategory extends BcPluginAppModel {
  * @param array $data
  * @return mixed page Or false
  */
-	function copy($id = null, $data = array()) {
+	public function copy($id = null, $data = array()) {
 		
 		$data = array();
 		if($id) {

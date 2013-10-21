@@ -31,28 +31,28 @@ class UploaderHelper extends AppHelper {
  * @var		string
  * @access	public
  */
-	var $savedUrl = '';
+	public $savedUrl = '';
 /**
  * アップロードファイルの保存パス
  * 
  * @var		string
  * @access	public
  */
-	var $savePath = '';
+	public $savePath = '';
 /**
  * ヘルパー
  * 
  * @var		array
  * @access	public
  */
-	var $helpers = array('Html');
+	public $helpers = array('Html');
 /**
  * Before Render
  *
  * @return	void
  * @access	public
  */
-	function beforeRender($viewFile) {
+	public function beforeRender($viewFile) {
 
 		parent::beforeRender($viewFile);
 		$this->savedUrl = '/files/uploads/';
@@ -66,7 +66,7 @@ class UploaderHelper extends AppHelper {
  * @param	array	$options
  * @return	string	imgタグ
  */
-	function file ($uploaderFile,$options = array()) {
+	public function file ($uploaderFile,$options = array()) {
 
 		if(isset($uploaderFile['UploaderFile'])) {
 			$uploaderFile = $uploaderFile['UploaderFile'];
@@ -108,7 +108,7 @@ class UploaderHelper extends AppHelper {
  * @return	string
  * @access	public
  */
-	function getFileUrl($fileName) {
+	public function getFileUrl($fileName) {
 
 		if($fileName) {
 			return $this->savedUrl.$fileName;
@@ -125,7 +125,7 @@ class UploaderHelper extends AppHelper {
  * @param	string	$linkText
  * @return	string
  */
-	function download($uploaderFile,$linkText='≫ ダウンロード') {
+	public function download($uploaderFile,$linkText='≫ ダウンロード') {
 		if(isset($uploaderFile['UploaderFile'])) {
 			$uploaderFile = $uploaderFile['UploaderFile'];
 		}
@@ -133,8 +133,7 @@ class UploaderHelper extends AppHelper {
 		// HtmlヘルパではスマートURLオフの場合に正常なURLが取得できないので、直接記述
 		return '<a href="'.$fileUrl.'" target="_blank">'.$linkText.'</a>';
 	}
-	
-	function isLimitSetting($data) {
+	public function isLimitSetting($data) {
 		
 		if(!empty($data['UploaderFile'])) {
 			$data = $data['UploaderFile'];
@@ -147,4 +146,4 @@ class UploaderHelper extends AppHelper {
 		
 	}
 }
-?>
+

@@ -35,35 +35,35 @@ class UploaderConfigsController extends BcPluginAppController {
  * @var		string
  * @access	public
  */
-	var $name = 'UploaderConfigs';
+	public $name = 'UploaderConfigs';
 /**
  * モデル
  *
  * @var		array
  * @access	public
  */
-	var $uses = array('Plugin', 'Uploader.UploaderConfig');
+	public $uses = array('Plugin', 'Uploader.UploaderConfig');
 /**
  * コンポーネント
  *
  * @var		array
  * @access	public
  */
-	var $components = array('BcAuth','Cookie','BcAuthConfigure');
+	public $components = array('BcAuth','Cookie','BcAuthConfigure');
 /**
  * サブメニューエレメント
  *
  * @var 	array
  * @access 	public
  */
-	var $subMenuElements = array('uploader');
+	public $subMenuElements = array('uploader');
 /**
  * [ADMIN] アップローダー設定
  *
  * @return	void
  * @access	public
  */
-	function admin_index() {
+	public function admin_index() {
 		
 		$this->pageTitle = 'アップローダー設定';
 		if(!$this->request->data) {

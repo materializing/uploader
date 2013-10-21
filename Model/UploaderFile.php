@@ -34,28 +34,28 @@ class UploaderFile extends BcPluginAppModel {
  * @var     string
  * @access  public
  */
-	var $name = 'UploaderFile';
+	public $name = 'UploaderFile';
 /**
  * データソース
  *
  * @var		string
  * @access 	public
  */
-	var $useDbConfig = 'plugin';
+	public $useDbConfig = 'plugin';
 /**
  * プラグイン名
  *
  * @var		string
  * @access 	public
  */
-	var $plugin = 'Uploader';
+	public $plugin = 'Uploader';
 /**
  * behaviors
  *
  * @var 	array
  * @access 	public
  */
-	var $actsAs = array('BcUpload' => array(
+	public $actsAs = array('BcUpload' => array(
 		'saveDir'	=> "uploads",
 		'fields'	=> array(
 				'name'	=> array('type'	=> 'all')
@@ -67,7 +67,7 @@ class UploaderFile extends BcPluginAppModel {
  * @param	string	$table
  * @param	string	$ds
  */
-	function  __construct($id = false, $table = null, $ds = null) {
+	public function __construct($id = false, $table = null, $ds = null) {
 		
 		parent::__construct($id, $table, $ds);
 		$sizes = array('large', 'midium', 'small', 'mobile_large', 'mobile_small');
@@ -92,8 +92,7 @@ class UploaderFile extends BcPluginAppModel {
 		$this->Behaviors->attach('BcUpload', $settings);
 
 	}
-	
-	function beforeSave($options = array()) {
+	public function beforeSave($options = array()) {
 		
 		parent::beforeSave($options);
 		
@@ -136,7 +135,7 @@ class UploaderFile extends BcPluginAppModel {
  * @return	void
  * @access	boolean
  */
-	function fileExists($fileName, $limited = false) {
+	public function fileExists($fileName, $limited = false) {
 		
 		if($limited) {
 			$savePath = WWW_ROOT . 'files' . DS . $this->actsAs['BcUpload']['saveDir'] . DS . 'limited' . DS . $fileName;
@@ -153,7 +152,7 @@ class UploaderFile extends BcPluginAppModel {
  * @return	array
  * @access	void
  */
-	function filesExists($fileName, $limited = null) {
+	public function filesExists($fileName, $limited = null) {
 
 		if(is_null($limited)) {
 			$data = $this->find('first', array('conditions' => array('UploaderFile.name' => $fileName), 'recursive' => -1));
@@ -179,7 +178,7 @@ class UploaderFile extends BcPluginAppModel {
  * @return	mixed	$controlSource	コントロールソース
  * @access	public
  */
-	function getControlSource($field = null, $options = array()) {
+	public function getControlSource($field = null, $options = array()) {
 
 		switch ($field) {
 			case 'user_id':
@@ -192,15 +191,13 @@ class UploaderFile extends BcPluginAppModel {
 		return false;
 
 	}
-	
-	function getSourceFileName($fileName) {
+	public function getSourceFileName($fileName) {
 		
 		$sizes = array('large', 'midium', 'small', 'mobile_large', 'mobile_small');
 		return preg_replace('/__(' . implode('|', $sizes) . ')\./', '.', $fileName);
 		
 	}
-
-	function beforeDelete($cascade = true) {
+	public function beforeDelete($cascade = true) {
 		
 		$data = $this->read(null, $this->id);
 		if(!empty($data['UploaderFile']['publish_begin']) || !empty($data['UploaderFile']['publish_end'])) {
@@ -215,4 +212,4 @@ class UploaderFile extends BcPluginAppModel {
 	}
 	
 }
-?>
+

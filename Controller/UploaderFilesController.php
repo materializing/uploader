@@ -35,42 +35,42 @@ class UploaderFilesController extends BcPluginAppController {
  * @var		string
  * @access 	public
  */
-	var $name = 'UploaderFiles';
+	public $name = 'UploaderFiles';
 /**
  * コンポーネント
  *
  * @var		array
  * @access	public
  */
-	var $components = array('BcAuth','Cookie','BcAuthConfigure','RequestHandler');
+	public $components = array('BcAuth','Cookie','BcAuthConfigure','RequestHandler');
 /**
  * ヘルパー
  *
  * @var		array
  * @access	public
  */
-	var $helpers = array('BcText', 'BcTime', 'BcForm', 'Uploader.Uploader', 'BcUpload');
+	public $helpers = array('BcText', 'BcTime', 'BcForm', 'Uploader.Uploader', 'BcUpload');
 /**
  * ページタイトル
  *
  * @var		string
  * @access	public
  */
-	var $pageTitle = 'アップローダープラグイン';
+	public $pageTitle = 'アップローダープラグイン';
 /**
  * モデル
  *
  * @var		array
  * @access	public
  */
-	var $uses = array('Plugin','Uploader.UploaderFile', 'Uploader.UploaderConfig');
+	public $uses = array('Plugin','Uploader.UploaderFile', 'Uploader.UploaderConfig');
 /**
  * ぱんくずナビ
  *
  * @var array
  * @access public
  */
-	var $crumbs = array(
+	public $crumbs = array(
 		array('name' => 'プラグイン管理', 'url' => array('plugin' => '', 'controller' => 'plugins', 'action' => 'index')),
 		array('name' => 'アップロードファイル管理', 'url' => array('controller' => 'uploader_files', 'action' => 'index'))
 	);
@@ -80,9 +80,8 @@ class UploaderFilesController extends BcPluginAppController {
  * @var 	array
  * @access 	public
  */
-	var $subMenuElements = array('uploader');
-	
-	function beforeFilter() {
+	public $subMenuElements = array('uploader');
+	public function beforeFilter() {
 		$this->BcAuth->allow('view_limited_file');
 		parent::beforeFilter();
 	}
@@ -94,7 +93,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_index($id='') {
+	public function admin_index($id='') {
 
 		if(!isset($this->siteConfigs['admin_list_num'])) {
 			$this->siteConfigs['admin_list_num'] = 10;
@@ -120,7 +119,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @return	string	インストールメッセージ
  * @access	public
  */
-	function checkInstall() {
+	public function checkInstall() {
 
 		// インストール確認
 		$installMessage = '';
@@ -163,7 +162,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_ajax_list($id='') {
+	public function admin_ajax_list($id='') {
 
 		Configure::write('debug',0);
 		
@@ -225,7 +224,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @param array $data
  * @return array 
  */
-	function _createAdminIndexConditions($data) {
+	public function _createAdminIndexConditions($data) {
 		
 		$conditions = array();
 		if(!empty($data['uploader_category_id'])) {
@@ -266,7 +265,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @return 成功時：true　／　失敗時：null
  * @access public
  */
-	function admin_ajax_upload() {
+	public function admin_ajax_upload() {
 
 		$this->layout = 'ajax';
 		Configure::write('debug',0);
@@ -298,7 +297,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_ajax_image($name, $size='small') {
+	public function admin_ajax_image($name, $size='small') {
 		
 		$file = $this->UploaderFile->findByName(urldecode($name));
 		$this->set('file', $file);
@@ -312,7 +311,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_ajax_exists_images($name) {
+	public function admin_ajax_exists_images($name) {
 
 		Configure::write('debug', 0);
 		$this->RequestHandler->setContent('json');
@@ -328,7 +327,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_edit($id = null) {
+	public function admin_edit($id = null) {
 
 		if (!$this->request->data && $this->RequestHandler->isAjax()) {
 			$this->ajaxError(500, '無効な処理です。');
@@ -371,7 +370,7 @@ class UploaderFilesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_delete($id) {
+	public function admin_delete($id) {
 
 		if(!$id) {
 			$this->notFound();
@@ -410,7 +409,7 @@ class UploaderFilesController extends BcPluginAppController {
  * 
  * @param string $listid
  */
-	function admin_ajax_get_search_box($listId = "") {
+	public function admin_ajax_get_search_box($listId = "") {
 		
 		$this->set('listId', $listId);
 		$this->render('../elements/admin/searches/uploader_files_index');
@@ -421,7 +420,7 @@ class UploaderFilesController extends BcPluginAppController {
  * 公開期間のチェックを行う
  * 
  */
-	function view_limited_file($filename) {
+	public function view_limited_file($filename) {
 		
 		$display = false;
 		if(!empty($_SESSION['Auth']['User'])) {
@@ -492,4 +491,4 @@ class UploaderFilesController extends BcPluginAppController {
 	}
 	
 }
-?>
+

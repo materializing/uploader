@@ -35,35 +35,35 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @var		string
  * @access	public
  */
-	var $name = 'UploaderCategories';
+	public $name = 'UploaderCategories';
 /**
  * モデル
  *
  * @var		array
  * @access	public
  */
-	var $uses = array('Plugin', 'Uploader.UploaderCategory');
+	public $uses = array('Plugin', 'Uploader.UploaderCategory');
 /**
  * コンポーネント
  *
  * @var		array
  * @access	public
  */
-	var $components = array('BcAuth','Cookie','BcAuthConfigure');
+	public $components = array('BcAuth','Cookie','BcAuthConfigure');
 /**
  * サブメニュー
  *
  * @var		array
  * @access	public
  */
-	var $subMenuElements = array('uploader');
+	public $subMenuElements = array('uploader');
 /**
  * ファイルカテゴリ一覧
  *
  * @return	void
  * @access	public
  */
-	function admin_index() {
+	public function admin_index() {
 
 		$this->pageTitle = 'カテゴリ一覧';
 		$default = array('named' => array('num' => $this->siteConfigs['admin_list_num']));
@@ -81,7 +81,7 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_add() {
+	public function admin_add() {
 
 		if($this->request->data) {
 			$this->UploaderCategory->set($this->request->data);
@@ -104,7 +104,7 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_edit($id = null) {
+	public function admin_edit($id = null) {
 
 
 		/* 除外処理 */
@@ -138,7 +138,7 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @return	void
  * @access	public
  */
-	function admin_delete($id = null) {
+	public function admin_delete($id = null) {
 
 		if(!$id) {
 			$this->setMessage('無効なIDです。', true);
@@ -165,7 +165,7 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @return void
  * @access public
  */
-	function admin_ajax_delete($id = null) {
+	public function admin_ajax_delete($id = null) {
 
 		if(!$id) {
 			$this->ajaxError(500, '無効な処理です。');
@@ -187,7 +187,7 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @return boolean
  * @access protected
  */
-	function _batch_del($ids) {
+	public function _batch_del($ids) {
 		
 		if($ids) {
 			foreach($ids as $id) {
@@ -204,7 +204,7 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @return boolean 
  * @access protected
  */
-	function _del($id) {
+	public function _del($id) {
 		
 		// メッセージ用にデータを取得
 		$data = $this->UploaderCategory->read(null, $id);
@@ -225,7 +225,7 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @return void
  * @access public
  */
-	function admin_ajax_copy($id = null) {
+	public function admin_ajax_copy($id = null) {
 		
 		$result = $this->UploaderCategory->copy($id);
 		if($result) {
@@ -239,4 +239,4 @@ class UploaderCategoriesController extends BcPluginAppController {
 	}
 
 }
-?>
+
