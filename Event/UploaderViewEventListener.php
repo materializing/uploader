@@ -1,7 +1,8 @@
 <?php
 class UploaderViewEventListener extends BcViewEventListener {
 	
-	public $events = array('afterLayout');
+	public $events = array('afterLayout',
+			'Pages.beforeRender');
 	
 /**
  * afterLayout
@@ -9,6 +10,10 @@ class UploaderViewEventListener extends BcViewEventListener {
  * @return	void
  * @access	pubic
  */
+	public function pagesBeforeRender(CakeEvent $event) {
+		$event->data;
+		$event->subject()->BcBaser;
+	}
 	public function afterLayout(CakeEvent $event) {
 		
 		$View = $event->subject();

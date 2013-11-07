@@ -3,14 +3,14 @@
 /**
  * ファイルアップローダーコントローラー
  *
- * PHP versions 4 and 5
+ * PHP versions 5
  *
  * Baser :  Basic Creating Support Project <http://basercms.net>
- * Copyright 2008 - 2011, Catchup, Inc.
+ * Copyright 2008 - 2013, Catchup, Inc.
  *								1-19-4 ikinomatsubara, fukuoka-shi
  *								fukuoka, Japan 819-0055
  *
- * @copyright		Copyright 2008 - 2011, Catchup, Inc.
+ * @copyright		Copyright 2008 - 2013, Catchup, Inc.
  * @link			http://basercms.net BaserCMS Project
  * @package			uploader.controllers
  * @since			Baser v 0.1.0
@@ -207,6 +207,7 @@ class UploaderFilesController extends BcPluginAppController {
 			$dbDatas[$key] = $dbData;
 		}
 		
+		$this->set('installMessage', $this->checkInstall());
 		$uploaderConfig = $this->UploaderConfig->findExpanded();
 		$this->set('listId', $id);
 		$this->set('files',$dbDatas);
@@ -349,7 +350,7 @@ class UploaderFilesController extends BcPluginAppController {
 			$this->UploaderFile->set($this->request->data);
 			$result = $this->UploaderFile->save();
 			if ($this->RequestHandler->isAjax()) {
-				echo $result;
+				echo (boolean) ($result);
 				exit();
 			} else {
 				if($result) {
@@ -390,7 +391,7 @@ class UploaderFilesController extends BcPluginAppController {
 			}
 		}
 
-		$result = $this->UploaderFile->del($id);
+		$result = $this->UploaderFile->delete($id);
 		if ($this->RequestHandler->isAjax()) {
 			echo $result;
 			exit();
