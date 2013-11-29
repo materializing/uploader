@@ -361,8 +361,8 @@ class UploaderFilesController extends BcPluginAppController {
 				}
 			}	
 		}
-		
-		$this->render('../elements/admin/uploader_files/form');
+
+		$this->render('../Elements/admin/uploader_files/form');
 
 	}
 /**
@@ -413,8 +413,8 @@ class UploaderFilesController extends BcPluginAppController {
 	public function admin_ajax_get_search_box($listId = "") {
 		
 		$this->set('listId', $listId);
-		$this->render('../elements/admin/searches/uploader_files_index');
-		
+		$this->render('../Elements/admin/searches/uploader_files_index');
+
 	}
 	
 /**
