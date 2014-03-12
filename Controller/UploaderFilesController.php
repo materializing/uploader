@@ -106,7 +106,7 @@ class UploaderFilesController extends BcPluginAppController {
 		if($this->RequestHandler->isAjax()) {
 			$settings = $this->UploaderFile->Behaviors->BcUpload->settings;
 			$this->set('listId', $id);
-			$this->set('imageSettings', $settings['fields']['name']['imagecopy']);
+			$this->set('imageSettings', $settings['UploaderFile']['fields']['name']['imagecopy']);
 		} else {
 			$this->search = 'uploader_files_index';
 			$this->pageTitle = 'アップロードファイル一覧';
@@ -192,6 +192,14 @@ class UploaderFilesController extends BcPluginAppController {
 		}
 
 		$conditions = $this->_createAdminIndexConditions($this->request->data['Filter']);
+
+		// 管理ユーザ以外が利用時、ユーザ制限がOnになっていれば一覧に表示しない
+		$uploaderConfig = $this->UploaderConfig->findExpanded();
+		if(isset($uploaderConfig['use_permission']) && $uploaderConfig['use_permission'] && !BcUtil::isAdminUser()) {
+			$user = BcUtil::loginUser();
+			if ($user) $conditions['UploaderFile.user_id'] = $user['id'];
+		}
+
 		$this->paginate = array('conditions'=>$conditions,
 				'fields'=>array(),
 				'order'=>'created DESC',
