@@ -21,8 +21,8 @@
  */
 $title = 'アップローダー';
 $description = 'Webページやブログ記事で、画像等のファイルを貼り付ける事ができます。';
-$author = 'ryuring';
-$url = 'http://www.e-catchup.jp';
+$author = 'baserCMS Users Community';
+$url = 'http://basercms.net';
 $adminLink = array('admin' => true, 'plugin' => 'uploader', 'controller' => 'uploader_files', 'action' => 'index');
 if(!is_writable(WWW_ROOT.'files')){
 	$viewFilesPath = str_replace(ROOT,'',WWW_ROOT).'files';

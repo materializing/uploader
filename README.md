@@ -1,7 +1,7 @@
-baserUploader
+Uploader
 ==========
 File Uploader On baserCMS
-Copyright 2008 - 2013, baserCMS Users Community  
+Copyright 2008 - 2014, baserCMS Users Community  
 
 Documentation
 -------------
