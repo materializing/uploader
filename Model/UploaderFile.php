@@ -163,7 +163,7 @@ class UploaderFile extends BcPluginAppModel {
 		}
 		$pathinfo = pathinfo($fileName);
 		$ext = $pathinfo['extension'];
-		$basename = basename($fileName,'.'.$ext);
+		$basename = mb_basename($fileName,'.'.$ext);
 		$files['small'] = $this->fileExists($basename.'__small'.'.'.$ext, $limited);
 		$files['midium'] = $this->fileExists($basename.'__midium'.'.'.$ext, $limited);
 		$files['large'] = $this->fileExists($basename.'__large'.'.'.$ext, $limited);
