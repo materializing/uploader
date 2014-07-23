@@ -160,7 +160,7 @@ class UploaderCategoriesController extends BcPluginAppController {
 /**
  * [ADMIN] 削除処理　(ajax)
  *
- * @param int $blogContentId
+ * @param int $uploaderCategoryId
  * @param int $id
  * @return void
  * @access public
@@ -175,10 +175,10 @@ class UploaderCategoriesController extends BcPluginAppController {
 		if($this->_del($id)) {
 			clearViewCache();
 			exit(true);
+		} else {
+			exit();
 		}
-
-		exit();
-
+		
 	}
 /**
  * 一括削除
@@ -204,20 +204,18 @@ class UploaderCategoriesController extends BcPluginAppController {
  * @return boolean 
  * @access protected
  */
-	public function _del($id) {
-		
+	public function _del($id = null) {
 		// メッセージ用にデータを取得
 		$data = $this->UploaderCategory->read(null, $id);
-
 		// 削除実行
-		if($this->UploaderCategory->del($id)) {
+		if($this->UploaderCategory->delete($id)) {
 			$this->UploaderCategory->saveDbLog($data['UploaderCategory']['name'].' を削除しました。');
 			return true;
 		} else {
 			return false;
 		}
-
 	}
+	
 /**
  * [ADMIN] コピー
  * 
