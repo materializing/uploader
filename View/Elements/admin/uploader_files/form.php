@@ -32,12 +32,12 @@ if(empty($popup)) {
 
 
 <?php if(empty($popup)): ?>
-<div id="BaseUrl" style="display:none;"><?php echo $this->BcBaser->root() ?></div>
+
 <div id="AdminPrefix" style="display:none;"><?php echo Configure::read('Routing.prefixes.0'); ?></div>
 <script type="text/javascript">
 $(function(){
 	var name = $("#UploaderFileName").val();
-	var imgUrl = $("#BaseUrl").html() + $("#AdminPrefix").html() + '/uploader/uploader_files/ajax_image/'+name+'/midium';
+	var imgUrl = $.baseUrl + '/' + $("#AdminPrefix").html() + '/uploader/uploader_files/ajax_image/'+name+'/midium';
 	$.get(imgUrl,function(res){
 		$("#UploaderFileImage").html(res);
 	});	

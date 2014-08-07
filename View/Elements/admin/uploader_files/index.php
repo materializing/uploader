@@ -35,7 +35,6 @@ if(!isset($listId)) {
 	<div id="UploaderImageSettings"><?php if(isset($imageSettings)) : ?><?php echo $this->Js->object($imageSettings) ?><?php endif ?></div>
 	<div id="LoginUserId"><?php echo $user['id'] ?></div>
 	<div id="LoginUserGroupId"><?php echo $user['user_group_id'] ?></div>
-	<div id="BaseUrl"><?php echo $this->BcBaser->root() ?></div>
 	<div id="AdminPrefix" style="display:none;"><?php echo Configure::read('Routing.prefixes.0'); ?></div>
 	<div id="UsePermission"><?php echo $uploaderConfigs['use_permission'] ?></div>
 </div>

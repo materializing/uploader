@@ -31,7 +31,7 @@ $(function(){
 	$("#ListId").remove();
 	
 	var allFields = $([]).add($("#name")).add($("#alt"));
-	var baseUrl = $("#BaseUrl").html();
+	var baseUrl = $.baseUrl + '/';
 	var adminPrefix = $("#AdminPrefix").html();
 	var categoryId = null;
 	
