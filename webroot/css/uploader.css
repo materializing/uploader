@@ -383,4 +383,8 @@
 	padding:1px 1px 1px 10px;
 	background-color: #DCDCDC;
 }
-
+#ErrorMessage {
+	color:#C30;
+	margin-bottom:10px;
+	font-weight: bold;
+}
