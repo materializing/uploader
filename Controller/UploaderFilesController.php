@@ -283,6 +283,12 @@ class UploaderFilesController extends BcPluginAppController {
 			$this->ajaxError(500, '無効な処理です。');
 		}
 		
+		// 2014.08.10 yuse fixed 4777 php.iniに定義されたサイズチェックエラーの場合はエラー(UPLOAD_ERR_INI_SIZE)
+		if($this->request->data['UploaderFile']['file']['error'] == 1){
+			echo null;
+			die;
+		}
+
 		$user = $this->BcAuth->user();
 		if(!empty($user['id'])) {
 			$this->request->data['UploaderFile']['user_id'] = $user['id'];
