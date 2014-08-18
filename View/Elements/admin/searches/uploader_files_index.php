@@ -19,8 +19,7 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
-$UploaderCategory = ClassRegistry::init('Uploader.UploaderCategory');
-$uploaderCategories = $UploaderCategory->find('list', array('order' => 'UploaderCategory.id'));
+$uploaderCategories = $this->BcForm->getControlSource("Uploader.UploaderFile.uploader_category_id");
 if(!isset($listId)) {
 	$listId = $this->getVar('listId');
 }
