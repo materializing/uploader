@@ -29,7 +29,6 @@ if ( !CKEDITOR.dialog.exists( 'Image' ) ) {
          * ダイアログ 起動イベント
          **/
 			onShow : function() {
-				this.move(this.getPosition().x,0);
 				this.editMode = false;
 				var element = this.getParentEditor().getSelection().getSelectedElement();
 				var selection = this.getParentEditor().getSelection();
