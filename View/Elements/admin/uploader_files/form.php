@@ -63,7 +63,12 @@ $(function(){
 	<tr>
 		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.id', 'NO') ?></th>
 		<td class="col-input">
+		<?php if(empty($popup)): ?>
+			<?php echo $this->BcForm->value('UploaderFile.id') ?>
+			<?php echo $this->BcForm->input('UploaderFile.id', array('type' => 'hidden')) ?>
+		<?php else: ?>
 			<?php echo $this->BcForm->text('UploaderFile.id', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileId'.$listId, 'class' => 'uploader-file-id')) ?>&nbsp;
+		<?php endif ?>
 		</td>
 	</tr>
 <?php if(empty($popup)): ?>
