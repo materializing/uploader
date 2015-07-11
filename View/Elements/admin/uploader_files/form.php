@@ -78,7 +78,7 @@ $(function(){
 	</tr>
 <?php endif ?>
 	<tr>
-		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.real_name_1', '説明文') ?></th>
+		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.alt', '説明文') ?></th>
 		<td class="col-input">
 			<?php echo $this->BcForm->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
 		</td>
@@ -92,7 +92,7 @@ $(function(){
 	</tr>
 <?php if($uploaderCategories): ?>
 	<tr>
-		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.real_name_1', 'カテゴリ') ?></th>
+		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.uploader_category_id', 'カテゴリ') ?></th>
 		<td class="col-input">
 			<?php echo $this->BcForm->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => '指定なし', 'id' => '_UploaderFileUploaderCategoryId'.$listId)) ?>
 		</td>
