@@ -44,7 +44,15 @@
 	<td class="img"><?php echo $this->Uploader->file($file,array('size'=>'small','alt'=>$file['UploaderFile']['alt'],'style'=>'width:80px')) ?></td>
 	<td><span class="uploader-category-id"><?php echo $this->BcText->arrayValue($file['UploaderFile']['uploader_category_id'], $uploaderCategories) ?></td>
 	<td width="30%">
-		<span><?php echo $file['UploaderFile']['name'] ?><?php if($this->Uploader->isLimitSetting($file)): ?> <small>[制限付]</small><?php endif ?></span><br />
+		<span><?php echo $file['UploaderFile']['name'] ?></span>
+		<?php if($this->Uploader->isLimitSetting($file)): ?>
+			<span><small>
+			[制限付]<br />
+			<?php echo $this->BcTime->format('Y.m.d H:i:s',$file['UploaderFile']['publish_begin']) ?>&nbsp;&nbsp;〜
+			<?php echo $this->BcTime->format('Y.m.d H:i:s',$file['UploaderFile']['publish_end']) ?>
+			</small></span>
+			<br />
+		<?php endif ?>
 		<span><?php echo $this->BcText->truncate($file['UploaderFile']['alt'], 40) ?><span>
 	</td>
 	<td class="user-name"><?php echo $this->BcText->arrayValue($file['UploaderFile']['user_id'], $users) ?></td>
