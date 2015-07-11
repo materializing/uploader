@@ -67,7 +67,7 @@ $(function(){
 		</td>
 	</tr>
 <?php if(empty($popup)): ?>
-	<tr><th>アップロードファイル</th><td><?php echo $this->BcUpload->file('UploaderFile.name', array('delCheck' => false, 'imgsize' => 'midium', 'force' => 'true')) ?></td></tr>
+	<tr><th>アップロードファイル</th><td><?php echo $this->BcForm->file('UploaderFile.name', array('delCheck' => false, 'imgsize' => 'midium', 'force' => 'true')) ?></td></tr>
 <?php else: ?>
 	<tr>
 		<th class="col-head"><!--<span class="required">*</span>&nbsp;--><?php echo $this->BcForm->label('UploaderFile.name', 'ファイル名') ?></th>
