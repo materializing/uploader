@@ -273,6 +273,7 @@
 	text-align: right;
 	padding:5px;
 	font-weight: bold;
+	white-space: nowrap;
 }
 .ui-dialog td {
 	text-align: left;
@@ -339,7 +340,8 @@
 	text-align: left;
 	font-weight: bold;
 	word-wrap: break-word;
-	width:415px;
+	width: 95%;
+	max-width: 575px;
 	margin-bottom: 15px;
 	border:5px solid #CCC;
 	padding:10px;
@@ -352,6 +354,10 @@
 .ui-dialog .uploader-file-id,
 .ui-dialog .uploader-file-name{
 	background-color:#e2e2e2;
+	width: 95%;
+}
+.ui-dialog .uploader-file-alt {
+	width: 95%;
 }
 .ui-widget select{
 	font-size: 16px;

@@ -47,7 +47,7 @@ $(function(){
 		bgiframe: true,
 		autoOpen: false,
 		position: ['center', 20],
-		width:480,
+		width:640,
 		modal: true,
 		open: function(){
 			var name = $("#FileList"+listId+" .selected .name").html();
@@ -55,8 +55,23 @@ $(function(){
 			$("#UploaderFileId"+listId).val($("#FileList" + listId + " .selected .id").html());
 			$("#UploaderFileName"+listId).val(name);
 			$("#UploaderFileAlt"+listId).val($("#FileList"+listId+" .selected .alt").html());
-			$("#UploaderFilePublishBegin"+listId).val($("#FileList"+listId+" .selected .publish-begin").html());
-			$("#UploaderFilePublishEnd"+listId).val($("#FileList"+listId+" .selected .publish-end").html());
+
+			/* ダイアログ初期化時、hidden値が空になるため公開期間開始日時を取得して hidden値に入れ込む */
+			var publishBeginDate = $("#FileList"+listId+" .selected .publish-begin").html();
+			var publishBeginTime = $("#FileList"+listId+" .selected .publish-begin-time").html();
+			$("#UploaderFilePublishBeginDate").val(publishBeginDate);
+			$("#UploaderFilePublishBeginTime").val(publishBeginTime);
+			var publishBeginDateTime = publishBeginDate + ' ' + publishBeginTime;
+			$("#UploaderFilePublishBegin").val(publishBeginDateTime);
+
+			/* ダイアログ初期化時、hidden値が空になるため公開期間終了日時を取得して hidden値に入れ込む */
+			var publishEndDate = $("#FileList"+listId+" .selected .publish-end").html();
+			var publishEndTime = $("#FileList"+listId+" .selected .publish-end-time").html();
+			$("#UploaderFilePublishEndDate").val(publishEndDate);
+			$("#UploaderFilePublishEndTime").val(publishEndTime);
+			var publishEndDateTime = publishEndDate + ' ' + publishEndTime;
+			$("#UploaderFilePublishEnd").val(publishEndDateTime);
+
 			$("#UploaderFileUserId"+listId).val($("#FileList"+listId+" .selected .user-id").html());
 			$("#UploaderFileUserName"+listId).html($("#FileList"+listId+" .selected .user-name").html());
 			if($("#_UploaderFileUploaderCategoryId"+listId).length) {

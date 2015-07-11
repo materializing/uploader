@@ -85,14 +85,17 @@ $(function(){
 	<tr>
 		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.alt', '説明文') ?></th>
 		<td class="col-input">
-			<?php echo $this->BcForm->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
+			<?php echo $this->BcForm->text('UploaderFile.alt', array('size'=>51,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId, 'class' => 'uploader-file-alt')) ?>&nbsp;
 		</td>
 	</tr>
 	<tr>
-		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.use_disp_limit_date', '公開期間') ?></th>
+		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.publish_begin_date', '公開期間') ?></th>
 		<td class="col-input">
-			<?php echo $this->BcForm->datePicker('UploaderFile.publish_begin', array('size'=>10, 'id'=>'UploaderFilePublishBegin'.$listId)) ?>&nbsp;〜&nbsp;
-			<?php echo $this->BcForm->datePicker('UploaderFile.publish_end', array('size'=>10, 'id'=>'UploaderFilePublishEnd'.$listId)) ?>
+			<?php echo $this->BcForm->dateTimePicker('UploaderFile.publish_begin', array('size' => 12, 'maxlength' => 10)) ?>
+			&nbsp;〜&nbsp;
+			<?php echo $this->BcForm->dateTimePicker('UploaderFile.publish_end', array('size' => 12, 'maxlength' => 10)) ?>
+			<?php echo $this->BcForm->error('UploaderFile.publish_begin') ?>
+			<?php echo $this->BcForm->error('UploaderFile.publish_end') ?>
 		</td>
 	</tr>
 <?php if($uploaderCategories): ?>

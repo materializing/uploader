@@ -44,7 +44,9 @@
 		<span class="url"><?php echo $this->BcHtml->url($this->Uploader->getFileUrl($file['UploaderFile']['name'])) ?></span>
 		<span class="user-id"><?php echo $file['UploaderFile']['user_id'] ?></span>
 		<span class="publish-begin"><?php echo $this->BcTime->format('Y/m/d', $file['UploaderFile']['publish_begin']) ?></span>
+		<span class="publish-begin-time"><?php echo $this->BcTime->format('H:i:s', $file['UploaderFile']['publish_begin']) ?></span>
 		<span class="publish-end"><?php echo $this->BcTime->format('Y/m/d', $file['UploaderFile']['publish_end']) ?></span>
+		<span class="publish-end-time"><?php echo $this->BcTime->format('H:i:s', $file['UploaderFile']['publish_end']) ?></span>
 		<span class="uploader-category-id"><?php echo $file['UploaderFile']['uploader_category_id'] ?></span>
 		<span class="alt"><?php echo $file['UploaderFile']['alt'] ?></span>
 	</div>
