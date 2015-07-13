@@ -133,6 +133,13 @@ class UploaderHelper extends AppHelper {
 		// HtmlヘルパではスマートURLオフの場合に正常なURLが取得できないので、直接記述
 		return '<a href="'.$fileUrl.'" target="_blank">'.$linkText.'</a>';
 	}
+	
+/**
+ * ファイルの公開制限期間が設定されているか判定する
+ * 
+ * @param array $data
+ * @return boolean
+ */
 	public function isLimitSetting($data) {
 		
 		if(!empty($data['UploaderFile'])) {
