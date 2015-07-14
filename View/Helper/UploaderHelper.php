@@ -133,6 +133,13 @@ class UploaderHelper extends AppHelper {
 		// HtmlヘルパではスマートURLオフの場合に正常なURLが取得できないので、直接記述
 		return '<a href="'.$fileUrl.'" target="_blank">'.$linkText.'</a>';
 	}
+	
+/**
+ * ファイルの公開制限期間が設定されているか判定する
+ * 
+ * @param array $data
+ * @return boolean
+ */
 	public function isLimitSetting($data) {
 		
 		if(!empty($data['UploaderFile'])) {
@@ -145,5 +152,32 @@ class UploaderHelper extends AppHelper {
 		}
 		
 	}
+	
+/**
+ * ファイルの公開状態を取得する
+ * 
+ * @param array $data
+ * @return boolean
+ */
+	public function isPublish($data) {
+		if (isset($data['UploaderFile'])) {
+			$data = $data['UploaderFile'];
+		}
+		$isPublish = true;
+		
+		if ($data['publish_begin'] == '0000-00-00 00:00:00') {
+			$data['publish_begin'] = null;
+		}
+		if ($data['publish_end'] == '0000-00-00 00:00:00') {
+			$data['publish_end'] = null;
+		}
+		// 期限を設定している場合に条件に該当しない場合は強制的に非公開とする
+		if (($data['publish_begin'] && $data['publish_begin'] >= date('Y-m-d H:i:s')) ||
+			($data['publish_end'] && $data['publish_end'] <= date('Y-m-d H:i:s'))) {
+			$isPublish = false;
+		}
+		
+		return $isPublish;
+	}
+	
 }
-

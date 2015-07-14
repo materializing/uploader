@@ -63,11 +63,16 @@ $(function(){
 	<tr>
 		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.id', 'NO') ?></th>
 		<td class="col-input">
+		<?php if(empty($popup)): ?>
+			<?php echo $this->BcForm->value('UploaderFile.id') ?>
+			<?php echo $this->BcForm->input('UploaderFile.id', array('type' => 'hidden')) ?>
+		<?php else: ?>
 			<?php echo $this->BcForm->text('UploaderFile.id', array('size'=>30,'maxlength'=>255,'readonly'=>'readonly','id'=>'UploaderFileId'.$listId, 'class' => 'uploader-file-id')) ?>&nbsp;
+		<?php endif ?>
 		</td>
 	</tr>
 <?php if(empty($popup)): ?>
-	<tr><th>アップロードファイル</th><td><?php echo $this->BcUpload->file('UploaderFile.name', array('delCheck' => false, 'imgsize' => 'midium', 'force' => 'true')) ?></td></tr>
+	<tr><th>アップロードファイル</th><td><?php echo $this->BcForm->file('UploaderFile.name', array('delCheck' => false, 'imgsize' => 'midium', 'force' => 'true')) ?></td></tr>
 <?php else: ?>
 	<tr>
 		<th class="col-head"><!--<span class="required">*</span>&nbsp;--><?php echo $this->BcForm->label('UploaderFile.name', 'ファイル名') ?></th>
@@ -78,21 +83,24 @@ $(function(){
 	</tr>
 <?php endif ?>
 	<tr>
-		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.real_name_1', '説明文') ?></th>
+		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.alt', '説明文') ?></th>
 		<td class="col-input">
-			<?php echo $this->BcForm->text('UploaderFile.alt', array('size'=>30,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId)) ?>&nbsp;
+			<?php echo $this->BcForm->text('UploaderFile.alt', array('size'=>51,'maxlength'=>255,'id'=>'UploaderFileAlt'.$listId, 'class' => 'uploader-file-alt')) ?>&nbsp;
 		</td>
 	</tr>
 	<tr>
-		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.use_disp_limit_date', '公開期間') ?></th>
+		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.publish_begin_date', '公開期間') ?></th>
 		<td class="col-input">
-			<?php echo $this->BcForm->datePicker('UploaderFile.publish_begin', array('size'=>10, 'id'=>'UploaderFilePublishBegin'.$listId)) ?>&nbsp;〜&nbsp;
-			<?php echo $this->BcForm->datePicker('UploaderFile.publish_end', array('size'=>10, 'id'=>'UploaderFilePublishEnd'.$listId)) ?>
+			<?php echo $this->BcForm->dateTimePicker('UploaderFile.publish_begin', array('size' => 12, 'maxlength' => 10)) ?>
+			&nbsp;〜&nbsp;
+			<?php echo $this->BcForm->dateTimePicker('UploaderFile.publish_end', array('size' => 12, 'maxlength' => 10)) ?>
+			<?php echo $this->BcForm->error('UploaderFile.publish_begin') ?>
+			<?php echo $this->BcForm->error('UploaderFile.publish_end') ?>
 		</td>
 	</tr>
 <?php if($uploaderCategories): ?>
 	<tr>
-		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.real_name_1', 'カテゴリ') ?></th>
+		<th class="col-head"><?php echo $this->BcForm->label('UploaderFile.uploader_category_id', 'カテゴリ') ?></th>
 		<td class="col-input">
 			<?php echo $this->BcForm->input('UploaderFile.uploader_category_id', array('type' => 'select', 'options' => $uploaderCategories, 'empty' => '指定なし', 'id' => '_UploaderFileUploaderCategoryId'.$listId)) ?>
 		</td>

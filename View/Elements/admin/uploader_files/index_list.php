@@ -78,6 +78,7 @@ $this->BcBaser->js('admin/jquery.upload-1.0.0.min');
 		<th>イメージ</th>
 		<th>カテゴリ</th>
 		<th>ファイル名<br />説明文</th>
+		<th>公開状態</th>
 		<th>投稿者</th>
 		<th>投稿日<br />編集日</th>
 	</tr>
@@ -89,7 +90,7 @@ $this->BcBaser->js('admin/jquery.upload-1.0.0.min');
 	<?php endforeach ?>
 </tbody>
 <?php else: ?>
-<tbody><tr><td colspan="7" class="no-data">ファイルが存在しません</td></tr></tbody>
+<tbody><tr><td colspan="8" class="no-data">ファイルが存在しません</td></tr></tbody>
 <?php endif ?>
 </table>
 
