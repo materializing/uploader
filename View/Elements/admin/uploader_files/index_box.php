@@ -19,8 +19,17 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
+$classies = array();
+if (!$this->Uploader->allowPublish($file)) {
+	$classies = array('unpublish', 'disablerow', 'selectable-file');
+	$statusPublish = false;
+} else {
+	$classies = array('publish', 'selectable-file');
+	$statusPublish = true;
+}
+$class = ' class="' . implode(' ', $classies) . '"';
 ?>
-<span class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
+<span<?php echo $class; ?> id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
 	<?php echo $this->Uploader->file($file, array(
 		'width' => 120,
 		'height'=> 120,
@@ -33,7 +42,9 @@
 	</div>
 	<span class="name"><?php echo $file['UploaderFile']['name'] ?></span>
 	<div style="text-align:right;margin-top:2px">
-		<span class="created"><?php if($this->Uploader->isLimitSetting($file)): ?>[制限付] <?php endif ?><?php echo $this->BcTime->format('Y.m.d',$file['UploaderFile']['created']) ?></span>
+		<span class="created">
+			[公開状態：<?php echo $this->BcText->booleanMark($statusPublish); ?>]&nbsp;<?php echo $this->BcTime->format('Y.m.d',$file['UploaderFile']['created']) ?>
+		</span>
 	</div>
 	<div class="user-name" style="text-align:right"><span><?php echo $this->BcText->arrayValue($file['UploaderFile']['user_id'], $users) ?></span></div>
 	<div style="display:none">

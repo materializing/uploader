@@ -19,10 +19,17 @@
  * @lastmodified	$Date$
  * @license			http://basercms.net/license/index.html
  */
+$classies = array();
+if (!$this->Uploader->allowPublish($file)) {
+	$classies = array('unpublish', 'disablerow', 'selectable-file');
+	$statusPublish = false;
+} else {
+	$classies = array('publish', 'selectable-file');
+	$statusPublish = true;
+}
+$class = ' class="' . implode(' ', $classies) . '"';
 ?>
-
-
-<tr class="selectable-file" id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
+<tr<?php echo $class; ?> id="selectedFile<?php echo $file['UploaderFile']['id'] ?>">
 <?php if(!$listId): ?>
 	<td class="row-tools" style="width:15%">
 		<?php $this->BcBaser->link($this->BcBaser->getImg('admin/icn_tool_edit.png', array('width' => 24, 'height' => 24, 'alt' => '編集', 'class' => 'btn')), array('action' => 'edit', $file['UploaderFile']['id']), array('title' => '編集')) ?>
@@ -45,16 +52,9 @@
 	<td><span class="uploader-category-id"><?php echo $this->BcText->arrayValue($file['UploaderFile']['uploader_category_id'], $uploaderCategories) ?></td>
 	<td width="30%">
 		<span><?php echo $file['UploaderFile']['name'] ?></span>
-		<?php if($this->Uploader->isLimitSetting($file)): ?>
-			<span><small>
-			[制限付]<br />
-			<?php echo $this->BcTime->format('Y.m.d H:i:s',$file['UploaderFile']['publish_begin']) ?>&nbsp;&nbsp;〜
-			<?php echo $this->BcTime->format('Y.m.d H:i:s',$file['UploaderFile']['publish_end']) ?>
-			</small></span>
-			<br />
-		<?php endif ?>
-		<span><?php echo $this->BcText->truncate($file['UploaderFile']['alt'], 40) ?><span>
+		<?php if ($file['UploaderFile']['alt']): ?><br /><span><?php echo $this->BcText->truncate($file['UploaderFile']['alt'], 40) ?><span><?php endif ?>
 	</td>
+	<td class="align-center"><?php echo $this->BcText->booleanMark($statusPublish); ?></td>
 	<td class="user-name"><?php echo $this->BcText->arrayValue($file['UploaderFile']['user_id'], $users) ?></td>
 	<td class="created">
 		<span class="created"><?php echo $this->BcTime->format('Y.m.d',$file['UploaderFile']['created']) ?></span><br />
