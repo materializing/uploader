@@ -184,6 +184,8 @@ $(function(){
 		$(".filter-control").unbind('click.filterEvent');
 		$(".btn-delete").unbind('click');
 
+		/* 公開制限期間にあるファイルの背景色を定義 */
+		var unpublishBackGroundColor = '#bbb';
 		$("#DivPanelList .selectable-file").each(function(){
 
 			if($(this).contextMenu && !listId) {
@@ -205,6 +207,10 @@ $(function(){
 				});
 			}
 
+			/* 公開制限期間にあるファイルは背景色をグレーにする */
+			if ($(this).hasClass('unpublish')) {
+				$(this).css('background-color', unpublishBackGroundColor);
+			}
 		});
 
 		$(".btn-delete").click(function(){
@@ -235,6 +241,9 @@ $(function(){
 			});
 			$(".selectable-file").bind('mouseleave.selectEvent', function(){
 				$(this).css('background-color','#FFFFFF');
+				if ($(this).hasClass('unpublish')) {
+					$(this).css('background-color', unpublishBackGroundColor);
+				}
 			});
 			$(".selectable-file").each(function(){
 				// IEの場合contextmenuを検出できなかったので、mousedownに変更した
@@ -249,6 +258,9 @@ $(function(){
 			});
 			$("#DivPanelList .selectable-file").bind('mouseleave.selectEvent', function(){
 				$(this).css('background-color','#FFFFFF');
+				if ($(this).hasClass('unpublish')) {
+					$(this).css('background-color', unpublishBackGroundColor);
+				}
 			});	
 			$("#DivPanelList .selectable-file").each(function(){
 				// IEの場合contextmenuを検出できなかったので、mousedownに変更した
