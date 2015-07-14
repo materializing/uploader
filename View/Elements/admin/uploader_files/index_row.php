@@ -20,7 +20,7 @@
  * @license			http://basercms.net/license/index.html
  */
 $classies = array();
-if (!$this->Uploader->allowPublish($file)) {
+if (!$this->Uploader->isPublish($file)) {
 	$classies = array('unpublish', 'disablerow', 'selectable-file');
 	$statusPublish = false;
 } else {
