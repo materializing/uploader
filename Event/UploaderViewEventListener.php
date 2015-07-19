@@ -1,72 +1,64 @@
 <?php
 class UploaderViewEventListener extends BcViewEventListener {
-	
-	public $events = array('afterLayout',
-			'Pages.beforeRender');
+/**
+ * 登録イベント
+ *
+ * @var array
+ */
+	public $events = array(
+		'afterLayout'
+	);
 	
 /**
  * afterLayout
  *
- * @return	void
- * @access	pubic
  */
-	public function pagesBeforeRender(CakeEvent $event) {
-		$event->data;
-		$event->subject()->BcBaser;
-	}
 	public function afterLayout(CakeEvent $event) {
-		
 		$View = $event->subject();
-		if(!BcUtil::isAdminSystem() || $View->name == 'CakeError') {
+		if (!BcUtil::isAdminSystem() || $View->name == 'CakeError') {
 			return;
 		}
-
+		
 		$this->BcHtml = $View->BcHtml;
 		
-		if(isset($View->BcCkeditor)) {
-
-			if(preg_match_all("/(editor_[a-z0-9_]*?)\s*?=\s*?CKEDITOR\.replace/s", $View->output, $matches)) {
-
-				/* ckeditor_uploader.js を読み込む */
+		if (isset($View->BcCkeditor)) {
+			if (preg_match_all("/(editor_[a-z0-9_]*?)\s*?=\s*?CKEDITOR\.replace/s", $View->output, $matches)) {
 				
+				/* ckeditor_uploader.js を読み込む */
 				$jscode = $this->BcHtml->scriptBlock("var baseUrl ='" . $View->request->base . "/';");
 				$jscode .= $this->BcHtml->scriptBlock("var adminPrefix ='" . Configure::read('Routing.prefixes.0') . "';");
 				$jscode .= $this->BcHtml->script('Uploader.ckeditor_uploader');
 				$View->output = str_replace('</head>', $jscode . '</head>', $View->output);
-
+				
 				/* CSSを読み込む */
 				// 適用の優先順位の問題があるので、bodyタグの直後に読み込む
 				$css = $this->BcHtml->css('Uploader.uploader');
 				$View->output = str_replace('</body>', $css . '</body>', $View->output);
-
+				
 				/* VIEWのCKEDITOR読込部分のコードを書き換える */
-				foreach($matches[1] as $match) {
+				foreach ($matches[1] as $match) {
 					$jscode = $this->__getCkeditorUploaderScript($match);
 					$pattern = "/<script type=\"text\/javascript\">[\s\n]*?\/\/<\!\[CDATA\[[\s\n]*?([\$]\(window\)\.load.+?" . $match . "\s=\sCKEDITOR\.replace.*?)\/\/\]\]>\n*?<\/script>/s";
 					$output = preg_replace($pattern, $this->BcHtml->scriptBlock("$1" . $jscode), $View->output);
-					if(!is_null($output)) {
+					if (!is_null($output)) {
 						$View->output = $output;
 					}
 				}
-
+				
 				/* 通常の画像貼り付けダイアログを画像アップローダーダイアログに変換する */
 				$pattern = "/(CKEDITOR\.replace.*?\"toolbar\".*?)\"Image\"(.*?);/is";
 				$View->output = preg_replace($pattern, "$1" . '"BaserUploader"' . "$2;", $View->output);
-
 			}
-
 		}
 		
 		if (!empty($View->request->params['prefix']) && $View->request->params['prefix'] == 'mobile') {
-
 			/* モバイル画像に差し替える */
 			$aMatch = "/<array([^>]*?)href=\"([^>]*?)\"([^>]*?)><img([^>]*?)\/><\/a>/is";
 			$imgMatch = "/<img([^>]*?)src=\"([^>]*?)\"([^>]*?)\/>/is";
 			$View->output = preg_replace_callback($aMatch, array($this,"__mobileImageAnchorReplace"), $View->output);
 			$View->output = preg_replace_callback($imgMatch, array($this,"__mobileImageReplace"), $View->output);
-
 		}
-
+		
 	}
 	
 /**
@@ -77,11 +69,9 @@ class UploaderViewEventListener extends BcViewEventListener {
  * {EDITOR_NAME}.addButton	// ツールバーにボタンを追加
  * ※ {EDITOR_NAME} は、コントロールのIDに変換する前提
  *
- * @return	string
- * @access	private
+ * @return string
  */
-	function __getCkeditorUploaderScript($id) {
-		
+	private function __getCkeditorUploaderScript($id) {
 		$css = $this->BcHtml->url('/uploader/css/ckeditor/contents.css');
 		return <<< DOC_END
 			$(window).load(function(){
@@ -95,25 +85,22 @@ class UploaderViewEventListener extends BcViewEventListener {
 				});
 			});
 DOC_END;
-
 	}
 	
 /**
  * 画像タグをモバイル用に置き換える
  *
- * @param	array	$matches
- * @return	string
- * @access	private
+ * @param array $matches
+ * @return string
  */
-	function __mobileImageReplace($matches) {
-
+	private function __mobileImageReplace($matches) {
 		$url = $matches[2];
 		$pathinfo = pathinfo($url);
-
-		if(!isset($pathinfo['extension'])) {
+		
+		if (!isset($pathinfo['extension'])) {
 			return $matches[0];
 		}
-
+		
 		$url = str_replace('__small','',$url);
 		$url = str_replace('__midium','',$url);
 		$url = str_replace('__large','',$url);
@@ -121,7 +108,7 @@ DOC_END;
 		$_url = 'files'.DS.'uploads'.DS.$basename.'__mobile_small.'.$pathinfo['extension'];
 		// TODO uploads固定となってしまっているのでmodelから取得するようにする
 		$path = WWW_ROOT.$_url;
-
+		
 		$matches[1] = preg_replace('/width="[^"]+?"/', '', $matches[1]);
 		$matches[1] = preg_replace('/height="[^"]+?"/', '', $matches[1]);
 		$matches[1] = preg_replace('/style="[^"]+?"/', '', $matches[1]);
@@ -129,30 +116,27 @@ DOC_END;
 		$matches[3] = preg_replace('/height="[^"]+?"/', '', $matches[3]);
 		$matches[3] = preg_replace('/style="[^"]+?"/', '', $matches[3]);
 		
-		if(file_exists($path)) {
+		if (file_exists($path)) {
 			return '<img'.$matches[1].'src="'.$this->BcHtml->webroot($_url).'"'.$matches[3].'/>';
-		}else {
+		} else {
 			return $matches[0];
 		}
-
 	}
 	
 /**
  * アンカータグのリンク先が画像のものをモバイル用に置き換える
  *
- * @param	array	$matches
- * @return	string
- * @access	private
+ * @param array $matches
+ * @return string
  */
-	function __mobileImageAnchorReplace($matches) {
-
+	private function __mobileImageAnchorReplace($matches) {
 		$url = $matches[2];
 		$pathinfo = pathinfo($url);
-
-		if(!isset($pathinfo['extension'])) {
+		
+		if (!isset($pathinfo['extension'])) {
 			return $matches[0];
 		}
-
+		
 		$url = str_replace('__small','',$url);
 		$url = str_replace('__midium','',$url);
 		$url = str_replace('__large','',$url);
@@ -160,13 +144,12 @@ DOC_END;
 		$_url = 'files'.DS.'uploads'.DS.$basename.'__mobile_large.'.$pathinfo['extension'];
 		// TODO uploads固定となってしまっているのでmodelから取得するようにする
 		$path = WWW_ROOT.$_url;
-
-		if(file_exists($path)) {
+		
+		if (file_exists($path)) {
 			return '<a'.$matches[1].'href="'.$this->BcHtml->webroot($_url).'"'.$matches[3].'><img'.$matches[4].'/></a>';
-		}else {
+		} else {
 			return $matches[0];
 		}
-
 	}
 	
 }
