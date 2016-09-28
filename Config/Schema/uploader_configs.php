@@ -1,5 +1,4 @@
-<?php 
-/* SVN FILE: $Id$ */
+<?php
 /* UploaderConfigs schema generated on: 2011-04-16 13:04:05 : 1302929345*/
 class UploaderConfigsSchema extends CakeSchema {
 	public $name = 'UploaderConfigs';
